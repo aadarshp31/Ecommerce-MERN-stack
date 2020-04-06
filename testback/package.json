@@ -1,0 +1,15 @@
+{
+  "name": "testback1",
+  "version": "1.0.0",
+  "description": "My test project 1",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon index.js"
+  },
+  "author": "Adarsh Pandey",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1",
+    "nodemon": "^2.0.2"
+  }
+}
