@@ -26,9 +26,3 @@ app.get('/adarsh', (req, res) => {
 app.listen(port, () => {
     console.log('Server is up and running...');
 })
-
-// const port = 3000;
-
-// app.get('/', (req,res) => res.send('Hello World!'));
-
-// app.listen(port, () => console.log(`Example app is listening at port: ${port}`));
