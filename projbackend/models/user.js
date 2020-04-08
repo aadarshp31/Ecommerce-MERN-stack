@@ -39,7 +39,9 @@ const userSchema = new mongoose.Schema({
         type: Array,
         default: []
     }
-});
+},
+{timestamps: true}
+);
 
 //Dealing with Plain Password provided by the user using vitual fields
 userSchema.virtual("password")
