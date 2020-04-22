@@ -61,7 +61,7 @@ userSchema.method = {
         return this.securePassword(plainpassword) === this.encry_password;
     },
 
-    //Encrypting the Plain Password proided by the user
+    //Encrypting the Plain Password provided by the user
     securePassword: function(plainpassword) {
         if(!plainpassword) return "";
         try{
