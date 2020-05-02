@@ -5,7 +5,7 @@ const uuidv1 = require("uuid/v1")
 const userSchema = new mongoose.Schema({
     name: {
         type: String,
-        maxlength = 32,
+        maxlength: 32,
         trim: true,
         required: true
     },
@@ -32,7 +32,7 @@ const userSchema = new mongoose.Schema({
     //Salt value used for encryting the Plain Password entered by the user
     salt: String,
     role: {
-        type: number,
+        type: Number,
         default: 0
     },
     purchases: {
@@ -54,7 +54,7 @@ userSchema.virtual("password")
         return this._password
     })
 
-userSchema.method = {
+userSchema.methods = {
 
     //Authentication Method for checking the password entered by the user is correct
     authenticate: function(plainpassword){
