@@ -28,7 +28,7 @@ app.use(cors());
 app.use("/api", authRoutes);
 
 //PORT
-const port = process.env.PORT || 8000;
+const port = process.env.PORT;
 
 //Creating a server
 app.listen(port, (req,res) => {
