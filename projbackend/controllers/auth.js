@@ -20,11 +20,12 @@ exports.signup = (req, res) => {
 		//Checking for errors before saving to the database
 		if (err) {
 			return res.status(400).json({
-				err: "User was not stored in the database!"
+				err: "User Signup failed"
+				// err: err.errmsg
 			});
 		}
 		//Response sent to the client after successfully saving the user signup data into the database
-		res.send(user)
+		// res.send(user)
 		res.json({
 			id: user._id,
 			name: user.name,
@@ -71,7 +72,7 @@ exports.signin = (req, res) => {
 		}
 
 		//Create authentication token
-		const token = jwt.sign({id: user._id}, process.env.SECRET);
+		const token = jwt.sign({_id: user._id}, process.env.SECRET);
 		//Put token in cookie
 		res.cookie("token", token, { expire: new Date() + 9999 });
 
@@ -87,3 +88,23 @@ exports.isSignedIn = expressJwt({
 	secret: process.env.SECRET,
 	userProperty: "auth"
 })
+
+//Custom middlewares
+exports.isAuthenticated = (req, res, next) => {
+	const checker = req.profile && req.auth && req.profile._id == req.auth._id;
+	if(!checker) {
+		res.status(403).json({
+			error: "ACCESS DENIED"
+		})
+	}
+	next();
+}
+
+exports.isAdmin = (req, res, next) => {
+	if(req.profile.role === 0) {
+		res.status(403).json({
+			error: "ACCESS DENIED, You do not have Admin privileges!"
+		})
+	}
+	next();
+}
