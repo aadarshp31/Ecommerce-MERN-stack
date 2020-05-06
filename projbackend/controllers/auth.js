@@ -93,8 +93,8 @@ exports.isSignedIn = expressJwt({
 exports.isAuthenticated = (req, res, next) => {
 	const checker = req.profile && req.auth && req.profile._id == req.auth._id;
 	if(!checker) {
-		res.status(403).json({
-			error: "ACCESS DENIED"
+		return res.status(403).json({
+			error: "Access denied: Authentication failed"
 		})
 	}
 	next();
@@ -102,8 +102,8 @@ exports.isAuthenticated = (req, res, next) => {
 
 exports.isAdmin = (req, res, next) => {
 	if(req.profile.role === 0) {
-		res.status(403).json({
-			error: "ACCESS DENIED, You do not have Admin privileges!"
+		return res.status(403).json({
+			error: "Access denied: You do not have Admin privileges!"
 		})
 	}
 	next();
