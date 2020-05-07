@@ -87,3 +87,60 @@ exports.getPhoto = (req, res, next) => {
     }
     next();
 }
+
+//Delete controller
+exports.deleteProduct = (req, res) => {
+    let product = req.product
+    product.remove((err, deletedProduct) => {
+        if(err){
+            return res.status(400).json({
+                error: `Bad request: Error occured while deleting the porduct: ${deletedProduct.name}`
+            })
+        }
+        return res.json({
+            message: `\"${deletedProduct.name}\" has been deleted from database successfully`
+        })
+    })
+}
+//Update controller
+exports.updateProduct = (req, res) => {
+    const form = formidable.IncomingForm();
+    form.keepExtension = true;
+
+    form.parse(req, (err, fields, file) => {
+        if(err){
+            return res.status(400).json({
+                error: "Bad request: Error occured while parsing file"
+            })
+        }
+
+        //Fetching product from req.product which is populated using getProductById
+        let product = req.product
+        //updating the product object with new data source as fields given by formidable
+        product = _.extend(product, fields)
+
+        //Handle files here
+        if(file.photo){
+            //file size only upto 3MB is allowed
+            if(file.photo.size > 3145728){
+                return res.status(400).json({
+                    error: "Bad request: File size bigger than 3MB is not allowed"
+                })
+            }
+
+            //Providing file path and extension details in photo object
+            product.photo.data = fs.readFileSync(file.photo.path)
+            product.photo.contentType = file.photo.type
+        }
+
+        //Save product to DB
+        product.save((err, product) => {
+            if(err){
+                return res.status(400).json({
+                    error: "Bad request: Error occured while updating product info in DB"
+                })
+            }
+            res.json(product)
+        })
+    })
+}
