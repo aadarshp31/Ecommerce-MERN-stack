@@ -79,6 +79,35 @@ exports.getProduct = (req, res) => {
     return res.json(req.product)
 }
 
+//Get all product
+exports.getAllProduct = (req, res) => {
+    //ternary operator used here to check for user input for "limit" which will be treated as string by default
+    //Parsing the string value (limit) to integer number is done by parseInt(string)
+    let limit = req.query.limit ? parseInt(req.query.limit) : 8;
+
+    //check for user input for "sortBy" which will be treated as string by default
+    let sortBy = req.query.sortBy ? req.query.sortBy : "_id";
+
+    Product.find()
+    .select("-photo")
+    .populate("category")
+    .sort([[sortBy, "asc"]])
+    .limit(limit)
+    .exec((err, allProducts) => {
+        if(err){
+            return res.status(400).json({
+                error: "Bad request: Error occurred while getting all products from the DB"
+            })
+        }
+        if(!allProducts){
+            return res.status(404).json({
+                error: "Not found: No products found on the DB"
+            })
+        }
+        res.json(allProducts)
+    })
+}
+
 //Middleware for getting photo
 exports.getPhoto = (req, res, next) => {
     if(req.product.photo.data){
