@@ -173,3 +173,24 @@ exports.updateProduct = (req, res) => {
         })
     })
 }
+
+//Update "Sold" and "Stock" parameter for a product
+exports.updateStock = (req, res, next) => {
+    let myOperations = req.body.order.products.map(prod => {
+        return {
+            updateOne: {
+                filter: {_id: prod._id},
+                update: {$inc: {stock: -prod.count, sold: +prod.count}}
+            }
+        }
+    })
+
+    Product.bulkWrite(myOperations, {}, (err, product) => {
+        if(err || !product){
+            res.status(400).json({
+                error: "Bad request: Bulk operation failed"
+            })
+        }
+        next();
+    })
+}
