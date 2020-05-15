@@ -1,5 +1,8 @@
 import React from "react";
+import {API} from "../backend";
 
+
+console.log("Environment Variable:", API);
 
 const Home = () => {
     return(
