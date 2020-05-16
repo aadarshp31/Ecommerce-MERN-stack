@@ -4,7 +4,7 @@ import Menu from "./Menu"
 const Base = ({
 	title = "My Title",
 	description = "My Description",
-	className = "bg-dark text-white text-center p-4 display-4",
+	className = "bg-dark text-white text-center p-4",
 	children,
 }) => {
 	return (
