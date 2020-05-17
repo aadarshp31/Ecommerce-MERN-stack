@@ -1,39 +1,69 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import Base from "../core/Base";
-import { signup } from "../auth/helper/index"
+import { signup } from "../auth/helper/index";
 
 const Signup = () => {
-
 	const initialValues = {
 		name: "",
 		email: "",
 		password: "",
 		error: "",
-		success: false
-	}
+		success: false,
+	};
 
-	const [values, setValues] = useState(initialValues)
+	const [values, setValues] = useState(initialValues);
 
 	const { name, email, password, error, success } = values;
 
-	const handleChange = inputValue => event => {
-		event.preventDefault();
-		setValues({...values, error: false, [inputValue]: event.target.value});
-	}
+	const handleChange = (inputValue) => (event) => {
+		setValues({ ...values, error: false, [inputValue]: event.target.value });
+	};
 
-	const formSubmit = event => {
-		setValues({...values, error: false });
+	const formSubmit = (event) => {
+		event.preventDefault();
+		setValues({ ...values, error: false });
 		signup({ name, email, password })
-		.then(data => {
-			if(data.error){
-				setValues({ ...values, error: data.error, success: false })
-			} else {
-				setValues(initialValues);
-			}
-		})
-		.catch(console.log("Error in signup"));
-	}
+			.then((data) => {
+				if (data.error) {
+					setValues({ ...values, error: data.error, success: false });
+				} else {
+					setValues({ ...initialValues, success: true });
+				}
+			})
+			.catch(console.log("Error in signup"));
+	};
+
+	const successMessage = () => {
+		return (
+			<div className="row">
+				<div className="col-md-6 offset-sm-3 text-center">
+					<div
+						className="alert alert-success"
+						style={{ display: success ? "" : "none" }}
+					>
+						New account was created successfully. Please{" "}
+						<Link to="/signin">Login here</Link>
+					</div>
+				</div>
+			</div>
+		);
+	};
+
+	const errorMessage = () => {
+		return (
+			<div className="row">
+				<div className="col-md-6 offset-sm-3 text-center">
+					<div
+						className="alert alert-danger"
+						style={{ display: error ? "" : "none" }}
+					>
+						{error}
+					</div>
+				</div>
+			</div>
+		);
+	};
 
 	const signUpForm = () => {
 		return (
@@ -42,17 +72,34 @@ const Signup = () => {
 					<form>
 						<div className="form-group">
 							<label className="text-light">Name</label>
-							<input type="text" className="form-control" onChange={handleChange("name")} />
+							<input
+								type="text"
+								className="form-control"
+								onChange={handleChange("name")}
+								value={name}
+							/>
 						</div>
 						<div className="form-group">
 							<label className="text-light">Email</label>
-							<input type="email" className="form-control" onChange={handleChange("email")} />
+							<input
+								type="email"
+								className="form-control"
+								onChange={handleChange("email")}
+								value={email}
+							/>
 						</div>
 						<div className="form-group">
 							<label className="text-light">Password</label>
-							<input type="password" className="form-control" onChange={handleChange("password")} />
+							<input
+								type="password"
+								className="form-control"
+								onChange={handleChange("password")}
+								value={password}
+							/>
 						</div>
-						<button className="btn btn-success btn-block">Submit</button>
+						<button className="btn btn-success btn-block" onClick={formSubmit}>
+							Submit
+						</button>
 					</form>
 				</div>
 			</div>
@@ -62,6 +109,8 @@ const Signup = () => {
 	return (
 		<div>
 			<Base title="Signup Page" description="A page for the user to Sign up!">
+				{successMessage()}
+				{errorMessage()}
 				{signUpForm()}
 			</Base>
 		</div>
