@@ -1,32 +1,133 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import Base from "../core/Base";
-
-const signInForm = () => {
-	return (
-		<div className="row">
-			<div className="col-md-6 offset-sm-3 text-left">
-				<form>
-					<div className="form-group">
-						<label className="text-light">Email</label>
-						<input type="email" className="form-control" />
-					</div>
-					<div className="form-group">
-						<label className="text-light">Password</label>
-						<input type="password" className="form-control" />
-					</div>
-					<button className="btn btn-success btn-block">Sign in</button>
-				</form>
-			</div>
-		</div>
-	);
-};
+import { signin, authenticate, isAuthenticated } from "../auth/helper/index";
 
 const Signin = () => {
+	//Initial States for the Signin component
+	const initialValues = {
+		email: "",
+		password: "",
+		error: "",
+		loading: false,
+		didRedirect: false,
+	};
+
+	//States for Signin component
+	const [values, setValues] = useState(initialValues);
+
+	//Destructuring the states of the Signin component
+	const { email, password, error, loading, didRedirect } = values;
+
+	//Getting the user object from localstorage of client browser
+	const { user } = isAuthenticated();
+
+	//Sets data in the states according to the input fields
+	const handleChange = (inputValue) => (event) => {
+		setValues({ ...values, error: false, [inputValue]: event.target.value });
+	};
+
+	//Submits the sign in form and gets the response token along with user data from the backend
+	const formSubmit = (event) => {
+		event.preventDefault();
+		setValues({ ...values, loading: true });
+		signin({ email, password })
+			.then((data) => {
+				if (data.error) {
+					setValues({ ...values, error: data.error, loading: false });
+				} else {
+					authenticate(data, () => {
+						setValues({ ...initialValues, didRedirect: true });
+					});
+				}
+			})
+			.catch(console.log("Error: Signin request to the server failed!"));
+			//TODO: This catch is firing up even after successfull login
+			//This catch runs whenever there is an error at the backend or error
+	};
+
+	const performRedirect = () => {
+		//TODO: Add redirect in place of the below placeholder p tags
+		if (didRedirect) {
+			if (user && user.role === 1) {
+				return <p>Redirect to Admin Dashboard</p>;
+			} else {
+				return <p>Redirect to User Dashboard</p>;
+			}
+		}
+
+		if (isAuthenticated()) {
+			return <Redirect to="/" />;
+		}
+	};
+
+	//Loading state message popup
+	const loadingMessage = () => {
+		return (
+			loading && (
+				<div className="alert alert-info text-center">
+					<h2>Loading...</h2>
+				</div>
+			)
+		);
+	};
+
+	//Signup error message popup
+	const errorMessage = () => {
+		return (
+			<div className="row">
+				<div className="col-md-6 offset-sm-3 text-center">
+					<div
+						className="alert alert-danger"
+						style={{ display: error ? "" : "none" }}
+					>
+						{error}
+					</div>
+				</div>
+			</div>
+		);
+	};
+
+	//Signin form component
+	const signInForm = () => {
+		return (
+			<div className="row">
+				<div className="col-md-6 offset-sm-3 text-left">
+					<form>
+						<div className="form-group">
+							<label className="text-light">Email</label>
+							<input
+								type="email"
+								className="form-control"
+								onChange={handleChange("email")}
+								value={email}
+							/>
+						</div>
+						<div className="form-group">
+							<label className="text-light">Password</label>
+							<input
+								type="password"
+								className="form-control"
+								onChange={handleChange("password")}
+								value={password}
+							/>
+						</div>
+						<button className="btn btn-success btn-block" onClick={formSubmit}>
+							Sign in
+						</button>
+					</form>
+				</div>
+			</div>
+		);
+	};
+
 	return (
 		<div>
 			<Base title="Signin Page" description="A page for the user to Sign in!">
+				{loadingMessage()}
+				{errorMessage()}
 				{signInForm()}
+				{performRedirect()}
 			</Base>
 		</div>
 	);
