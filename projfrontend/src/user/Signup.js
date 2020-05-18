@@ -4,6 +4,7 @@ import Base from "../core/Base";
 import { signup } from "../auth/helper/index";
 
 const Signup = () => {
+	//Initial States for the Signup component
 	const initialValues = {
 		name: "",
 		email: "",
@@ -12,14 +13,18 @@ const Signup = () => {
 		success: false,
 	};
 
+	//States for Signup component
 	const [values, setValues] = useState(initialValues);
 
+	//Destructuring the states of the Signup component
 	const { name, email, password, error, success } = values;
 
+	//Sets data in the states according to the input fields
 	const handleChange = (inputValue) => (event) => {
 		setValues({ ...values, error: false, [inputValue]: event.target.value });
 	};
 
+	//Submits the signup form and gets the response data from the backend
 	const formSubmit = (event) => {
 		event.preventDefault();
 		setValues({ ...values, error: false });
@@ -31,9 +36,12 @@ const Signup = () => {
 					setValues({ ...initialValues, success: true });
 				}
 			})
-			.catch(console.log("Error in signup"));
+			.catch(console.log("Error: Signup request to the server failed!"));
+			//TODO: This catch is firing up even after successfull login
+			//This catch runs whenever there is an error at the backend
 	};
 
+	//Signup success message popup
 	const successMessage = () => {
 		return (
 			<div className="row">
@@ -50,6 +58,7 @@ const Signup = () => {
 		);
 	};
 
+	//Signup error message popup
 	const errorMessage = () => {
 		return (
 			<div className="row">
@@ -65,6 +74,7 @@ const Signup = () => {
 		);
 	};
 
+	//Signup form component
 	const signUpForm = () => {
 		return (
 			<div className="row">
