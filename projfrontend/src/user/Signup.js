@@ -21,7 +21,7 @@ const Signup = () => {
 
 	//Sets data in the states according to the input fields
 	const handleChange = (inputValue) => (event) => {
-		setValues({ ...values, error: false, [inputValue]: event.target.value });
+		setValues({ ...values, error: false, success: false, [inputValue]: event.target.value });
 	};
 
 	//Submits the signup form and gets the response data from the backend
