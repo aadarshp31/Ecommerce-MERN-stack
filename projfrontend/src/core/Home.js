@@ -3,9 +3,6 @@ import {API} from "../backend";
 import "../styles.css"
 import Base from "../core/Base"
 
-
-console.log("Environment Variable:", API);
-
 const Home = () => {
     return(
         <Base title="Home Page" description="Welcome to the Tshirt Store" >
