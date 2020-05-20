@@ -47,6 +47,11 @@ const Signin = () => {
 	};
 
 	const performRedirect = () => {
+		//This will have 1st preference while redirecting. (For testing purpose only, will be removed soon)
+		if (isAuthenticated()) {
+			return <Redirect to="/" />;
+		}
+		
 		//TODO: Add redirect in place of the below placeholder p tags
 		if (didRedirect) {
 			if (user && user.role === 1) {
@@ -54,10 +59,6 @@ const Signin = () => {
 			} else {
 				return <p>Redirect to User Dashboard</p>;
 			}
-		}
-
-		if (isAuthenticated()) {
-			return <Redirect to="/" />;
 		}
 	};
 
