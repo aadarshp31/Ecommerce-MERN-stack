@@ -1,4 +1,4 @@
-import React from "react";
+import React, {Fragment} from "react";
 import { Link, withRouter } from "react-router-dom";
 import { signout, isAuthenticated } from "../auth/helper/index";
 
@@ -45,7 +45,11 @@ const Menu = (history) => (
 					Admin Dashboard
 				</Link>
 			</li>
-			<li className="nav-item">
+			
+			{/* Returns Signin nav button when user is not authenticated, otherwise hides it from navbar */}
+			{!isAuthenticated() && (
+				<Fragment>
+				<li className="nav-item">
 				<Link
 					style={currentTab(history, "/signup")}
 					className="nav-link"
@@ -53,9 +57,7 @@ const Menu = (history) => (
 				>
 					Signup
 				</Link>
-			</li>
-			{/* Returns Signin nav button when user is not authenticated, otherwise hides it from navbar */}
-			{!isAuthenticated() && (
+				</li>
 				<li className="nav-item">
 					<Link
 						style={currentTab(history, "/signin")}
@@ -65,6 +67,7 @@ const Menu = (history) => (
 						Signin
 					</Link>
 				</li>
+				</Fragment>
 			)}
 			{/* Returns Signout nav button when user is authenticated, otherwise hides it from navbar */}
 			{/* onCLick event fires a callback to initiate "signout" method which fires callback to redirect the user to "/" */}
