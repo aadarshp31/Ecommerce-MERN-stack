@@ -46,18 +46,13 @@ const Signin = () => {
 			//This catch runs whenever there is an error at the backend or error
 	};
 
-	const performRedirect = () => {
-		//This will have 1st preference while redirecting. (For testing purpose only, will be removed soon)
-		if (isAuthenticated()) {
-			return <Redirect to="/" />;
-		}
-		
-		//TODO: Add redirect in place of the below placeholder p tags
+	const performRedirect = () => {		
+		//Redirect the "Admin User" to "Admin Dashboard" & "Normal User" to " User Dashboard"
 		if (didRedirect) {
 			if (user && user.role === 1) {
-				return <p>Redirect to Admin Dashboard</p>;
+				return <Redirect to="/admin/dashboard" />;
 			} else {
-				return <p>Redirect to User Dashboard</p>;
+				return <Redirect to="/user/dashboard" />;
 			}
 		}
 	};
