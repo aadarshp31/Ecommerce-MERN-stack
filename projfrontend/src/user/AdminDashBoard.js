@@ -37,6 +37,24 @@ const adminLeftSide = () => {
 	);
 };
 
+const adminRightSide = () => {
+	return(
+		<div className="card mb-4">
+			<h4 className="card-header">Admin Information</h4>
+			<ul className="list-group">
+				<li className="list-group-item">
+					<span className="badge badge-success mr-2">Name:</span> {name}
+				</li>
+				<li className="list-group-item">
+					<span className="badge badge-success mr-2">Email:</span> {email}
+				</li>
+				<li className="list-group-item">
+					<span className="badge badge-danger mr-2">Admin Privilege</span>
+				</li>
+			</ul>
+		</div>
+	);
+}
 
 const AdminDashboard = () => {
 	return (
@@ -47,6 +65,7 @@ const AdminDashboard = () => {
 		>
 			<div className="row">
 				<div className="col-3">{adminLeftSide()}</div>
+				<div className="col-9">{adminRightSide()}</div>
 			</div>
 		</Base>
 	);
