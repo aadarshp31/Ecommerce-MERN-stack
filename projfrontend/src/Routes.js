@@ -14,10 +14,10 @@ const Routes = () => {
         <Router>
             <Switch>
                 <Route exact path="/" component={Home} />
-                <Route path="/signup" component={Signup} />
-                <Route path="/signin" component={Signin} />
-                <PrivateRoute path="/user/dashboard" component={UserDashboard} />
-                <AdminRoute path="/admin/dashboard" component={AdminDashboard} />
+                <Route exact path="/signup" component={Signup} />
+                <Route exact path="/signin" component={Signin} />
+                <PrivateRoute exact path="/user/dashboard" component={UserDashboard} />
+                <AdminRoute exact path="/admin/dashboard" component={AdminDashboard} />
             </Switch>
         </Router>
     );
