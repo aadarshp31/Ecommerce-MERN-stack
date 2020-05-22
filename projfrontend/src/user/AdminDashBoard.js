@@ -3,8 +3,12 @@ import Base from "../core/Base";
 import { isAuthenticated } from "../auth/helper/index";
 import { Link } from "react-router-dom";
 
+
+const AdminDashboard = () => {
+
+	
 const {
-	user: { name, email, role },
+	user: { name, email },
 } = isAuthenticated();
 
 const adminLeftSide = () => {
@@ -56,7 +60,6 @@ const adminRightSide = () => {
 	);
 }
 
-const AdminDashboard = () => {
 	return (
 		<Base
 			title="Welcome to Admin Dashboard"
