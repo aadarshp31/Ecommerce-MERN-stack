@@ -46,7 +46,7 @@ const AddCategory = () => {
 					setName("");
 				}
 			})
-			.catch((err) => console.log("Error in formSubmit!",err));
+			.catch((err) => console.log("Error in formSubmit!", err));
 	};
 
 	//Signup success message popup
@@ -96,6 +96,7 @@ const AddCategory = () => {
 			title="Add Product Category"
 			description="Create a new product category for TShirts"
 			className="container rounded p-4"
+		>
 			<div className="row bg-white rounded">
 				<div className="col-md-2 mt-2">{goBackButton()}</div>
 
