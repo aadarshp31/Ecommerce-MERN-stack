@@ -41,9 +41,8 @@ const Signin = () => {
 					});
 				}
 			})
-			.catch(console.log("Error: Signin request to the server failed!"));
-			//TODO: This catch is firing up even after successfull login
-			//This catch runs whenever there is an error at the backend or error
+			.catch(err => console.log("Error: Signin request to the server failed!\n", err));
+			//This catch runs whenever there is an error at the backend which is not handled
 	};
 
 	const performRedirect = () => {		

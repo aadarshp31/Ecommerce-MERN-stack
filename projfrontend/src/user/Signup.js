@@ -36,9 +36,8 @@ const Signup = () => {
 					setValues({ ...initialValues, success: true });
 				}
 			})
-			.catch(console.log("Error: Signup request to the server failed!"));
-			//TODO: This catch is firing up even after successfull login
-			//This catch runs whenever there is an error at the backend
+			.catch(err => console.log("Error: Signup request to the server failed!\n", err));
+			//This catch runs whenever there is an error at the backend which is not handled
 	};
 
 	//Signup success message popup
