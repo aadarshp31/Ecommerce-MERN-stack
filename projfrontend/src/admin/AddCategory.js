@@ -95,12 +95,11 @@ const AddCategory = () => {
 		<Base
 			title="Add Product Category"
 			description="Create a new product category for TShirts"
-			className="container rounded p-4"
+			className="container bg-white rounded p-4"
 		>
-			<div className="row bg-white rounded">
-				<div className="col-md-2 mt-2">{goBackButton()}</div>
-
-				<div className="col-md-8 my-5">
+			<div className="row rounded">
+				<div className="col-md-2">{goBackButton()}</div>
+				<div className="col-md-8 my-3">
 					{addCategoryForm()}
 					{successMessage()}
 					{errorMessage()}
