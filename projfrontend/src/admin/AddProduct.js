@@ -51,10 +51,7 @@ const AddProduct = () => {
 
 	useEffect(() => {
 		preload();
-		return(() => {
-			setValues({...values, categories: []})
-		})
-	}, [categories]);
+	}, []);
 
 	//Sets data in the states according to the input fields
 	const handleChange = (inputValue) => (event) => {
@@ -71,11 +68,7 @@ const AddProduct = () => {
 				if (data.error) {
 					setValues({ ...values, error: data.error, loading: false });
 				} else {
-					setValues({
-						...initialValues,
-						loading: false,
-						createdProduct: data.name,
-					});
+					setValues({...initialValues, loading: false, createdProduct: data.name});
 				}
 			})
 			.catch((err) => console.log(err));
@@ -160,7 +153,7 @@ const AddProduct = () => {
 						required
 						onChange={handleChange("category")}
 					>
-						<option value="a">Select</option>
+						<option>Select</option>
 						{categories &&
 							categories.map((category, index) => {
 								return (
