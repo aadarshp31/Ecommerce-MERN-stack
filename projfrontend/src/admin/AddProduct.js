@@ -32,13 +32,13 @@ const AddProduct = () => {
 		price,
 		categories,
 		stock,
-		photo,
 		loading,
 		error,
 		createdProduct,
 		formData,
 	} = values;
 
+	//Method to preload the category list after rendering of the Create Product Page
 	const preload = () => {
 		getAllCategories().then((data) => {
 			if (data.error) {
@@ -49,6 +49,7 @@ const AddProduct = () => {
 		});
 	};
 
+	//useEffect renders runs the preLoad method after the rendering of all of the Create Product Page components
 	useEffect(() => {
 		preload();
 	}, []);
@@ -59,7 +60,7 @@ const AddProduct = () => {
 		formData.set(inputValue, value);
 		setValues({ ...values, error: false, [inputValue]: value });
 	};
-
+	
 	const formSubmit = (event) => {
 		event.preventDefault();
 		setValues({ ...values, error: false, loading: true });
@@ -77,8 +78,8 @@ const AddProduct = () => {
 	//Success Message
 	const successMessage = () => {
 		return (
-			<div className="alert alert-success" style={{display: createdProduct ? "" : "none"}}>
-				<h4 className="text-success">{`${createProduct}: Product Added successfully`}</h4>
+			<div className="alert alert-success m-2 text-success" style={{display: createdProduct ? "" : "none"}}>
+				<h4>{`${createdProduct}: Product Added successfully`}</h4>
 			</div>
 		);
 	};
@@ -86,7 +87,11 @@ const AddProduct = () => {
 	//Loading Message
 	const loadingMessage = () => {
 		if (loading) {
-			return <h4 className="text-warning">Loading...</h4>;
+			return (
+				<div className="alert alert-info m-2 text-info">
+					<h4 className="text-info">Loading...</h4>
+				</div>
+			);
 		}
 	};
 
@@ -94,7 +99,7 @@ const AddProduct = () => {
 	const errorMessage = () => {
 		if (error) {
 			return (
-				<div className="text-danger">
+				<div className="alert alert-danger m-2 text-danger">
 					<h4>Product Creation Failed!</h4>
 					<p>{error}</p>
 				</div>
@@ -199,9 +204,7 @@ const AddProduct = () => {
 						type="file"
 						name="photo"
 						accept="image"
-						required
 						onChange={handleChange("photo")}
-						value={photo}
 					/>
 				</div>
 				<button className="btn btn-info" onClick={formSubmit}>
