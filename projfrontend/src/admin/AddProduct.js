@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import Base from "../core/Base";
 import { createProduct, getAllCategories } from "./helper/adminapicall";
 import { isAuthenticated } from "../auth/helper";
-const AddProduct = () => {
+const AddProduct = (history) => {
 	//Getting Token and User data from the client's browser localStorage
 	const { token, user } = isAuthenticated();
 
@@ -20,6 +20,7 @@ const AddProduct = () => {
 		error: "",
 		createdProduct: "",
 		formData: "",
+		didRedirect: "",
 	};
 
 	//States for Signup component
@@ -36,6 +37,7 @@ const AddProduct = () => {
 		error,
 		createdProduct,
 		formData,
+		didRedirect,
 	} = values;
 
 	//Method to preload the category list after rendering of the Create Product Page
@@ -54,6 +56,15 @@ const AddProduct = () => {
 		preload();
 	}, []);
 
+	//Redirect with a delay of 2 seconds after successful product creation.
+	const performRedirect = () => {
+		if(didRedirect){
+			setTimeout(() => {
+				history.history.push("/admin/dashboard");
+			}, 2000);
+		}
+	}
+
 	//Sets data in the states according to the input fields
 	const handleChange = (inputValue) => (event) => {
 		const value = inputValue === "photo" ? event.target.files[0] : event.target.value;
@@ -69,7 +80,7 @@ const AddProduct = () => {
 				if (data.error) {
 					setValues({ ...values, error: data.error, loading: false });
 				} else {
-					setValues({...initialValues, loading: false, createdProduct: data.name});
+					setValues({...initialValues, loading: false, createdProduct: data.name, didRedirect: true})
 				}
 			})
 			.catch((err) => console.log(err));
@@ -227,6 +238,7 @@ const AddProduct = () => {
 					{loadingMessage()}
 					{successMessage()}
 					{errorMessage()}
+					{performRedirect()}
 				</div>
 			</div>
 		</Base>
