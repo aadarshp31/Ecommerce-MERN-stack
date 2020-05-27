@@ -106,6 +106,16 @@ const AddProduct = (history) => {
 		}
 	};
 
+	const redirectingMessage = () => {
+		if (didRedirect) {
+			return (
+				<div className="alert alert-info m-2 text-info">
+					<h4 className="text-info">Redirecting to Admin Dashboard...</h4>
+				</div>
+			);
+		}
+	};
+
 	//Signup error message popup
 	const errorMessage = () => {
 		if (error) {
@@ -238,6 +248,7 @@ const AddProduct = (history) => {
 					{loadingMessage()}
 					{successMessage()}
 					{errorMessage()}
+					{redirectingMessage()}
 					{performRedirect()}
 				</div>
 			</div>
