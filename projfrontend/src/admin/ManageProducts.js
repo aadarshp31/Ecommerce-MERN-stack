@@ -6,14 +6,17 @@ import { getAllProducts, deleteProduct } from "./helper/adminapicall"
 
 const ManageProduct = () => {
     const [ products, setProducts] = useState([])
+    const [ loading, setLoading] = useState(false)
     const { user, token } = isAuthenticated();
 
     const preload = () => {
+        setLoading(true);
         getAllProducts().then(data => {
             if(data.error){
                 console.log(data.error);
             } else {
                 setProducts(data);
+                setLoading(false);
             }
         })
     }
@@ -23,15 +26,28 @@ const ManageProduct = () => {
     }, [])
 
     const deleteThisProduct = (productId) => {
+        setLoading(true);
         deleteProduct(user._id, productId, token).then(data => {
             if(data.error){
                 console.log(data.error)
             } else {
                 preload();
+                setLoading(false);
             }
         }).catch(err => console.log(err));
     }
 
+	//Loading Message
+	const loadingMessage = () => {
+		if (loading) {
+			return (
+				<div className="m-2 text-info">
+					<h4 className="text-info">Loading...</h4>
+				</div>
+			);
+		}
+	};
+    
 	return (
 		<Base title="Manage Product Page" description="Manage products here" className="container bg-white rounded p-4">
 			<Link className="btn btn-info rounded" to={`/admin/dashboard`}>
@@ -43,8 +59,8 @@ const ManageProduct = () => {
 					<h4 className="text-left text-warning my-3">Total products: {products.length}</h4>
                     {products.map((product, index) => {
                         return(  
-                            <div>                 
-                                <div key={index} className="row text-center text-muted">
+                            <div key={index}>                 
+                                <div className="row text-center text-muted">
                                     <div className="col-8 pl-5">
                                         <h3 className="text-left" style={{textTransform: "capitalize"}}>{product.name}</h3>
                                     </div>
@@ -65,6 +81,7 @@ const ManageProduct = () => {
                                 <hr />
                             </div>);
                     })}
+                    {loadingMessage()}
 				</div>
 			</div>
 		</Base>
