@@ -81,7 +81,7 @@ const UpdateProduct = ({match, history}) => {
 	const performRedirect = () => {
 		if (didRedirect) {
 			setTimeout(() => {
-				history.history.push("/admin/products");
+				history.push("/admin/products");
 			}, 2000);
 		}
 	};

@@ -66,7 +66,6 @@ export const updateProduct = (userId, productId, token, productUpdate) => {
 		method: "PUT",
 		headers: {
 			Accept: "application/json",
-			"Content-Type": "application/json",
 			Authorization: `Bearer ${token}`,
 		},
 		body: productUpdate,
