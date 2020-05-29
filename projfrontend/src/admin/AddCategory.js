@@ -15,8 +15,8 @@ const AddCategory = () => {
 	const goBackButton = () => {
 		return (
 			<div>
-				<Link className="btn btn-sm btn-success mb-3" to="/admin/dashboard">
-					Admin Dashboard
+				<Link className="btn btn-info rounded" to="/admin/dashboard">
+					Admin Home
 				</Link>
 			</div>
 		);

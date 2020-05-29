@@ -62,18 +62,18 @@ const ManageProduct = () => {
                             <div key={index}>                 
                                 <div className="row text-center text-muted">
                                     <div className="col-8 pl-5">
-                                        <h3 className="text-left" style={{textTransform: "capitalize"}}>{category.name}</h3>
+                                        <h4 className="text-left" style={{textTransform: "capitalize"}}>{category.name}</h4>
                                     </div>
                                     <div className="col-2">
                                         <Link
-                                            className="btn btn-success"
+                                            className="btn btn-success rounded"
                                             to={`/category/${category._id}/${user._id}`}
                                         >
                                             <span className="">Update</span>
                                         </Link>
                                     </div>
                                     <div className="col-2">
-                                        <button onClick={() => {deleteThisProduct(category._id)}} className="btn btn-danger">
+                                        <button onClick={() => {deleteThisProduct(category._id)}} className="btn btn-danger rounded">
                                             Delete
                                         </button>
                                     </div>
