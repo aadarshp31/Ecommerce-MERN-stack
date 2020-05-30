@@ -1,9 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Base from "../core/Base";
-import { getProduct, updateProduct, getAllCategories } from "./helper/adminapicall";
+import {
+	getProduct,
+	updateProduct,
+	getAllCategories,
+} from "./helper/adminapicall";
 import { isAuthenticated } from "../auth/helper";
-const UpdateProduct = ({match, history}) => {
+const UpdateProduct = ({ match, history }) => {
 	//Getting Token and User data from the client's browser localStorage
 	const { token, user } = isAuthenticated();
 
@@ -46,8 +50,8 @@ const UpdateProduct = ({match, history}) => {
 				if (data.error) {
 					setValues({ ...values, error: data.error });
 				} else {
-                    setValues({categories: data, formData: new FormData()})
-                }
+					setValues({ categories: data, formData: new FormData() });
+				}
 			})
 			.catch((err) => console.log(err));
 	};
@@ -58,7 +62,7 @@ const UpdateProduct = ({match, history}) => {
 			if (data.error) {
 				setValues({ ...values, error: data.error });
 			} else {
-                preloadCategories();
+				preloadCategories();
 				setValues({
 					...values,
 					name: data.name,
