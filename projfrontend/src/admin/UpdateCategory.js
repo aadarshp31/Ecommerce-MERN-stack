@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { isAuthenticated } from "../auth/helper/index";
 import { getCategory, updateCategory } from "./helper/adminapicall";
 
-const UpdateCategory = ({match, history}) => {
+const UpdateCategory = ({ match, history }) => {
 	const [name, setName] = useState("");
 	const [error, setError] = useState(false);
 	const [loading, setLoading] = useState(false);
@@ -29,31 +29,31 @@ const UpdateCategory = ({match, history}) => {
 		setName(event.target.value);
 		setError(false);
 		setSuccess(false);
-    };
+	};
 
-    const preload = (categoryId) => {
-        setLoading(true);
-        getCategory(categoryId)
-        .then(data => {
-            if(data.error){
-                setError(data.error);
-            } else {
-                setName(data.name);
-                setLoading(false);
-            }
-        })
-        .catch(err => console.log(err));
-    }
+	const preload = (categoryId) => {
+		setLoading(true);
+		getCategory(categoryId)
+			.then((data) => {
+				if (data.error) {
+					setError(data.error);
+				} else {
+					setName(data.name);
+					setLoading(false);
+				}
+			})
+			.catch((err) => console.log(err));
+	};
 
-    useEffect(() => {
-        preload(match.params.categoryId);
-    }, [])
+	useEffect(() => {
+		preload(match.params.categoryId);
+	}, []);
 
 	//Submits the UpdateCatgory form and gets the response from the backend
 	const formSubmit = (event) => {
-        event.preventDefault();
+		event.preventDefault();
 		setError("");
-        setLoading(true);
+		setLoading(true);
 		setSuccess(false);
 
 		//Backend request fired
@@ -62,10 +62,10 @@ const UpdateCategory = ({match, history}) => {
 				if (data.error) {
 					setError(data.error);
 				} else {
-                    setError("");
-                    setLoading(false);
+					setError("");
+					setLoading(false);
 					setSuccess(true);
-                    setDidRedirect(true);
+					setDidRedirect(true);
 				}
 			})
 			.catch((err) => console.log("Error in formSubmit!", err));
@@ -88,25 +88,27 @@ const UpdateCategory = ({match, history}) => {
 				</div>
 			);
 		}
-    };
-    
+	};
+
 	const loadingMessage = () => {
 		if (loading) {
 			return <h4 className="text-info">Loading...</h4>;
 		}
-    };
-    
-    const redirectingMessage = () => {
+	};
+
+	const redirectingMessage = () => {
 		if (didRedirect) {
 			return (
 				<div className="text-info">
-					<h4 className="text-info">Redirecting to Manage Categories Page...</h4>
+					<h4 className="text-info">
+						Redirecting to Manage Categories Page...
+					</h4>
 				</div>
 			);
 		}
 	};
 
-    const performRedirect = () => {
+	const performRedirect = () => {
 		if (didRedirect) {
 			setTimeout(() => {
 				history.push("/admin/categories");
@@ -149,9 +151,9 @@ const UpdateCategory = ({match, history}) => {
 					{addCategoryForm()}
 					{successMessage()}
 					{errorMessage()}
-                    {loadingMessage()}
-                    {redirectingMessage()}
-                    {performRedirect()}
+					{loadingMessage()}
+					{redirectingMessage()}
+					{performRedirect()}
 				</div>
 			</div>
 		</Base>
