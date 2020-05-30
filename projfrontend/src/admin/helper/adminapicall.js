@@ -37,7 +37,7 @@ export const getAllCategories = () => {
 
 //Update a Category
 export const updateCategory = (userId, categoryId, token, categoryUpdate) => {
-	return fetch(`${API}/category/${categoryId}/${userId}`,{
+	return fetch(`${API}/category/${categoryId}/${userId}`, {
 		method: "PUT",
 		headers: {
 			Accept: "application/json",

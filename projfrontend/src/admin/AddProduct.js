@@ -58,20 +58,21 @@ const AddProduct = (history) => {
 
 	//Redirect with a delay of 2 seconds after successful product creation.
 	const performRedirect = () => {
-		if(didRedirect){
+		if (didRedirect) {
 			setTimeout(() => {
 				history.history.push("/admin/dashboard");
 			}, 2000);
 		}
-	}
+	};
 
 	//Sets data in the states according to the input fields
 	const handleChange = (inputValue) => (event) => {
-		const value = inputValue === "photo" ? event.target.files[0] : event.target.value;
+		const value =
+			inputValue === "photo" ? event.target.files[0] : event.target.value;
 		formData.set(inputValue, value);
 		setValues({ ...values, error: false, [inputValue]: value });
 	};
-	
+
 	const formSubmit = (event) => {
 		event.preventDefault();
 		setValues({ ...values, error: false, loading: true });
@@ -80,7 +81,12 @@ const AddProduct = (history) => {
 				if (data.error) {
 					setValues({ ...values, error: data.error, loading: false });
 				} else {
-					setValues({...initialValues, loading: false, createdProduct: data.name, didRedirect: true})
+					setValues({
+						...initialValues,
+						loading: false,
+						createdProduct: data.name,
+						didRedirect: true,
+					});
 				}
 			})
 			.catch((err) => console.log(err));
@@ -89,7 +95,10 @@ const AddProduct = (history) => {
 	//Success Message
 	const successMessage = () => {
 		return (
-			<div className="alert alert-success m-2 text-success" style={{display: createdProduct ? "" : "none"}}>
+			<div
+				className="alert alert-success m-2 text-success"
+				style={{ display: createdProduct ? "" : "none" }}
+			>
 				<h4>{`${createdProduct}: Product Added successfully`}</h4>
 			</div>
 		);
@@ -175,7 +184,7 @@ const AddProduct = (history) => {
 					<select
 						className="form-control"
 						placeholder="Category"
-						style={{textTransform: "capitalize"}}
+						style={{ textTransform: "capitalize" }}
 						required
 						onChange={handleChange("category")}
 					>
@@ -183,7 +192,11 @@ const AddProduct = (history) => {
 						{categories &&
 							categories.map((category, index) => {
 								return (
-									<option key={index} value={category._id} style={{textTransform: "capitalize"}}>
+									<option
+										key={index}
+										value={category._id}
+										style={{ textTransform: "capitalize" }}
+									>
 										{category.name}
 									</option>
 								);
