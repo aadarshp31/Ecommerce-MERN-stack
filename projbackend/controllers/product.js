@@ -111,8 +111,8 @@ exports.getAllProduct = (req, res) => {
 //Middleware for getting photo
 exports.getPhoto = (req, res, next) => {
     if(req.product.photo.data){
-        res.set("content-type", req.body.product.photo.contentType)
-        res.send(req.body.photo.data)
+        res.set("content-type", req.product.photo.contentType)
+        res.send(req.product.photo.data)
     }
     next();
 }
