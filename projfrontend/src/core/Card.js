@@ -27,7 +27,7 @@ const Card = ({product, addToCart=true, removeFromCart=false}) => {
                 <p className="badge badge-secondary px-3 py-2">₹ 999</p>                
                 <p className="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
                 {showAddToCart(addToCart)}
-                {showRemoveFromCart(removeFromCart=true)}
+                {showRemoveFromCart(removeFromCart)}
             </div>
         </div>
     );
