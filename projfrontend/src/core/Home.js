@@ -1,23 +1,25 @@
 import React from "react";
-import "../styles.css"
-import Base from "../core/Base"
+import "../styles.css";
+import Base from "../core/Base";
+import Card from "./Card";
+
 
 const Home = () => {
-    return(
-        <Base title="Home Page" description="Welcome to the Tshirt Store" >
-            <div className="row">
+	return (
+		<Base title="Home Page" description="Welcome to the Tshirt Store">
+			<div className="row">
                 <div className="col-4">
-                    <button className="btn btn-success">Test Button</button>
+                    <Card />
                 </div>
-                <div className="col-4">
-                    <button className="btn btn-success">Test Button</button>
-                </div>
-                <div className="col-4">
-                    <button className="btn btn-success">Test Button</button>
-                </div>
-            </div>
-        </Base>
-    );
-}
+				<div className="col-4">
+                    <Card />
+				</div>
+				<div className="col-4">
+                    <Card />
+				</div>
+			</div>
+		</Base>
+	);
+};
 
 export default Home;
