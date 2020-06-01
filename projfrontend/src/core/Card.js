@@ -1,23 +1,23 @@
 import React from "react";
 import ImageHelper from "./helper/ImageHelper";
 
-const Card = ({product, addToCart=true, removeFromCart=false}) => {
+const Card = ({product, addToCartButton=true, removeFromCartButton=false}) => {
     const cardTitle = product ? product.name : "A Photo from Pexels";
     const cardDescription = product ? product.description : "Product Description";
     const cardPrice = product ? product.price : "DEFAULT";
 
 
-    const showAddToCart = (addToCart) => {
+    const showaddToCartButton = (addToCartButton) => {
         return(
-            addToCart && (
+            addToCartButton && (
                 <a href="#" className="btn btn-info btn-block rounded">Add to Cart</a>
             )
         );
     }
 
-    const showRemoveFromCart = (removeFromCart) => {
+    const showremoveFromCartButton = (removeFromCartButton) => {
         return(
-            removeFromCart && (
+            removeFromCartButton && (
                 <a href="#" className="btn btn-danger btn-block rounded">Remove from Cart</a>
             )
         );
@@ -31,8 +31,8 @@ const Card = ({product, addToCart=true, removeFromCart=false}) => {
                 <h5 className="card-title">{cardTitle}</h5>
                 <p className="badge badge-secondary px-3 py-2">₹ {cardPrice}</p>                
                 <p className="card-text">{cardDescription}</p>
-                {showAddToCart(addToCart)}
-                {showRemoveFromCart(removeFromCart)}
+                {showaddToCartButton(true)}
+                {showremoveFromCartButton(true)}
             </div>
         </div>
     );
