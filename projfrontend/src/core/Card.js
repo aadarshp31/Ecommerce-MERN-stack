@@ -1,16 +1,29 @@
-import React from "react";
+import React, { useState } from "react";
 import ImageHelper from "./helper/ImageHelper";
+import { addItemToCart } from "./helper/cartHelper"
+import { Redirect } from "react-router-dom";
 
-const Card = ({product, addToCartButton=true, removeFromCartButton=false}) => {
+const Card = ({product, addToCartButton=true, removeFromCartButton=false, history}) => {
     const cardTitle = product ? product.name : "A Photo from Pexels";
     const cardDescription = product ? product.description : "Product Description";
     const cardPrice = product ? product.price : "DEFAULT";
 
+    const [redirect, setRedirect] = useState(false)
+
+    const addToCart = () => { 
+        addItemToCart(product, () => setRedirect(true));
+    }
+
+    const performRedirect = (redirect) => {
+        if(redirect) {
+            return <Redirect to="/cart" />;
+        }
+    }
 
     const showaddToCartButton = (addToCartButton) => {
         return(
             addToCartButton && (
-                <a href="#" className="btn btn-info btn-block rounded">Add to Cart</a>
+                <button className="btn btn-info btn-block rounded" onClick={addToCart}>Add to Cart</button>
             )
         );
     }
@@ -18,7 +31,7 @@ const Card = ({product, addToCartButton=true, removeFromCartButton=false}) => {
     const showremoveFromCartButton = (removeFromCartButton) => {
         return(
             removeFromCartButton && (
-                <a href="#" className="btn btn-danger btn-block rounded">Remove from Cart</a>
+                <button className="btn btn-danger btn-block rounded">Remove from Cart</button>
             )
         );
     }
@@ -33,6 +46,7 @@ const Card = ({product, addToCartButton=true, removeFromCartButton=false}) => {
                 <p className="card-text">{cardDescription}</p>
                 {showaddToCartButton(true)}
                 {showremoveFromCartButton(true)}
+                {performRedirect(redirect)}
             </div>
         </div>
     );
