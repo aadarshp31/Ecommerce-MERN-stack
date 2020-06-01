@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import ImageHelper from "./helper/ImageHelper";
-import { addItemToCart } from "./helper/cartHelper"
+import { addItemToCart, removeItemFromCart } from "./helper/cartHelper"
 import { Redirect } from "react-router-dom";
 
-const Card = ({product, addToCartButton=true, removeFromCartButton=false}) => {
+const Card = ({product, addToCartButton=true, removeFromCartButton=false, setReload= (f) => f, reload=undefined}) => {
     const cardTitle = product ? product.name : "A Photo from Pexels";
     const cardDescription = product ? product.description : "Product Description";
     const cardPrice = product ? product.price : "DEFAULT";
@@ -12,6 +12,10 @@ const Card = ({product, addToCartButton=true, removeFromCartButton=false}) => {
 
     const addToCart = () => { 
         addItemToCart(product, () => setRedirect(true));
+    }
+    const removeFromCart = () => { 
+        removeItemFromCart(product._id);
+        setReload(!reload);
     }
 
     const performRedirect = (redirect) => {
@@ -31,7 +35,7 @@ const Card = ({product, addToCartButton=true, removeFromCartButton=false}) => {
     const showremoveFromCartButton = (removeFromCartButton) => {
         return(
             removeFromCartButton && (
-                <button className="btn btn-danger btn-block rounded">Remove from Cart</button>
+                <button className="btn btn-danger btn-block rounded" onClick={removeFromCart}>Remove from Cart</button>
             )
         );
     }
@@ -44,8 +48,8 @@ const Card = ({product, addToCartButton=true, removeFromCartButton=false}) => {
                 <h5 className="card-title">{cardTitle}</h5>
                 <p className="badge badge-secondary px-3 py-2">₹ {cardPrice}</p>                
                 <p className="card-text">{cardDescription}</p>
-                {showaddToCartButton(true)}
-                {showremoveFromCartButton(true)}
+                {showaddToCartButton(addToCartButton)}
+                {showremoveFromCartButton(removeFromCartButton)}
                 {performRedirect(redirect)}
             </div>
         </div>
