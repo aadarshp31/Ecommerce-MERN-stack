@@ -3,7 +3,7 @@ import ImageHelper from "./helper/ImageHelper";
 import { addItemToCart } from "./helper/cartHelper"
 import { Redirect } from "react-router-dom";
 
-const Card = ({product, addToCartButton=true, removeFromCartButton=false, history}) => {
+const Card = ({product, addToCartButton=true, removeFromCartButton=false}) => {
     const cardTitle = product ? product.name : "A Photo from Pexels";
     const cardDescription = product ? product.description : "Product Description";
     const cardPrice = product ? product.price : "DEFAULT";
