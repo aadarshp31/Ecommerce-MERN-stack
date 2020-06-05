@@ -22,7 +22,12 @@ const StripeCheckout = ({ products, setReload = (f) => f, reload=undefined }) =>
     }
     const showStripeButton = () => {
         return isAuthenticated() ? (
-            <StripeCheckoutButton >
+            <StripeCheckoutButton 
+                stripeKey=""
+                token=""
+                amount={getFinalAmount() * 100}
+                name="Buy T-Shirt"
+            >
                 <button className="btn btn-info rounded">Pay with Stripe</button>
             </StripeCheckoutButton>
         ) : (
