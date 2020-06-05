@@ -12,7 +12,6 @@ const Card = ({product, addToCartButton=true, removeFromCartButton=false, setRel
 
     const addToCart = () => { 
         addItemToCart(product, () => setRedirect(true));
-        setReload(!reload);
     }
     const removeFromCart = () => { 
         removeItemFromCart(product._id);
