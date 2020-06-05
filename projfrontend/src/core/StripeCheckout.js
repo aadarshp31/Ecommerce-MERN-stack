@@ -1,9 +1,8 @@
 import React, { useState } from "react";
 import { isAuthenticated } from "../auth/helper";
 import { Link } from "react-router-dom";
-import StripeCheckout from "react-stripe-checkout";
 
-const StripeCheckoutButton = ({ products, setReload = (f) => f, reload=undefined }) => {
+const StripeCheckout = ({ products, setReload = (f) => f, reload=undefined }) => {
     const initialValues = {
         loading: false,
         success: false,
@@ -22,9 +21,7 @@ const StripeCheckoutButton = ({ products, setReload = (f) => f, reload=undefined
     }
     const showStripeButton = () => {
         return isAuthenticated() ? (
-            <StripeCheckout>
-                <button className="btn btn-lg bg-info text-white rounded">Pay with Stripe</button>
-            </StripeCheckout>
+            <button className="btn btn-info rounded">Pay with Stripe</button>
         ) : (
             <Link to="/signin">
                 <button className="btn btn-warning rounded">Signin</button>
@@ -40,4 +37,4 @@ const StripeCheckoutButton = ({ products, setReload = (f) => f, reload=undefined
     );
 }
 
-export default StripeCheckoutButton;
+export default StripeCheckout;
