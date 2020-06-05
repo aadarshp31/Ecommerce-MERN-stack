@@ -3,7 +3,7 @@ import "../styles.css";
 import Base from "../core/Base";
 import Card from "./Card";
 import { loadCart } from "./helper/cartHelper";
-import StripeCheckout from  "./StripeCheckout"
+import StripeCheckoutButton from  "./StripeCheckout"
 
 const Cart = () => {
 	const [products, setProducts] = useState([]);
@@ -34,7 +34,7 @@ const Cart = () => {
 	};
 	const loadCheckout = () => {
 		return (
-			<StripeCheckout products={products} setReload={setReload} reload={reload} />
+			<StripeCheckoutButton products={products} setReload={setReload} reload={reload} />
 		);
 	};
 
