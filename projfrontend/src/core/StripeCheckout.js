@@ -20,11 +20,16 @@ const StripeCheckout = ({ products, setReload = (f) => f, reload=undefined }) =>
         });
         return amount;
     }
+
+    const makePayment = (token) => {
+        //
+    }
+
     const showStripeButton = () => {
         return isAuthenticated() ? (
             <StripeCheckoutButton 
                 stripeKey=""
-                token=""
+                token={makePayment}
                 amount={getFinalAmount() * 100}
                 name="Buy T-Shirt"
             >
