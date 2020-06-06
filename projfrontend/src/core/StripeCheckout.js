@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { isAuthenticated } from "../auth/helper";
 import { Link } from "react-router-dom";
+import StripeCheckoutButton from "react-stripe-checkout";
 
 const StripeCheckout = ({ products, setReload = (f) => f, reload=undefined }) => {
     const initialValues = {
@@ -26,7 +27,6 @@ const StripeCheckout = ({ products, setReload = (f) => f, reload=undefined }) =>
 
     const showStripeButton = () => {
         return isAuthenticated() ? (
-<<<<<<< HEAD
             <StripeCheckoutButton 
                 stripeKey=""
                 token={makePayment}
@@ -35,9 +35,6 @@ const StripeCheckout = ({ products, setReload = (f) => f, reload=undefined }) =>
             >
                 <button className="btn btn-info rounded">Pay with Stripe</button>
             </StripeCheckoutButton>
-=======
-            <button className="btn btn-info rounded">Pay with Stripe</button>
->>>>>>> parent of 6d64e85... Added StripeCheckoutButton component using react-stripe-checkout package from NPM
         ) : (
             <Link to="/signin">
                 <button className="btn btn-warning rounded">Signin</button>
