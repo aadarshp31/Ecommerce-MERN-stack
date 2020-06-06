@@ -21,13 +21,20 @@ exports.makePayment = (req, res) => {
 		.then((customer) => {
 			stripe.charges.create(
 				{
-					amount: amount,
+					amount: amount * 100,
 					currency: "usd",
 					customer: customer.id,
-					reciept_email: token.email,
+                    receipt_email: token.email,
+                    description: "TEST Description: Product purchase description",
 					shipping: {
 						name: token.card.name,
-						address: token.card.address_country,
+						address: {
+                            line1: token.card.address_line1,
+                            line2: token.card.address_line2,
+                            city: token.card.address_city,
+                            country: token.card.address_country,
+                            postal_code: token.card.address_zip
+                        }
 					},
 				},
 				{ idempotencyKey }
