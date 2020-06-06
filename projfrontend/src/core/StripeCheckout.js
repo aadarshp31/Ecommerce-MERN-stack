@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { isAuthenticated } from "../auth/helper";
 import { Link } from "react-router-dom";
 import StripeCheckoutButton from "react-stripe-checkout";
+import { API } from "../backend";
 
 const StripeCheckout = ({ products, setReload = (f) => f, reload=undefined }) => {
     const initialValues = {
@@ -22,13 +23,30 @@ const StripeCheckout = ({ products, setReload = (f) => f, reload=undefined }) =>
     }
 
     const makePayment = (token) => {
-        //
+        const headers = {
+            "Content-Type": "application/json"
+        }
+        const body = {
+            token,
+            products
+        }
+
+        return fetch(`${API}/payment`, {
+            method: "POST",
+            headers,
+            body: JSON.stringify(body)
+        })
+        .then(response => {
+            console.log(response)
+            //Call further methods like Create Order and clear cart etc.
+        })
+        .catch(err => console.log(err));
     }
 
     const showStripeButton = () => {
         return isAuthenticated() ? (
             <StripeCheckoutButton 
-                stripeKey=""
+                stripeKey={process.env.REACT_APP_STRIPE_PK}
                 token={makePayment}
                 amount={getFinalAmount() * 100}
                 name="Buy T-Shirt"
