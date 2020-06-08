@@ -3,7 +3,7 @@ import "../styles.css";
 import Base from "../core/Base";
 import Card from "./Card";
 import { loadCart } from "./helper/cartHelper";
-import StripeCheckout from  "./StripeCheckout"
+import StripeCheckout from "./StripeCheckout";
 
 const Cart = () => {
 	const [products, setProducts] = useState([]);
@@ -24,8 +24,8 @@ const Cart = () => {
 							product={product}
 							addToCartButton={true}
 							removeFromCartButton={true}
-                            setReload={setReload}
-                            reload={reload}
+							setReload={setReload}
+							reload={reload}
 						/>
 					);
 				})}
@@ -34,14 +34,27 @@ const Cart = () => {
 	};
 	const loadCheckout = () => {
 		return (
-			<StripeCheckout products={products} setReload={setReload} reload={reload} />
+			<div>
+				<h2 className="text-white">Checkout Section</h2>
+			<StripeCheckout
+				products={products}
+				setReload={setReload}
+				reload={reload}
+			/>
+			</div>
 		);
 	};
 
 	return (
 		<Base title="Shopping Cart" description="Manage products in your cart here">
 			<div className="row">
-				<div className="col-6">{loadAllProducts()}</div>
+				<div className="col-6">
+					{products.length > 0 ? (
+						loadAllProducts()
+					) : (
+						<h2>The Cart is Empty!</h2>
+					)}
+				</div>
 				<div className="col-6">{loadCheckout()}</div>
 			</div>
 		</Base>
