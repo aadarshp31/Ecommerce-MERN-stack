@@ -4,6 +4,7 @@ import Base from "../core/Base";
 import Card from "./Card";
 import { loadCart } from "./helper/cartHelper";
 import StripeCheckout from "./StripeCheckout";
+import PaypalCheckout from "./PaypalCheckout";
 
 const Cart = () => {
 	const [products, setProducts] = useState([]);
@@ -36,11 +37,14 @@ const Cart = () => {
 		return (
 			<div>
 				<h2 className="text-white">Checkout Section</h2>
-			<StripeCheckout
-				products={products}
-				setReload={setReload}
-				reload={reload}
-			/>
+				<hr className="bg-white" />
+				<StripeCheckout
+					products={products}
+					setReload={setReload}
+					reload={reload}
+				/>
+				<br />
+				<PaypalCheckout products={products} setReload={setReload} reload={reload} />
 			</div>
 		);
 	};
