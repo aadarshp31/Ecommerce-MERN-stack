@@ -64,7 +64,9 @@ const StripeCheckout = ({ products, setReload = (f) => f, reload=undefined }) =>
 
     return(
         <div>
-            <h2 className="text-white">Stripe Checkout Loaded! Amount: {getFinalAmount()}</h2>
+            <h4 className="text-white">Total Amount: <span className="badge badge-info text-white">{getFinalAmount()}</span></h4>
+            <br/>
+            <h4 className="text-white">Stripe Checkout</h4>
             {showStripeButton()}
         </div>
     );
