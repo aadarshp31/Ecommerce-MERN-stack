@@ -11,7 +11,7 @@ var gateway = braintree.connect({
 exports.getToken = (req, res) => {
 	gateway.clientToken.generate({}, function (err, response) {
 		if (err) {
-			res.status(500).json(err);
+			res.status(500).send(err);
 		} else {
 			res.send(response);
 		}
@@ -33,7 +33,7 @@ exports.processPayment = (req, res) => {
 		},
 		function (err, result) {
 			if (err) {
-				res.status(500).json(err);
+				res.status(500).send(err);
 			} else {
 				res.send(result);
 			}
