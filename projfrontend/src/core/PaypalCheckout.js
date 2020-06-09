@@ -17,10 +17,20 @@ const PaypalCheckout = ({
 		instance: {},
 		error: "",
 	};
-    //States
+	//States
 	const [info, setInfo] = useState(initialValues);
-    //User data
+
+	//User data
 	const { user, token } = isAuthenticated();
+
+	//Total Amount
+	const getFinalAmount = () => {
+		let amount = 0;
+		products.map((p) => {
+			amount += p.price;
+		});
+		return amount;
+	};
 
 	//Getting clientToken from the backend
 	const getClientToken = (userId, token) => {
@@ -30,45 +40,75 @@ const PaypalCheckout = ({
 					setInfo({ error: data.error });
 				} else {
 					const clientToken = data.clientToken;
-					setInfo({clientToken });
+					setInfo({ clientToken });
 				}
 			})
 			.catch((err) => console.log(err));
 	};
 
 	useEffect(() => {
-        if (isAuthenticated()) {
-            getClientToken(user._id, token);
-        }
+		if (isAuthenticated()) {
+			getClientToken(user._id, token);
+		}
 	}, []);
 
-    //Conditional loading of Paypal Checkout
+	//Conditional loading of Paypal Checkout
 	const showPaypalCheckout = () => {
-		return info.clientToken !== null && isAuthenticated() && products.length > 0 ? (
+		return info.clientToken !== null &&
+			isAuthenticated() &&
+			products.length > 0 ? (
 			<div>
 				<DropIn
 					options={{ authorization: info.clientToken }}
-					onInstance={instance => (info.instance = instance)}
+					onInstance={(instance) => (info.instance = instance)}
 				/>
-				<button onClick={() => {}} className="btn btn-info rounded">Pay with Paypal</button>
+				<button onClick={onPurchase} className="btn btn-info rounded">
+					Pay with Paypal
+				</button>
 			</div>
 		) : (
 			<div>
 				{!isAuthenticated() ? (
-				<Link to="/signin">
-					<button className="btn btn-warning rounded">Signin</button>
-				</Link>
+					<Link to="/signin">
+						<button className="btn btn-warning rounded">Signin</button>
+					</Link>
 				) : (
-                    <h5>The cart is empty...</h5>
-                )}
+					<h5>The cart is empty...</h5>
+				)}
 			</div>
 		);
+	};
+
+	const onPurchase = () => {
+		setInfo({ loading: true });
+		let nonce;
+		//Getting Nonce from the Braintree servers
+		let getNonce = info.instance.requestPaymentMethod().then((data) => {
+			nonce = data.nonce;
+			const paymentData = {
+				paymentMethodNonce: nonce,
+				amount: getFinalAmount(),
+			};
+			//Calling our backend method
+			processPayment(user._id, token, paymentData)
+				.then((response) => {
+                    setInfo({ ...info, loading: false, success: response.success });
+                    console.log("payment success");                    
+					//TODO: Empty Cart
+					//TODO: Force reload
+				})
+				.catch((err) => {
+                    setInfo({ error: err, loading: false, success: false });
+                    console.log("payment failed");                    
+                    
+				});
+		});
 	};
 
 	return (
 		<div>
 			<h4>Paypal Checkout</h4>
-            {showPaypalCheckout()}
+			{showPaypalCheckout()}
 		</div>
 	);
 };
