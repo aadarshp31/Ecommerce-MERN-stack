@@ -44,7 +44,7 @@ const StripeCheckout = ({ products, setReload = (f) => f, reload=undefined }) =>
     }
 
     const showStripeButton = () => {
-        return isAuthenticated() ? (
+        return isAuthenticated() && products.length > 0 ? (
             <StripeCheckoutButton 
                 stripeKey={process.env.REACT_APP_STRIPE_PK}
                 token={makePayment}
@@ -56,9 +56,15 @@ const StripeCheckout = ({ products, setReload = (f) => f, reload=undefined }) =>
                 <button className="btn btn-info rounded">Pay with Stripe</button>
             </StripeCheckoutButton>
         ) : (
-            <Link to="/signin">
-                <button className="btn btn-warning rounded">Signin</button>
-            </Link>
+            <div>
+				{!isAuthenticated() ? (
+					<Link to="/signin">
+						<button className="btn btn-warning rounded">Signin</button>
+					</Link>
+				) : (
+					<h5 className="text-warning">Add an item to cart to continue</h5>
+				)}
+			</div>
         );
     }
 

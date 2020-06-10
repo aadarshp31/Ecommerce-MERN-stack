@@ -73,7 +73,7 @@ const PaypalCheckout = ({
 						<button className="btn btn-warning rounded">Signin</button>
 					</Link>
 				) : (
-					<h5>The cart is empty...</h5>
+					<h5 className="text-warning">Add an item to cart to continue</h5>
 				)}
 			</div>
 		);
