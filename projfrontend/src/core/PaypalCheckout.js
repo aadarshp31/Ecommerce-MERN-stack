@@ -93,8 +93,11 @@ const PaypalCheckout = ({
 			processPayment(user._id, token, paymentData)
 				.then((response) => {
                     setInfo({ ...info, loading: false, success: response.success });
-                    console.log("payment success");                    
-					//TODO: Empty Cart
+                    console.log("payment success");  
+                    //Clear cart and force reload                  
+                    clearCart(() => {
+                        setReload(!reload);
+                    });
 					//TODO: Force reload
 				})
 				.catch((err) => {
