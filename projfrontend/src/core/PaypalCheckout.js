@@ -4,6 +4,7 @@ import { loadCart, clearCart } from "./helper/cartHelper";
 import { isAuthenticated } from "../auth/helper";
 import { Link } from "react-router-dom";
 import { getToken, processPayment } from "./helper/paypalPaymentHelper";
+import { createOrder } from "./helper/orderHelper";
 
 const PaypalCheckout = ({
 	products,
@@ -92,18 +93,27 @@ const PaypalCheckout = ({
 			//Calling our backend method
 			processPayment(user._id, token, paymentData)
 				.then((response) => {
-                    setInfo({ ...info, loading: false, success: response.success });
-                    console.log("payment success");  
-                    //Clear cart and force reload                  
-                    clearCart(() => {
-                        setReload(!reload);
-                    });
-					//TODO: Force reload
+					setInfo({ ...info, loading: false, success: response.success });
+					console.log("payment success");
+
+					//Order Data for creating order
+					const orderData = {
+						products: products,
+						transaction_id: response.transaction.id,
+						amount: response.transaction.amount,
+                    };
+					
+					//Create order for the user
+					createOrder(user._id, token, orderData);
+
+					//Clear cart and force reload
+					clearCart(() => {
+						setReload(!reload);
+					});
 				})
 				.catch((err) => {
-                    setInfo({ error: err, loading: false, success: false });
-                    console.log("payment failed");                    
-                    
+					setInfo({ error: err, loading: false, success: false });
+					console.log("payment failed");
 				});
 		});
 	};
