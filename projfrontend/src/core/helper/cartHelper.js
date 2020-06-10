@@ -1,3 +1,13 @@
+//Create and save cart array in the localStorage of the browser if not present already.
+export const createCart = () => {
+    if(typeof window !== undefined) {
+        if(!localStorage.getItem("cart")) {
+            let cart = [];
+            localStorage.setItem("cart", JSON.stringify(cart));
+        }
+    }
+}
+
 export const addItemToCart = (item, next) => {
     let cart = [];
     if(typeof window !== undefined){

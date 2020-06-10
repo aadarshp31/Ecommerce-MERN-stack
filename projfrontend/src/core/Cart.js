@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import "../styles.css";
 import Base from "../core/Base";
 import Card from "./Card";
-import { loadCart } from "./helper/cartHelper";
+import { loadCart, createCart } from "./helper/cartHelper";
 import StripeCheckout from "./StripeCheckout";
 import PaypalCheckout from "./PaypalCheckout";
 
@@ -11,6 +11,7 @@ const Cart = () => {
 	const [reload, setReload] = useState(false);
 
 	useEffect(() => {
+		createCart();
 		setProducts(loadCart());
 	}, [reload]);
 
@@ -56,7 +57,7 @@ const Cart = () => {
 					{products.length > 0 ? (
 						loadAllProducts()
 					) : (
-						<h2>The Cart is Empty!</h2>
+						<h2 className="text-warning">The Cart is Empty!</h2>
 					)}
 				</div>
 				<div className="col-6">{loadCheckout()}</div>
