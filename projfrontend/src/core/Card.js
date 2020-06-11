@@ -11,6 +11,7 @@ const Card = ({product, addToCartButton=true, removeFromCartButton=false, setRel
     const [redirect, setRedirect] = useState(false)
 
     const addToCart = () => { 
+        product.quantity = 1;
         addItemToCart(product, () => setRedirect(true));
         setReload(!reload);
     }
