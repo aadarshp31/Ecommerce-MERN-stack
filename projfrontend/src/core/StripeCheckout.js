@@ -3,6 +3,7 @@ import { isAuthenticated } from "../auth/helper";
 import { Link } from "react-router-dom";
 import StripeCheckoutButton from "react-stripe-checkout";
 import { API } from "../backend";
+import { clearCart } from "./helper/cartHelper";
 
 const StripeCheckout = ({ products, setReload = (f) => f, reload=undefined }) => {
     const initialValues = {
@@ -38,7 +39,12 @@ const StripeCheckout = ({ products, setReload = (f) => f, reload=undefined }) =>
         })
         .then(response => {
             console.log(response)
-            //Call further methods like Create Order and clear cart etc.
+            //!Call further methods like Create Order.          
+
+            //Clear cart and force reload
+            clearCart(() => {
+                setReload(!reload);
+            });
         })
         .catch(err => console.log(err));
     }
