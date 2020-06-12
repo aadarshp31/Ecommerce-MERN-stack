@@ -7,13 +7,15 @@ import {
 	loadCart,
 } from "./helper/cartHelper";
 import { Redirect } from "react-router-dom";
+import { getQuantityFromCart } from "./helper/cartHelper";
 
 const Card = ({
 	product,
-	addToCartButton = true,
+	addToCartButton = false,
 	removeFromCartButton = false,
 	setReload = (f) => f,
-	reload = undefined,
+    reload = undefined,
+    products,
 }) => {
 	const cardTitle = product ? product.name : "A Photo from Pexels";
 	const cardDescription = product ? product.description : "Product Description";
@@ -59,7 +61,7 @@ const Card = ({
 
 	const showaddToCartButton = (addToCartButton) => {
 		return (
-			addToCartButton && (
+			(addToCartButton || !product.quantity) && (
 				<button className="btn btn-info btn-block rounded" onClick={addToCart}>
 					Add to Cart
 				</button>
@@ -69,7 +71,7 @@ const Card = ({
 
 	const showremoveFromCartButton = (removeFromCartButton) => {
 		return (
-			removeFromCartButton && (
+			(removeFromCartButton || product.quantity) && (
 				<button
 					className="btn btn-danger btn-block rounded"
 					onClick={removeFromCart}
@@ -87,7 +89,11 @@ const Card = ({
 			if (item._id === product._id) {
 				item.quantity++;
 				updateCart(cart);
-				setReload(!reload);
+                setReload(!reload);
+                //*Updates quantity in homepage cards
+                if(products) {
+                    getQuantityFromCart(products);
+                }
 			}
 		});
 	};
@@ -99,7 +105,11 @@ const Card = ({
 			if (item._id === product._id) {
 				if (item.quantity > 1) {
 					item.quantity--;
-					updateCart(cart);
+                    updateCart(cart);
+                    //*Updates quantity in homepage cards
+                    if(products) {
+                        getQuantityFromCart(products);
+                    }
 				} else {
 					removeFromCart();
 				}
@@ -144,9 +154,8 @@ const Card = ({
 				<h5 className="card-title">{cardTitle}</h5>
 				<p className="badge badge-secondary px-3 py-2">₹ {cardPrice}</p>
 				<p className="card-text">{cardDescription}</p>
-				{product.quantity
-					? showQuantityButton()
-					: showaddToCartButton(addToCartButton)}
+                {showQuantityButton()}
+				{showaddToCartButton(addToCartButton)}
 				{showremoveFromCartButton(removeFromCartButton)}
 				{performRedirect(redirect)}
 			</div>

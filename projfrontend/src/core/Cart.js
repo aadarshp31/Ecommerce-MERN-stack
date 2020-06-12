@@ -24,8 +24,6 @@ const Cart = () => {
 						<Card
 							key={index}
 							product={product}
-							addToCartButton={true}
-							removeFromCartButton={true}
 							setReload={setReload}
 							reload={reload}
 						/>
