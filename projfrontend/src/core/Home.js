@@ -3,6 +3,7 @@ import "../styles.css";
 import Base from "../core/Base";
 import Card from "./Card";
 import { getProducts } from "./helper/coreapicalls"
+import { getQuantityFromCart } from "./helper/cartHelper";
 
 const Home = () => {
 	const [products, setProducts] = useState([]);
@@ -22,7 +23,7 @@ const Home = () => {
 
 	useEffect(() => {
 		loadAllProducts();
-	}, [])
+	}, [products])
 
 
 	return (
@@ -32,11 +33,12 @@ const Home = () => {
 					{products.map((product, index) => {
 						return(
 							<div key={index} className="col-4 mb-4">
-								<Card product={product} removeFromCart="true" />
+								<Card product={product} products={products} />
 							</div>
 						);
 					})}
 				</div>
+				{getQuantityFromCart(products)}
 		</Base>
 	);
 };
