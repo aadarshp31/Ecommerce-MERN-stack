@@ -3,11 +3,12 @@ import "../styles.css";
 import Base from "../core/Base";
 import Card from "./Card";
 import { getProducts } from "./helper/coreapicalls"
-import { getQuantityFromCart } from "./helper/cartHelper";
+import { createCart, getQuantityFromCart } from "./helper/cartHelper";
 
 const Home = () => {
 	const [products, setProducts] = useState([]);
 	const [error, setError] = useState(false);
+
 	
 	const loadAllProducts = () => {
 		return getProducts()
@@ -28,6 +29,7 @@ const Home = () => {
 
 	return (
 		<Base title="Home Page" description="Welcome to the Tshirt Store">
+				{createCart()}
                 <h1 className="text-white mx-auto mb-5">All T-Shirts</h1>
 				<div className="row">
 					{products.map((product, index) => {
