@@ -8,6 +8,7 @@ import { createCart, getQuantityFromCart } from "./helper/cartHelper";
 const Home = () => {
 	const [products, setProducts] = useState([]);
 	const [error, setError] = useState(false);
+	const [reload, setReload] = useState(false);
 
 	
 	const loadAllProducts = () => {
@@ -24,7 +25,7 @@ const Home = () => {
 
 	useEffect(() => {
 		loadAllProducts();
-	}, [products])
+	}, [])
 
 
 	return (
@@ -35,7 +36,7 @@ const Home = () => {
 					{products.map((product, index) => {
 						return(
 							<div key={index} className="col-4 mb-4">
-								<Card product={product} products={products} />
+								<Card product={product} products={products} setReload={setReload} reload={reload} />
 							</div>
 						);
 					})}
