@@ -29,7 +29,7 @@ const Card = ({
 		//For empty Cart
 		if (cart.length === 0) {
 			product.quantity = 1;
-			addItemToCart(product, () => setRedirect(true));
+			addItemToCart(product, () => {});
 			//For non-empty Cart
 		} else {
 			let checkDuplicate = cart.filter((item) => item._id === product._id);
@@ -43,13 +43,14 @@ const Card = ({
 				//For non-duplicate Product
 			} else {
 				product.quantity = 1;
-				addItemToCart(product, () => setRedirect(true));
+				addItemToCart(product, () => {});
 			}
 		}
 		setReload(!reload);
 	};
 	const removeFromCart = () => {
-		removeItemFromCart(product._id);
+		removeItemFromCart(product._id, () => {});
+		product.quantity = "";
 		setReload(!reload);
 	};
 
@@ -121,7 +122,7 @@ const Card = ({
 	const showQuantityButton = () => {
 		return product.quantity ? (
 			<div className="mb-2">
-				<p className="m-1">Quantity</p>
+				<p className="m-1" style={{ display: "inline" }}>Qty:</p>
 				{product.quantity > 0 ? (
 					<button
 						onClick={decQuantity}
@@ -133,7 +134,7 @@ const Card = ({
 				) : (
 					""
 				)}
-				<p style={{ display: "inline" }}>{product.quantity}</p>
+				<p style={{ display: "inline" }}><span className="badge badge-secondary">{product.quantity}</span></p>
 				<button
 					onClick={incQuantity}
 					className="btn btn-success mx-2 px-2 rounded"
