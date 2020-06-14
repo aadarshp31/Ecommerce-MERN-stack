@@ -61,7 +61,6 @@ export const removeItemFromCart = (productId) => {
 			cart = cart.filter((product) => product._id !== productId);
 			localStorage.setItem("cart", JSON.stringify(cart));
 		}
-		return cart;
 	}
 };
 
