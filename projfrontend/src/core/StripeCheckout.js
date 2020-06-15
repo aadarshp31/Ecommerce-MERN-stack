@@ -41,16 +41,18 @@ const StripeCheckout = ({
 			headers,
 			body: JSON.stringify(body),
 		})
-			.then((response) => {
-				console.log(response);
-				//!Call further methods like Create Order.
+			.then(response => response.json())
+			.then(data => {
+				console.log("Data", data)
 
+				//!Call further methods like Create Order.
+				
 				//Clear cart and force reload
 				clearCart(() => {
 					setReload(!reload);
 				});
 			})
-			.catch((err) => console.log(err));
+			.catch(err => console.log(err));
 	};
 
 	const showStripeButton = () => {
