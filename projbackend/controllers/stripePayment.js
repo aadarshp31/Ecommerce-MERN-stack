@@ -1,13 +1,13 @@
 const stripe = require("stripe")(process.env.STRIPE_SK);
-const uuid = require("uuid/v4");
+const { v4: uuid } = require("uuid");
+const { json } = require("body-parser");
 
 exports.makePayment = (req, res) => {
 	const { products, token } = req.body;
-	console.log("PRODUCTS =>", products);
 
 	let amount = 0;
 	products.map((product) => {
-		amount += product.price;
+		amount += product.price * product.quantity;
 	});
 
 	//Unique id for each the transaction
@@ -38,8 +38,11 @@ exports.makePayment = (req, res) => {
 					},
 				},
 				{ idempotencyKey }
-			);
+			)
+			.then((result) => {
+				res.status(200).json(result);
+			})
+			.catch((err) => console.log("Stripe Charges Create Catch ======> \n",err));
 		})
-		.then((result) => res.status(200).json(result))
-		.catch((err) => console.log(err));
+		.catch((err) => console.log("Stripe Customer Create Catch ======> \n",err));
 };
