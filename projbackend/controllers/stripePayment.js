@@ -2,7 +2,7 @@ const stripe = require("stripe")(process.env.STRIPE_SK);
 const { v4: uuid } = require("uuid");
 const { json } = require("body-parser");
 
-exports.makePayment = (req, res) => {
+exports.processPayment = (req, res) => {
 	const { products, token } = req.body;
 
 	let amount = 0;
