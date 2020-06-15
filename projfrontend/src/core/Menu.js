@@ -12,7 +12,7 @@ const currentTab = (history, path) => {
 };
 
 const Menu = (history) => (
-	<div>
+	<div style={{position: "fixed", width: "100vw", zIndex: "2"}}>
 		<ul className="nav nav-expand bg-info p-2 font-weight-bold">
 			<li className="nav-item">
 				<Link style={currentTab(history, "/")} className="nav-link" to="/">
