@@ -30,36 +30,36 @@ const StripeCheckout = ({
 
 	const processPayment = (token) => {
 		const headers = {
+			Accept: "application/json",
 			"Content-Type": "application/json",
+			Authorization: `Bearer ${authToken}`,
 		};
 		const body = {
 			token,
 			products,
 		};
 
-		return fetch(`${API}/payment`, {
+		return fetch(`${API}/payment/stripe/${user._id}`, {
 			method: "POST",
 			headers,
 			body: JSON.stringify(body),
 		})
-			.then(response => response.json())
-			.then(data => {
-				console.log("Data", data)
-
+			.then((response) => response.json())
+			.then((data) => {
 				const orderData = {
 					products: products,
 					transaction_id: data.id,
 					amount: data.amount / 100,
-				}
+				};
 				//Create Order
 				createOrder(user._id, authToken, orderData);
-				
+
 				//Clear cart and force reload
 				clearCart(() => {
 					setReload(!reload);
 				});
 			})
-			.catch(err => console.log(err));
+			.catch((err) => console.log(err));
 	};
 
 	const showStripeButton = () => {

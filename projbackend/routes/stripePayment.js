@@ -1,7 +1,16 @@
 const express = require("express");
 const router = express.Router();
-const { makePayment } = require("../controllers/stripePayment");
+const { processPayment } = require("../controllers/stripePayment");
+const { isSignedIn, isAuthenticated } = require("../controllers/auth");
+const { getUserById } = require("../controllers/user");
 
-router.post("/payment", makePayment);
+router.param("userId", getUserById);
+
+router.post(
+	"/payment/stripe/:userId",
+	isSignedIn,
+	isAuthenticated,
+	processPayment
+);
 
 module.exports = router;
