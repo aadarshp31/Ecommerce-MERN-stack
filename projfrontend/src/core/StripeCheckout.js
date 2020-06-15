@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import StripeCheckoutButton from "react-stripe-checkout";
 import { API } from "../backend";
 import { clearCart } from "./helper/cartHelper";
+import { createOrder } from "./helper/orderHelper";
 
 const StripeCheckout = ({
 	products,
@@ -17,7 +18,7 @@ const StripeCheckout = ({
 		address: "",
 	};
 	const [data, setData] = useState(initialValues);
-	const { user, token } = isAuthenticated();
+	const { user, token: authToken } = isAuthenticated();
 
 	const getFinalAmount = () => {
 		let amount = 0;
@@ -27,7 +28,7 @@ const StripeCheckout = ({
 		return amount;
 	};
 
-	const makePayment = (token) => {
+	const processPayment = (token) => {
 		const headers = {
 			"Content-Type": "application/json",
 		};
@@ -45,7 +46,13 @@ const StripeCheckout = ({
 			.then(data => {
 				console.log("Data", data)
 
-				//!Call further methods like Create Order.
+				const orderData = {
+					products: products,
+					transaction_id: data.id,
+					amount: data.amount / 100,
+				}
+				//Create Order
+				createOrder(user._id, authToken, orderData);
 				
 				//Clear cart and force reload
 				clearCart(() => {
@@ -59,7 +66,7 @@ const StripeCheckout = ({
 		return isAuthenticated() && products.length > 0 ? (
 			<StripeCheckoutButton
 				stripeKey={process.env.REACT_APP_STRIPE_PK}
-				token={makePayment}
+				token={processPayment}
 				amount={getFinalAmount() * 100}
 				name="Buy T-Shirt"
 				shippingAddress
