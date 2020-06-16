@@ -28,7 +28,7 @@ const PaypalCheckout = ({
 	const getFinalAmount = () => {
 		let amount = 0;
 		products.map((p) => {
-			amount += p.price;
+			amount += p.price * p.quantity;
 		});
 		return amount;
 	};
