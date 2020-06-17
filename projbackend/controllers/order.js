@@ -43,6 +43,25 @@ exports.getAllOrders = (req, res) => {
     })
 }
 
+exports.getOrdersForUser = (req, res) => {
+    Order.find({user: req.profile._id})
+    .populate("user", "_id name")
+    .exec((err, orders) => {
+        if(err) {
+            res.status(400).json({
+                error: err,
+                message: "Error Occured while finding orders for user!"
+            });
+        };
+        if(!orders) {
+            res.status(404).json({
+                message: "No orders found for this user!"
+            });
+        };
+        res.json(orders);
+    });
+}
+
 //Get order status
 exports.getOrderStatus = (req, res) => {
     res.json(Order.schema.path("status").enumValues)
