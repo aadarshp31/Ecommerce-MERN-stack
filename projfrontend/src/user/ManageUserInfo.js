@@ -12,6 +12,7 @@ const ManageUserInfo = () => {
 		success: false,
 	});
 	const { user, token } = isAuthenticated();
+	const { loading, error, success } = status;
 
 	const preload = () => {
 		setStatus({ loading: true });
@@ -73,6 +74,18 @@ const ManageUserInfo = () => {
 		</form>
 	);
 
+	//Success Message
+	const successMessage = () => {
+		return (
+			<div
+				className="alert alert-success m-2 text-success"
+				style={{ display: success ? "" : "none" }}
+			>
+				<h4>{`${success}: Product Added successfully`}</h4>
+			</div>
+		);
+	};
+
 	return (
 		<Base
 			title="Manage User Details Page"
@@ -87,6 +100,7 @@ const ManageUserInfo = () => {
 			<div className="row p-2">
 				<div className="container-fluid mx-auto" style={{ width: "70%" }}>
 					{userInfoForm()}
+					{successMessage()}
 				</div>
 			</div>
 		</Base>
