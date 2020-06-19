@@ -29,6 +29,50 @@ const ManageUserInfo = () => {
 		preload();
 	}, []);
 
+	const userInfoForm = () => (
+		<form>
+			<div className="input-group mb-3">
+				<div className="input-group-prepend">
+					<label className="input-group-text">First Name</label>
+				</div>
+				<input
+					type="text"
+					className="form-control"
+					placeholder="First Name"
+					autoFocus
+					required
+				/>
+			</div>
+			<div className="input-group mb-3">
+				<div className="input-group-prepend">
+					<label className="input-group-text">Last Name</label>
+				</div>
+				<input
+					type="text"
+					className="form-control"
+					placeholder="Last Name"
+					autoFocus
+					required
+				/>
+			</div>
+			<div className="input-group mb-3">
+				<div className="input-group-prepend">
+					<label className="input-group-text">Email ID</label>
+				</div>
+				<input
+					type="email"
+					className="form-control"
+					placeholder="Name"
+					autoFocus
+					required
+				/>
+			</div>
+			<button className="btn btn-info" onClick={() => {}}>
+				Update Info
+			</button>
+		</form>
+	);
+
 	return (
 		<Base
 			title="Manage User Details Page"
@@ -36,10 +80,15 @@ const ManageUserInfo = () => {
 			className="container bg-white p-4 rounded"
 		>
 			{
-				<Link className="btn btn-info rounded" to={`/user/dashboard`}>
+				<Link className="btn btn-info rounded mb-4" to={`/user/dashboard`}>
 					<span>User Dashboard</span>
 				</Link>
 			}
+			<div className="row p-2">
+				<div className="container-fluid mx-auto" style={{ width: "70%" }}>
+					{userInfoForm()}
+				</div>
+			</div>
 		</Base>
 	);
 };
