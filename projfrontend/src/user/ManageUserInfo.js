@@ -74,6 +74,17 @@ const ManageUserInfo = () => {
 		</form>
 	);
 
+	//Loading Message
+	const loadingMessage = () => {
+		if (loading) {
+			return (
+				<div className="alert alert-info m-2 text-info">
+					<h4 className="text-info">Loading...</h4>
+				</div>
+			);
+		}
+	};
+
 	//Success Message
 	const successMessage = () => {
 		return (
@@ -100,6 +111,7 @@ const ManageUserInfo = () => {
 			<div className="row p-2">
 				<div className="container-fluid mx-auto" style={{ width: "70%" }}>
 					{userInfoForm()}
+					{loadingMessage()}
 					{successMessage()}
 				</div>
 			</div>
