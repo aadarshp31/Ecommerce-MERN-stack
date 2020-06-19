@@ -97,6 +97,18 @@ const ManageUserInfo = () => {
 		);
 	};
 
+	//Signup error message popup
+	const errorMessage = () => {
+		if (error) {
+			return (
+				<div className="alert alert-danger m-2 text-danger">
+					<h4>Product Updation Failed!</h4>
+					<p>{error}</p>
+				</div>
+			);
+		}
+	};
+
 	return (
 		<Base
 			title="Manage User Details Page"
@@ -113,6 +125,7 @@ const ManageUserInfo = () => {
 					{userInfoForm()}
 					{loadingMessage()}
 					{successMessage()}
+					{errorMessage()}
 				</div>
 			</div>
 		</Base>
