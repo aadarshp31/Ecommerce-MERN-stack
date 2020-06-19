@@ -13,3 +13,17 @@ export const getUser = (userId, token) => {
     .then(response => response.json())
     .catch(err => console.log(err));
 }
+
+export const updateUser = (userId, token, userInfo) => {
+    return fetch(`${API}/user/${userId}`, {
+        method: "PUT",
+        headers: {
+            Accept: "applicaion/json",
+            "Content-Type": "applicaion/json",
+            Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify(userInfo)
+    })
+    .then(response => response.json())
+    .catch(err => console.log(err));
+}
