@@ -5,7 +5,11 @@ import { getUser } from "./helper/userapicalls";
 import { isAuthenticated } from "../auth/helper";
 
 const ManageUserInfo = () => {
-	const [userProfile, setUserProfile] = useState("");
+	const [userProfile, setUserProfile] = useState({
+		name: "",
+		lastname: "",
+		email: ""
+	});
 	const [status, setStatus] = useState({
 		loading: false,
 		error: false,
@@ -21,7 +25,7 @@ const ManageUserInfo = () => {
 				setStatus({ loading: false, error: data.error });
 			} else {
 				setUserProfile(data);
-				setStatus({ loading: true });
+				setStatus({ loading: false });
 			}
 		});
 	};
@@ -29,6 +33,14 @@ const ManageUserInfo = () => {
 	useEffect(() => {
 		preload();
 	}, []);
+
+	const { name, lastname, email } = userProfile;
+
+	const handleChange = (inputValue) => (event) =>{
+		setUserProfile(inputValue, event.target.value);
+		setStatus({error: false, success: false});
+		console.log(inputValue, " : ", event.target.value);
+	}
 
 	const userInfoForm = () => (
 		<form>
@@ -40,6 +52,8 @@ const ManageUserInfo = () => {
 					type="text"
 					className="form-control"
 					placeholder="First Name"
+					value={name}
+					onChange={handleChange("name")}
 					autoFocus
 					required
 				/>
@@ -52,6 +66,8 @@ const ManageUserInfo = () => {
 					type="text"
 					className="form-control"
 					placeholder="Last Name"
+					value={lastname}
+					onChange={handleChange("lastname")}
 					autoFocus
 					required
 				/>
@@ -64,11 +80,13 @@ const ManageUserInfo = () => {
 					type="email"
 					className="form-control"
 					placeholder="Name"
+					value={email}
+					onChange={handleChange("email")}
 					autoFocus
 					required
 				/>
 			</div>
-			<button className="btn btn-info" onClick={() => {}}>
+			<button className="btn btn-info rounded" onClick={() => {}}>
 				Update Info
 			</button>
 		</form>
