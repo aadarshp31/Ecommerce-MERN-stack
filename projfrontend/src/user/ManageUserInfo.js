@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from "react";
 import Base from "../core/Base";
 import { Link } from "react-router-dom";
-import { getUser } from "./helper/userapicalls";
+import { getUser, updateUser } from "./helper/userapicalls";
 import { isAuthenticated } from "../auth/helper";
 
 const ManageUserInfo = () => {
 	const [userProfile, setUserProfile] = useState({
-		name: "",
-		lastname: "",
-		email: ""
+		name: "loading...",
+		lastname: "loading...",
+		email: "loading...",
 	});
 	const [status, setStatus] = useState({
 		loading: false,
@@ -19,13 +19,13 @@ const ManageUserInfo = () => {
 	const { loading, error, success } = status;
 
 	const preload = () => {
-		setStatus({ loading: true });
+		setStatus({ ...status, loading: true });
 		getUser(user._id, token).then((data) => {
 			if (data.error) {
-				setStatus({ loading: false, error: data.error });
+				setStatus({ ...status, loading: false, error: data.error });
 			} else {
 				setUserProfile(data);
-				setStatus({ loading: false });
+				setStatus({ ...status, loading: false });
 			}
 		});
 	};
@@ -36,11 +36,63 @@ const ManageUserInfo = () => {
 
 	const { name, lastname, email } = userProfile;
 
-	const handleChange = (inputValue) => (event) =>{
-		setUserProfile(inputValue, event.target.value);
-		setStatus({error: false, success: false});
-		console.log(inputValue, " : ", event.target.value);
-	}
+	const handleChange = (inputValue) => (event) => {
+		setStatus({ ...status, error: false, success: false });
+		setUserProfile({ ...userProfile, [inputValue]: event.target.value });
+	};
+
+	//Loading Message
+	const loadingMessage = () => {
+		if (loading) {
+			return (
+				<div className="alert alert-info m-2 text-info">
+					<h4 className="text-info">Loading...</h4>
+				</div>
+			);
+		}
+	};
+
+	//Success Message
+	const successMessage = () => {
+		return (
+			<div
+				className="alert alert-success m-2 text-success"
+				style={{ display: success ? "" : "none" }}
+			>
+				<h4>{`${success}'s profile updated successfully`}</h4>
+			</div>
+		);
+	};
+
+	//Signup error message popup
+	const errorMessage = () => {
+		if (error) {
+			return (
+				<div className="alert alert-danger m-2 text-danger">
+					<h4>Product Updation Failed!</h4>
+					<p>{error}</p>
+				</div>
+			);
+		}
+	};
+
+	const formSubmit = (event) => {
+		event.preventDefault();
+		setStatus({ ...status, loading: true });
+		updateUser(user._id, token, userProfile)
+			.then((data) => {
+				if (data.error) {
+					setStatus({ ...status, error: data.error, loading: false });
+				} else {
+					setStatus({
+						...status,
+						success: data.name + " " + data.lastname,
+						loading: false,
+					});
+				}
+			})
+			.catch((err) => console.log(err));
+	};
 
 	const userInfoForm = () => (
 		<form>
@@ -86,46 +138,11 @@ const ManageUserInfo = () => {
 					required
 				/>
 			</div>
-			<button className="btn btn-info rounded" onClick={() => {}}>
+			<button className="btn btn-info rounded" onClick={formSubmit}>
 				Update Info
 			</button>
 		</form>
 	);
-
-	//Loading Message
-	const loadingMessage = () => {
-		if (loading) {
-			return (
-				<div className="alert alert-info m-2 text-info">
-					<h4 className="text-info">Loading...</h4>
-				</div>
-			);
-		}
-	};
-
-	//Success Message
-	const successMessage = () => {
-		return (
-			<div
-				className="alert alert-success m-2 text-success"
-				style={{ display: success ? "" : "none" }}
-			>
-				<h4>{`${success}: Product Added successfully`}</h4>
-			</div>
-		);
-	};
-
-	//Signup error message popup
-	const errorMessage = () => {
-		if (error) {
-			return (
-				<div className="alert alert-danger m-2 text-danger">
-					<h4>Product Updation Failed!</h4>
-					<p>{error}</p>
-				</div>
-			);
-		}
-	};
 
 	return (
 		<Base
