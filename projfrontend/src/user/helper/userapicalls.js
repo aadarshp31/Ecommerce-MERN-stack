@@ -18,8 +18,8 @@ export const updateUser = (userId, token, userInfo) => {
     return fetch(`${API}/user/${userId}`, {
         method: "PUT",
         headers: {
-            Accept: "applicaion/json",
-            "Content-Type": "applicaion/json",
+            Accept: "application/json",
+            "Content-Type": "application/json",
             Authorization: `Bearer ${token}`
         },
         body: JSON.stringify(userInfo)
