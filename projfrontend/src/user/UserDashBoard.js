@@ -19,7 +19,7 @@ const UserDashboard = () => {
 						</Link>
 					</li>
 					<li className="list-group-item">
-						<Link to="/user/Orders" className="nav-link text-secondary">
+						<Link to="/user/orders" className="nav-link text-secondary">
 							Manage Orders
 						</Link>
 					</li>
