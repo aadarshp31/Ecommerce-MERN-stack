@@ -1,9 +1,29 @@
 .btn,
 .jumbotron,
 .nav :hover {
-  border-radius: 0px;
+	border-radius: 0px;
 }
 
 body {
-  background: #343a40;
+	background: #343a40;
+}
+
+.collapsable-card-header {
+	display: flex;
+  justify-content: flex-start;
+  text-decoration: none;
+}
+
+.collapsable-card-header span {
+	width: 20%;
+}
+
+.fa-angle-up{
+  transform: rotate(180deg);
+  font-size: 2rem;
+  color: lightgrey;
+}
+
+.card-icon{
+  margin-left: auto;
 }
