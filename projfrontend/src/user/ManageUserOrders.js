@@ -3,13 +3,16 @@ import Base from "../core/Base";
 import { Link } from "react-router-dom";
 import { isAuthenticated } from "../auth/helper";
 import { getUserOrders } from "../core/helper/orderHelper";
-import "../styles.css"
+import "../styles.css";
 const ManageUserOrders = () => {
+	//React Hooks
 	const [orders, setOrders] = useState([]);
 	const [status, setStatus] = useState({
 		loading: false,
 		error: false,
 	});
+
+	//Desturcturing
 	const { user, token } = isAuthenticated();
 	const { loading, error } = status;
 
@@ -22,11 +25,14 @@ const ManageUserOrders = () => {
 				} else {
 					setStatus({ ...status, loading: false });
 					setOrders(data);
-					console.log(data)
 				}
 			})
 			.catch((err) => {
-				setStatus({ ...status, loading: false, error: "Failed to communicate with backend" });
+				setStatus({
+					...status,
+					loading: false,
+					error: "Failed to communicate with backend",
+				});
 			});
 	};
 
@@ -71,7 +77,7 @@ const ManageUserOrders = () => {
 
 			<div className="accordion" id="accordionExample">
 				{orders.map((order, index) => {
-					var date = new Date(order.createdAt)
+					var date = new Date(order.createdAt);
 					return (
 						<div className="card" key={index}>
 							<div className="card-header" id="headingOne">
@@ -80,15 +86,19 @@ const ManageUserOrders = () => {
 										className="btn btn-link btn-block text-left collapsed"
 										type="button"
 										data-toggle="collapse"
-										data-target={"#collapse" + index}
+										data-target={"#colapse" + index}
 										aria-expanded="false"
-										aria-controls={"collapse" + index}
+										aria-controls={"colapse" + index}
 									>
-											<span>Date: {date.getDate().toString()} / {(date.getMonth() + 1).toString()} / {date.getFullYear().toString()}</span>
-											<span>Products: {order.products.length} </span>
-											<span>Status: {order.status}</span>
-											<span>Amount: {order.amount}</span>
-											<i className="fas fa-angle-up card-icon"></i>
+										<span>
+											Date: {date.getDate().toString()} /{" "}
+											{(date.getMonth() + 1).toString()} /{" "}
+											{date.getFullYear().toString()}
+										</span>
+										<span>Products: {order.products.length} </span>
+										<span>Status: {order.status}</span>
+										<span>Amount: {order.amount}</span>
+										<i className="fas fa-angle-up card-icon"></i>
 									</button>
 								</h2>
 							</div>
@@ -99,23 +109,37 @@ const ManageUserOrders = () => {
 								data-parent="#accordionExample"
 							>
 								<div className="card-body">
-									<h6 className="badge badge-info p-3">Order Amount: {order.amount}</h6>
-									<h6>Status: <span className="text-info">{order.status}</span></h6>
-									<br/>
+									<h6 className="badge badge-info p-3">
+										Order Amount: {order.amount}
+									</h6>
+									<h6>
+										Status: <span className="text-info">{order.status}</span>
+									</h6>
+									<br />
 									<h5>Products Purchased</h5>
 									<table className="table table-striped">
 										<thead>
-											<tr  className="bg-info text-white">
-												<th scope="col" className="text-center">#</th>
-												<th scope="col" className="text-center">Name</th>
-												<th scope="col" className="text-center">Price</th>
-												<th scope="col" className="text-center">Quantity</th>
-												<th scope="col" className="text-center">Total Price</th>
+											<tr className="bg-info text-white">
+												<th scope="col" className="text-center">
+													#
+												</th>
+												<th scope="col" className="text-center">
+													Name
+												</th>
+												<th scope="col" className="text-center">
+													Price
+												</th>
+												<th scope="col" className="text-center">
+													Quantity
+												</th>
+												<th scope="col" className="text-center">
+													Total Price
+												</th>
 											</tr>
 										</thead>
 										<tbody>
 											{order.products.map((product, productIndex) => {
-												return(
+												return (
 													<tr key={productIndex} className="text-center">
 														<th scope="row">{productIndex + 1}</th>
 														<td>{product.name}</td>
@@ -125,18 +149,28 @@ const ManageUserOrders = () => {
 													</tr>
 												);
 											})}
-													<tr className="text-center table-info">
-														<td><strong>Grand Total</strong></td>
-														<td></td>
-														<td></td>
-														<td></td>
-														<td><strong>{order.amount}</strong></td>
-													</tr>
+											<tr className="text-center table-info">
+												<td>
+													<strong>Grand Total</strong>
+												</td>
+												<td></td>
+												<td></td>
+												<td></td>
+												<td>
+													<strong>{order.amount}</strong>
+												</td>
+											</tr>
 										</tbody>
 									</table>
-									<br/>
-									<h6>Transaction ID: <span className="text-info">{order.transaction_id}</span></h6>
-									<h6>Order Date: <span className="text-info">{date.toString()}</span></h6>
+									<br />
+									<h6>
+										Transaction ID:{" "}
+										<span className="text-info">{order.transaction_id}</span>
+									</h6>
+									<h6>
+										Order Date:{" "}
+										<span className="text-info">{date.toString()}</span>
+									</h6>
 								</div>
 							</div>
 						</div>
