@@ -5,6 +5,7 @@ import { getUser, updateUser } from "./helper/userapicalls";
 import { isAuthenticated } from "../auth/helper";
 
 const ManageUserInfo = () => {
+	//React Hooks
 	const [userProfile, setUserProfile] = useState({
 		name: "loading...",
 		lastname: "loading...",
@@ -15,22 +16,37 @@ const ManageUserInfo = () => {
 		error: false,
 		success: false,
 	});
+	const [disableControls, setDisableControls] = useState(false);
+
+	//Destructuring
 	const { user, token } = isAuthenticated();
 	const { loading, error, success } = status;
 
 	const preload = () => {
 		setStatus({ ...status, loading: true });
-		getUser(user._id, token).then((data) => {
-			if (data.error) {
-				setStatus({ ...status, loading: false, error: data.error });
-			} else {
-				setUserProfile(data);
-				setStatus({ ...status, loading: false });
-			}
-		}).catch(err => {
-			setStatus({ ...status, error: "Failed to communicate with the backend."})
-			setUserProfile({ ...userProfile, name: "Error Occured", lastname: "Error Occured", email: "Error Occured"})
-		});
+		getUser(user._id, token)
+			.then((data) => {
+				if (data.error) {
+					setStatus({ ...status, loading: false, error: data.error });
+					setDisableControls(true);
+				} else {
+					setUserProfile(data);
+					setStatus({ ...status, loading: false });
+				}
+			})
+			.catch((err) => {
+				setStatus({
+					...status,
+					error: "Failed to communicate with the backend.",
+				});
+				setUserProfile({
+					...userProfile,
+					name: "Error Occured",
+					lastname: "Error Occured",
+					email: "Error Occured",
+				});
+				setDisableControls(true);
+			});
 	};
 
 	useEffect(() => {
@@ -94,7 +110,13 @@ const ManageUserInfo = () => {
 					});
 				}
 			})
-			.catch((err) => console.log(err));
+			.catch((err) => {
+				setStatus({
+					...status,
+					error: "Error communicationg with the backend.",
+					loading: false,
+				});
+			});
 	};
 
 	const userInfoForm = () => (
@@ -111,6 +133,7 @@ const ManageUserInfo = () => {
 					onChange={handleChange("name")}
 					autoFocus
 					required
+					disabled={disableControls}
 				/>
 			</div>
 			<div className="input-group mb-3">
@@ -123,8 +146,8 @@ const ManageUserInfo = () => {
 					placeholder="Last Name"
 					value={lastname}
 					onChange={handleChange("lastname")}
-					autoFocus
 					required
+					disabled={disableControls}
 				/>
 			</div>
 			<div className="input-group mb-3">
@@ -137,11 +160,15 @@ const ManageUserInfo = () => {
 					placeholder="Name"
 					value={email}
 					onChange={handleChange("email")}
-					autoFocus
 					required
+					disabled={disableControls}
 				/>
 			</div>
-			<button className="btn btn-info rounded" onClick={formSubmit}>
+			<button
+				className="btn btn-info rounded"
+				onClick={formSubmit}
+				disabled={disableControls}
+			>
 				Update Info
 			</button>
 		</form>
