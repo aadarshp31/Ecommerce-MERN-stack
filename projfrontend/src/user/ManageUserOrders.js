@@ -11,6 +11,7 @@ const ManageUserOrders = () => {
 		error: false,
 	});
 	const { user, token } = isAuthenticated();
+	const { loading, error } = status;
 
 	const preload = () => {
 		setStatus({ ...status, loading: true });
@@ -25,13 +26,36 @@ const ManageUserOrders = () => {
 				}
 			})
 			.catch((err) => {
-				setStatus({ ...status, loading: false, error: err });
+				setStatus({ ...status, loading: false, error: "Failed to communicate with backend" });
 			});
 	};
 
 	useEffect(() => {
 		preload();
 	}, []);
+
+	//Loading Message
+	const loadingMessage = () => {
+		if (loading) {
+			return (
+				<div className="alert alert-info m-2 text-info">
+					<h4 className="text-info">Loading...</h4>
+				</div>
+			);
+		}
+	};
+
+	//Signup error message popup
+	const errorMessage = () => {
+		if (error) {
+			return (
+				<div className="alert alert-danger m-2 text-danger">
+					<h4>Loading Orders Failed!</h4>
+					<p>{error}</p>
+				</div>
+			);
+		}
+	};
 
 	return (
 		<Base
@@ -56,9 +80,9 @@ const ManageUserOrders = () => {
 										className="btn btn-link btn-block text-left collapsed"
 										type="button"
 										data-toggle="collapse"
-										data-target={"#" + "colapse" + index}
+										data-target={"#collapse" + index}
 										aria-expanded="false"
-										aria-controls={"colapse" + index}
+										aria-controls={"collapse" + index}
 									>
 											<span>Date: {date.getDate().toString()} / {(date.getMonth() + 1).toString()} / {date.getFullYear().toString()}</span>
 											<span>Products: {order.products.length} </span>
@@ -119,6 +143,8 @@ const ManageUserOrders = () => {
 					);
 				})}
 			</div>
+			{loadingMessage()}
+			{errorMessage()}
 		</Base>
 	);
 };
