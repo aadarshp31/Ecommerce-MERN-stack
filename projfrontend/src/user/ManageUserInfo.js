@@ -27,6 +27,9 @@ const ManageUserInfo = () => {
 				setUserProfile(data);
 				setStatus({ ...status, loading: false });
 			}
+		}).catch(err => {
+			setStatus({ ...status, error: "Failed to communicate with the backend."})
+			setUserProfile({ ...userProfile, name: "Error Occured", lastname: "Error Occured", email: "Error Occured"})
 		});
 	};
 
@@ -69,7 +72,7 @@ const ManageUserInfo = () => {
 		if (error) {
 			return (
 				<div className="alert alert-danger m-2 text-danger">
-					<h4>Product Updation Failed!</h4>
+					<h4>User Info Updation Failed!</h4>
 					<p>{error}</p>
 				</div>
 			);
