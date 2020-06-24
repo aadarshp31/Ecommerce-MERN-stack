@@ -60,13 +60,11 @@ const ManageUserOrders = () => {
 										aria-expanded="false"
 										aria-controls={"colapse" + index}
 									>
-										<div className="collapsable-card-header">
 											<span>Date: {date.getDate().toString()} / {(date.getMonth() + 1).toString()} / {date.getFullYear().toString()}</span>
 											<span>Products: {order.products.length} </span>
 											<span>Status: {order.status}</span>
 											<span>Amount: {order.amount}</span>
 											<i className="fas fa-angle-up card-icon"></i>
-										</div>
 									</button>
 								</h2>
 							</div>
@@ -77,9 +75,8 @@ const ManageUserOrders = () => {
 								data-parent="#accordionExample"
 							>
 								<div className="card-body">
-									<h6 className="badge badge-success p-3">Order Amount: {order.amount}</h6>
-									<h6>Status: <span className="text-success">{order.status}</span></h6>
-									<h6>Transaction ID: <span className="text-success">{order.transaction_id}</span></h6>
+									<h6 className="badge badge-info p-3">Order Amount: {order.amount}</h6>
+									<h6>Status: <span className="text-info">{order.status}</span></h6>
 									<br/>
 									<h5>Products Purchased</h5>
 									<table className="table table-striped">
@@ -104,7 +101,7 @@ const ManageUserOrders = () => {
 													</tr>
 												);
 											})}
-													<tr className="text-center table-success">
+													<tr className="text-center table-info">
 														<td><strong>Grand Total</strong></td>
 														<td></td>
 														<td></td>
@@ -114,7 +111,8 @@ const ManageUserOrders = () => {
 										</tbody>
 									</table>
 									<br/>
-									<h6>Order Date: <span className="text-success">{date.toString()}</span></h6>
+									<h6>Transaction ID: <span className="text-info">{order.transaction_id}</span></h6>
+									<h6>Order Date: <span className="text-info">{date.toString()}</span></h6>
 								</div>
 							</div>
 						</div>
