@@ -9,6 +9,7 @@ const ManageUserInfo = () => {
 	const [userProfile, setUserProfile] = useState({
 		name: "loading...",
 		lastname: "loading...",
+		password: ""
 	});
 	const [status, setStatus] = useState({
 		loading: false,
@@ -29,7 +30,7 @@ const ManageUserInfo = () => {
 					setStatus({ ...status, loading: false, error: data.error });
 					setDisableControls(true);
 				} else {
-					setUserProfile(data);
+					setUserProfile({ ...userProfile, name: data.name, lastname: data.lastname });
 					setStatus({ ...status, loading: false });
 				}
 			})
@@ -51,7 +52,7 @@ const ManageUserInfo = () => {
 		preload();
 	}, []);
 
-	const { name, lastname, email } = userProfile;
+	const { name, lastname, password } = userProfile;
 
 	const handleChange = (inputValue) => (event) => {
 		setStatus({ ...status, error: false, success: false });
@@ -100,12 +101,15 @@ const ManageUserInfo = () => {
 			.then((data) => {
 				if (data.error) {
 					setStatus({ ...status, error: data.error, loading: false });
+					//Reset state password
+					setUserProfile({ ...userProfile, password: "" })
 				} else {
 					setStatus({
 						...status,
 						success: data.name + " " + data.lastname,
 						loading: false,
 					});
+					setUserProfile({ ...userProfile, password: "" })
 				}
 			})
 			.catch((err) => {
@@ -114,6 +118,8 @@ const ManageUserInfo = () => {
 					error: "Error communicationg with the backend.",
 					loading: false,
 				});
+				//Reset state password
+				setUserProfile({ ...userProfile, password: "" })
 			});
 	};
 
@@ -130,7 +136,6 @@ const ManageUserInfo = () => {
 					value={name}
 					onChange={handleChange("name")}
 					autoFocus
-					required
 					disabled={disableControls}
 				/>
 			</div>
@@ -144,14 +149,27 @@ const ManageUserInfo = () => {
 					placeholder="Last Name"
 					value={lastname}
 					onChange={handleChange("lastname")}
-					required
+					disabled={disableControls}
+				/>
+			</div>
+			<h6 className="text-info">Enter password to authorize this update</h6>
+			<div className="input-group mb-3">
+				<div className="input-group-prepend">
+					<label className="input-group-text">Password</label>
+				</div>
+				<input
+					type="password"
+					className="form-control"
+					placeholder="Password"
+					value={password}
+					onChange={handleChange("password")}
 					disabled={disableControls}
 				/>
 			</div>
 			<button
 				className="btn btn-info rounded"
 				onClick={formSubmit}
-				disabled={disableControls}
+				disabled={disableControls || !password || !name}
 			>
 				Update Info
 			</button>
