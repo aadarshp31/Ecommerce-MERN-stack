@@ -47,9 +47,9 @@ body {
   font-size: 2rem;
   color: lightgrey;
   margin-left: auto;
-  transition: transform 250ms ease-out;
+  transition: transform 200ms ease-in;
 }
 
 .collapsed .fa-angle-up{
-  transform: rotate(0deg);
+  transform: rotate(90deg);
 }

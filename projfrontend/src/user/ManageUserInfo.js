@@ -9,7 +9,6 @@ const ManageUserInfo = () => {
 	const [userProfile, setUserProfile] = useState({
 		name: "loading...",
 		lastname: "loading...",
-		email: "loading...",
 	});
 	const [status, setStatus] = useState({
 		loading: false,
@@ -43,7 +42,6 @@ const ManageUserInfo = () => {
 					...userProfile,
 					name: "Error Occured",
 					lastname: "Error Occured",
-					email: "Error Occured",
 				});
 				setDisableControls(true);
 			});
@@ -146,20 +144,6 @@ const ManageUserInfo = () => {
 					placeholder="Last Name"
 					value={lastname}
 					onChange={handleChange("lastname")}
-					required
-					disabled={disableControls}
-				/>
-			</div>
-			<div className="input-group mb-3">
-				<div className="input-group-prepend">
-					<label className="input-group-text">Email ID</label>
-				</div>
-				<input
-					type="email"
-					className="form-control"
-					placeholder="Name"
-					value={email}
-					onChange={handleChange("email")}
 					required
 					disabled={disableControls}
 				/>
