@@ -45,11 +45,12 @@ body {
 .fa-angle-up{
   transform: rotate(180deg);
   font-size: 2rem;
-  color: lightgrey;
+  color: #5bc0de; /* Bootstrap info color*/
   margin-left: auto;
   transition: transform 200ms ease-in;
 }
 
 .collapsed .fa-angle-up{
+  color: lightgrey;
   transform: rotate(90deg);
 }
