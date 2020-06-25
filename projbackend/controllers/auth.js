@@ -108,3 +108,43 @@ exports.isAdmin = (req, res, next) => {
 	}
 	next();
 }
+
+//Method to authorize change on the basis of 'password' based authentication
+exports.authorizeChange = (req, res, next) => {
+	//Destructuring
+	const { password } = req.body;
+	const { email } = req.profile;
+
+	//errors in an object containing the first element as array which contains the info related to the error
+	const errors = validationResult(req)
+
+	//Checking for errors thrown by express validator
+	if(!errors.isEmpty()){
+		return res.status(422).json({
+			error: `${errors.array()[0].msg}.\n Parameter: ${errors.array()[0].param}`		
+		})
+	}
+
+	User.findOne({email}, (err, user) => {
+		if(err){
+			return res.status(500).json({
+				error: err,
+				message: "Internal Server Error Occured"
+			});
+		}
+		if(!user){
+			return res.status(400).json({
+				error: "User Email does not exists"
+			})
+		}
+		if (user.authenticate(password)) {
+			return next();
+		} else {
+			return res.status(403).json({
+				error: "Access denied: Wrong Password"
+			})
+		}
+
+	})
+
+}
