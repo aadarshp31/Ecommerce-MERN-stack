@@ -46,6 +46,7 @@ exports.getAllOrders = (req, res) => {
 exports.getOrdersForUser = (req, res) => {
     Order.find({user: req.profile._id})
     .populate("user", "_id name")
+    .sort({createdAt: "desc"})
     .exec((err, orders) => {
         if(err) {
             res.status(400).json({
