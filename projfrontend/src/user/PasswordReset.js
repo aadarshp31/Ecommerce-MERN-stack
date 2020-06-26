@@ -60,7 +60,7 @@ const PasswordReset = () => {
 
     const handleChange = (name) => (event) => {
 		//Resetting errors
-		setStatus({ ...status, error: "" })
+		setStatus({ ...status, error: "", success: false })
         setPasswordObject({...passwordObject , [name]: event.target.value});
     }
 
@@ -90,8 +90,20 @@ const PasswordReset = () => {
 			.then(data => {
 				if (data.error) {
 					setStatus({ ...status, loading: false, error: data.error });
+					//Reset States
+					setPasswordObject({
+						newPass1: "",
+						newPass2: "",
+						oldPass: ""
+					})
 				} else {
 					setStatus({ ...status, loading: false, success: "Password for user " + data.name + " has been updated successfully" })
+					//Reset States
+					setPasswordObject({
+						newPass1: "",
+						newPass2: "",
+						oldPass: ""
+					})
 				}
 			})
 			.catch(err => {
