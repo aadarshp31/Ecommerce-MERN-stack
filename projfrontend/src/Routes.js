@@ -18,6 +18,7 @@ import Cart from "./core/Cart";
 import ManageOrders from "./admin/ManageOrders";
 import ManageUserInfo from "./user/ManageUserInfo";
 import ManageUserOrders from "./user/ManageUserOrders";
+import PasswordReset from "./user/PasswordReset";
 
 
 
@@ -33,6 +34,7 @@ const Routes = () => {
                 <PrivateRoute exact path="/user/dashboard" component={UserDashboard} />
                 <PrivateRoute exact path="/user/user-info" component={ManageUserInfo} />
                 <PrivateRoute exact path="/user/orders" component={ManageUserOrders} />
+                <PrivateRoute exact path="/user/password-reset" component={PasswordReset} />
                 <AdminRoute exact path="/admin/dashboard" component={AdminDashboard} />
                 <AdminRoute exact path="/admin/create/category" component={AddCategory} />
                 <AdminRoute exact path="/admin/categories" component={ManageCategories} />
