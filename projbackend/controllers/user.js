@@ -52,10 +52,8 @@ exports.updateUser = (req, res) => {
 }
 
 exports.updateUserPassword = (req, res) => {
-    User.findByIdAndUpdate(
+    User.findById(
         {_id: req.profile._id},
-        {$set: {password: req.body.newPassword}},
-        {new: true, useFindAndModify: false},
         (err, user) => {
             if(err){
                 return res.status(400).json({
@@ -67,9 +65,22 @@ exports.updateUserPassword = (req, res) => {
                     error: "Bad Request: User not found in DB!"
                 })
             }
-            user.salt = undefined;
-            user.encry_password = undefined;
-            return res.json(user);
+            user.password = req.body.newPassword;
+            user.save((err, updatedUser) => {
+                if(err){
+                    return res.status(400).json({
+                        error: err
+                    })
+                }
+                if(!updatedUser){
+                    return res.status(400).json({
+                        error: "Error while saving the updated user data."
+                    })
+                }
+                updatedUser.salt = undefined;
+                updatedUser.encry_password = undefined;
+                return res.json(updatedUser);
+            })
         }
     )
 }
