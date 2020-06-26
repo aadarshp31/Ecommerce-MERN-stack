@@ -83,7 +83,7 @@ const ManageUserOrders = () => {
 							<div className="card-header" id="headingOne">
 								<h2 className="mb-0">
 									<button
-										className="btn btn-link btn-block text-left collapsed"
+										className={`btn btn-link btn-block text-left ${!(index === 0) ? "collapsed" : ""}`}
 										type="button"
 										data-toggle="collapse"
 										data-target={"#colapse" + index}
@@ -104,7 +104,7 @@ const ManageUserOrders = () => {
 							</div>
 							<div
 								id={"colapse" + index}
-								className="collapse"
+								className={`collapse ${(index === 0) ? "show" : ""}`}
 								aria-labelledby="headingOne"
 								data-parent="#accordionExample"
 							>
