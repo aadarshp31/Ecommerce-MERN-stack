@@ -1,10 +1,10 @@
 import React, {useState} from "react";
 import Base from "../core/Base";
 import { Link } from "react-router-dom";
-import { isAuthenticated } from "../auth/helper";
+import { isAuthenticated, signout } from "../auth/helper";
 import { updatePassword } from "./helper/userapicalls";
 
-const PasswordReset = () => {
+const PasswordReset = ({ history }) => {
     //React Hooks
     const [ passwordObject, setPasswordObject] = useState({
         newPass1: "",
@@ -103,6 +103,12 @@ const PasswordReset = () => {
 						newPass1: "",
 						newPass2: "",
 						oldPass: ""
+					})
+					signout(() => {
+						setStatus({ ...status, loading: "Signed-out: Redirecting to homepage..." });
+						setTimeout(() => {
+							history.push("/")
+						}, 3000);
 					})
 				}
 			})
