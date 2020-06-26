@@ -51,6 +51,29 @@ exports.updateUser = (req, res) => {
         )
 }
 
+exports.updateUserPassword = (req, res) => {
+    User.findByIdAndUpdate(
+        {_id: req.profile._id},
+        {$set: {password: req.body.newPassword}},
+        {new: true, useFindAndModify: false},
+        (err, user) => {
+            if(err){
+                return res.status(400).json({
+                    error: err
+                })
+            }
+            if(!user){
+                return res.status(400).json({
+                    error: "Bad Request: User not found in DB!"
+                })
+            }
+            user.salt = undefined;
+            user.encry_password = undefined;
+            return res.json(user);
+        }
+    )
+}
+
 exports.userPurchaseList = (req, res) => {
     Order.find({user: req.profile._id}).populate("user", "_id name").exec((err, order) => {
         if(err){
