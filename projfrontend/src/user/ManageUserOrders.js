@@ -3,7 +3,6 @@ import Base from "../core/Base";
 import { Link } from "react-router-dom";
 import { isAuthenticated } from "../auth/helper";
 import { getUserOrders } from "../core/helper/orderHelper";
-import "../styles.css";
 const ManageUserOrders = () => {
 	//React Hooks
 	const [orders, setOrders] = useState([]);
@@ -63,18 +62,8 @@ const ManageUserOrders = () => {
 		}
 	};
 
-	return (
-		<Base
-			title="Manage Orders Page"
-			description="Manage all your orders here!"
-			className="container bg-white p-4 rounded"
-		>
-			{
-				<Link className="btn btn-info rounded mb-4" to={`/user/dashboard`}>
-					<span>User Dashboard</span>
-				</Link>
-			}
-
+	const showOrders = () => {
+		return (
 			<div className="accordion" id="accordionExample">
 				{orders.map((order, index) => {
 					var date = new Date(order.createdAt);
@@ -83,7 +72,9 @@ const ManageUserOrders = () => {
 							<div className="card-header" id="headingOne">
 								<h2 className="mb-0">
 									<button
-										className={`btn btn-link btn-block text-left ${!(index === 0) ? "collapsed" : ""}`}
+										className={`btn btn-link btn-block text-left ${
+											!(index === 0) ? "collapsed" : ""
+										}`}
 										type="button"
 										data-toggle="collapse"
 										data-target={"#colapse" + index}
@@ -104,7 +95,7 @@ const ManageUserOrders = () => {
 							</div>
 							<div
 								id={"colapse" + index}
-								className={`collapse ${(index === 0) ? "show" : ""}`}
+								className={`collapse ${index === 0 ? "show" : ""}`}
 								aria-labelledby="headingOne"
 								data-parent="#accordionExample"
 							>
@@ -177,8 +168,31 @@ const ManageUserOrders = () => {
 					);
 				})}
 			</div>
-			{loadingMessage()}
-			{errorMessage()}
+		);
+	};
+
+	return (
+		<Base
+			title="Manage Orders Page"
+			description="Manage all your orders here!"
+			className="container bg-white p-4 rounded"
+		>
+			{
+				<Link className="btn btn-info rounded" to={`/user/dashboard`}>
+					<span>User Dashboard</span>
+				</Link>
+			}
+			<h2 className="mb-4 text-center">Your Orders</h2>
+			<div className="row">
+				<div className="col-12">
+					<h4 className="text-left my-3">
+						Total Orders: <span className="text-info">{orders.length}</span>
+					</h4>
+					{showOrders()}
+					{loadingMessage()}
+					{errorMessage()}
+				</div>
+			</div>
 		</Base>
 	);
 };
