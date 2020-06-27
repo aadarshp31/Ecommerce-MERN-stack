@@ -30,7 +30,7 @@ const Menu = ({history}) => (
 			</li>
 			
 			{/* Displays/Returns Dashboard nav button when user is authenticated, otherwise hides it from navbar */}
-			{isAuthenticated() && isAuthenticated().user.role === 0 && (
+			{isAuthenticated() && (
 				<li className="nav-item">
 				<Link
 					style={currentTab(history, "/user/dashboard")}
