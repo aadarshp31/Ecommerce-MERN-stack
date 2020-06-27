@@ -11,7 +11,7 @@ const currentTab = (history, path) => {
 	}
 };
 
-const Menu = (history) => (
+const Menu = ({history}) => (
 	<div style={{position: "fixed", width: "100vw", zIndex: "2"}}>
 		<ul className="nav nav-expand bg-info p-2 font-weight-bold">
 			<li className="nav-item">
@@ -86,7 +86,7 @@ const Menu = (history) => (
 					className="nav-item"
 					onClick={() => {
 						signout(() => {
-							history.history.push("/");
+							history.push("/");
 						});
 					}}
 				>
