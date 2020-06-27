@@ -84,15 +84,18 @@ exports.getAllProduct = (req, res) => {
     //ternary operator used here to check for user input for "limit" which will be treated as string by default
     //Parsing the string value (limit) to integer number is done by parseInt(string)
     let limit = req.query.limit ? parseInt(req.query.limit) : 8;
+    let skip = req.query.skip ? parseInt(req.query.skip) : 0;
 
-    //check for user input for "sortBy" which will be treated as string by default
+    //check for user input for "sortBy" & "ascDesc" which will be treated as string by default
     let sortBy = req.query.sortBy ? req.query.sortBy : "_id";
+    let ascDesc = req.query.ascDesc ? req.query.ascDesc : "desc";
 
     Product.find()
     .select("-photo")
     .populate("category")
-    .sort([[sortBy, "asc"]])
-    .limit(limit)
+    .sort([[sortBy, ascDesc]])
+    // .limit(limit)
+    // .skip(skip)
     .exec((err, allProducts) => {
         if(err){
             return res.status(400).json({

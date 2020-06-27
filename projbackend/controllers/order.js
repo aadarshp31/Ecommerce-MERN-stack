@@ -31,8 +31,20 @@ exports.createOrder = (req, res) => {
 
 //Get all orders
 exports.getAllOrders = (req, res) => {
+    //ternary operator used here to check for user input for "limit" which will be treated as string by default
+    //Parsing the string value (limit) to integer number is done by parseInt(string)
+    let limit = req.query.limit ? parseInt(req.query.limit) : 8;
+    let skip = req.query.skip ? parseInt(req.query.skip) : 0;
+
+    //check for user input for "sortBy" & "ascDesc" which will be treated as string by default
+    let sortBy = req.query.sortBy ? req.query.sortBy : "createdAt";
+    let ascDesc = req.query.ascDesc ? req.query.ascDesc : "desc";
+
     Order.find()
     .populate("user", "_id name")
+    .sort({[sortBy]: ascDesc})
+    // .skip(skip)
+    // .limit(limit)
     .exec((err, orders) => {
         if(err || !orders){
             return res.status(400).json({
@@ -44,9 +56,20 @@ exports.getAllOrders = (req, res) => {
 }
 
 exports.getOrdersForUser = (req, res) => {
+    //ternary operator used here to check for user input for "limit" which will be treated as string by default
+    //Parsing the string value (limit) to integer number is done by parseInt(string)
+    let limit = req.query.limit ? parseInt(req.query.limit) : 8;
+    let skip = req.query.skip ? parseInt(req.query.skip) : 0;
+
+    //check for user input for "sortBy" & "ascDesc" which will be treated as string by default
+    let sortBy = req.query.sortBy ? req.query.sortBy : "createdAt";
+    let ascDesc = req.query.ascDesc ? req.query.ascDesc : "desc";
+    
     Order.find({user: req.profile._id})
     .populate("user", "_id name")
-    .sort({createdAt: "desc"})
+    .sort({[sortBy]: ascDesc})
+    // .skip(skip)
+    // .limit(limit)
     .exec((err, orders) => {
         if(err) {
             res.status(400).json({
