@@ -17,10 +17,10 @@ router.param("orderId", getOrderById)
 router.post("/order/create/:userId", isSignedIn, isAuthenticated, pushOrderInPurchaseList, updateStock, createOrder)
 
 //Get / Read order route
-router.get("/order/all/:userId", isSignedIn, isAuthenticated, isAdmin, getAllOrders)
+router.post("/order/all/:userId", isSignedIn, isAuthenticated, isAdmin, getAllOrders)
 
 //Get all orders for a particular user
-router.get("/orders/:userId", isSignedIn, isAuthenticated, getOrdersForUser)
+router.post("/orders/:userId", isSignedIn, isAuthenticated, getOrdersForUser)
 
 //Get order status
 router.get("/order/status/:userId", isSignedIn, isAuthenticated, isAdmin, getOrderStatus)
