@@ -10,14 +10,24 @@ const ManageUserOrders = () => {
 		loading: false,
 		error: false,
 	});
+	const [query, setQuery] = useState({
+		sortBy: "createdAt",
+		ascDesc: "desc",
+		limit: 8,
+		skip: 0,
+	})
 
 	//Desturcturing
 	const { user, token } = isAuthenticated();
 	const { loading, error } = status;
-
+	
+	//Query Data
+	let queryData = {
+		"query": query
+	}
 	const preload = () => {
 		setStatus({ ...status, loading: true });
-		getUserOrders(user._id, token)
+		getUserOrders(user._id, token, queryData)
 			.then((data) => {
 				if (data.error) {
 					setStatus({ ...status, loading: false, error: data.error });
