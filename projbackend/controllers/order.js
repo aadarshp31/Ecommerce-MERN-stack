@@ -33,18 +33,18 @@ exports.createOrder = (req, res) => {
 exports.getAllOrders = (req, res) => {
     //ternary operator used here to check for user input for "limit" which will be treated as string by default
     //Parsing the string value (limit) to integer number is done by parseInt(string)
-    let limit = req.query.limit ? parseInt(req.query.limit) : 8;
-    let skip = req.query.skip ? parseInt(req.query.skip) : 0;
+    let limit = req.body.query.limit ? parseInt(req.body.query.limit) : 8;
+    let skip = req.body.query.skip ? parseInt(req.body.query.skip) : 0;
 
     //check for user input for "sortBy" & "ascDesc" which will be treated as string by default
-    let sortBy = req.query.sortBy ? req.query.sortBy : "createdAt";
-    let ascDesc = req.query.ascDesc ? req.query.ascDesc : "desc";
+    let sortBy = req.body.query.sortBy ? req.body.query.sortBy : "createdAt";
+    let ascDesc = req.body.query.ascDesc ? req.body.query.ascDesc : "desc";
 
     Order.find()
     .populate("user", "_id name")
     .sort({[sortBy]: ascDesc})
-    // .skip(skip)
-    // .limit(limit)
+    .skip(skip)
+    .limit(limit)
     .exec((err, orders) => {
         if(err || !orders){
             return res.status(400).json({
@@ -58,18 +58,18 @@ exports.getAllOrders = (req, res) => {
 exports.getOrdersForUser = (req, res) => {
     //ternary operator used here to check for user input for "limit" which will be treated as string by default
     //Parsing the string value (limit) to integer number is done by parseInt(string)
-    let limit = req.query.limit ? parseInt(req.query.limit) : 8;
-    let skip = req.query.skip ? parseInt(req.query.skip) : 0;
+    let limit = req.body.query.limit ? parseInt(req.body.query.limit) : 8;
+    let skip = req.body.query.skip ? parseInt(req.body.query.skip) : 0;
 
     //check for user input for "sortBy" & "ascDesc" which will be treated as string by default
-    let sortBy = req.query.sortBy ? req.query.sortBy : "createdAt";
-    let ascDesc = req.query.ascDesc ? req.query.ascDesc : "desc";
+    let sortBy = req.body.query.sortBy ? req.body.query.sortBy : "createdAt";
+    let ascDesc = req.body.query.ascDesc ? req.body.query.ascDesc : "desc";
     
     Order.find({user: req.profile._id})
     .populate("user", "_id name")
     .sort({[sortBy]: ascDesc})
-    // .skip(skip)
-    // .limit(limit)
+    .skip(skip)
+    .limit(limit)
     .exec((err, orders) => {
         if(err) {
             res.status(400).json({
