@@ -129,7 +129,7 @@ const Card = ({
 						className="btn btn-light mx-2 px-2 rounded"
 						style={{ fontSize: "0.5rem" }}
 					>
-						<i class="fa fa-minus" aria-hidden="true"></i>
+						<i className="fa fa-minus" aria-hidden="true"></i>
 					</button>
 				) : (
 					""
@@ -140,7 +140,7 @@ const Card = ({
 					className="btn btn-light mx-2 px-2 rounded"
 					style={{ fontSize: "0.5rem" }}
 				>
-					<i class="fa fa-plus" aria-hidden="true"></i>
+					<i className="fa fa-plus" aria-hidden="true"></i>
 				</button>
 			</div>
 		) : (
