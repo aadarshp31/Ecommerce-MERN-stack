@@ -10,7 +10,6 @@ const ImageHelper = ({product}) => {
 				src={imageurl}
 				className="card-img-top"
 				alt="Course alt text"
-				style={{borderTopLeftRadius: "10px", borderTopRightRadius: "10px"}}
 			/>
 		</div>
 	);

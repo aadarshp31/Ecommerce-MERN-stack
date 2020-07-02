@@ -126,10 +126,10 @@ const Card = ({
 				{product.quantity > 0 ? (
 					<button
 						onClick={decQuantity}
-						className="btn btn-danger mx-2 px-2 rounded"
+						className="btn btn-light mx-2 px-2 rounded"
 						style={{ fontSize: "0.5rem" }}
 					>
-						-
+						<i class="fa fa-minus" aria-hidden="true"></i>
 					</button>
 				) : (
 					""
@@ -137,10 +137,10 @@ const Card = ({
 				<p style={{ display: "inline" }}><span className="badge badge-secondary">{product.quantity}</span></p>
 				<button
 					onClick={incQuantity}
-					className="btn btn-success mx-2 px-2 rounded"
+					className="btn btn-light mx-2 px-2 rounded"
 					style={{ fontSize: "0.5rem" }}
 				>
-					+
+					<i class="fa fa-plus" aria-hidden="true"></i>
 				</button>
 			</div>
 		) : (
@@ -149,11 +149,11 @@ const Card = ({
 	};
 
 	return (
-		<div className="card text-secondary mx-auto" style={{ width: "18rem" }}>
+		<div className="card text-secondary mx-auto" style={{ width: "15rem" }}>
 			<ImageHelper product={product} />
 			<div className="card-body">
 				<h5 className="card-title">{cardTitle}</h5>
-				<p className="badge badge-secondary px-3 py-2">₹ {cardPrice}</p>
+				<p className="badge badge-dark px-3 py-2">₹ {cardPrice}</p>
 				<p className="card-text">{cardDescription}</p>
                 {showQuantityButton()}
 				{showaddToCartButton(addToCartButton)}

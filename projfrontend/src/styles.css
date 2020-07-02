@@ -8,23 +8,6 @@ body {
 	background: #343a40;
 }
 
-/* Styling for Accordion */
-/* Parent Accordion */
-.card{
-  border-radius: 10px;
-}
-
-/* Card header links */
-/* .collapsable-card-header {
-  display: flex;
-  justify-content: flex-start;
-  text-decoration: none;
-} */
-
-/* .collapsable-card-header span {
-  width: 20%;
-} */
-
 /* Links on the button including collapsable-card-header */
 .btn-link{
   display: flex;
