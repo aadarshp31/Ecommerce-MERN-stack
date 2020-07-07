@@ -39,75 +39,87 @@ const Home = () => {
 		setQuery({ ...query, [fieldName]: e.target.value });
 	};
 
+	const filterSection = () => {
+		return (
+			<div
+				className="p-3 mt-2 mx-auto align-items-center justify-content-between bg-light text-dark rounded"
+				style={{ width: "18rem", height: "18rem" }}
+			>
+				<div>
+					<h4>Filter/Sort</h4>
+					<label className="mr-sm-2" htmlFor="inlineFormCustomSelect">
+						Sort By
+					</label>
+					<select
+						className="custom-select mr-sm-2"
+						id="inlineFormCustomSelect"
+						value={sortBy}
+						onChange={handleChanege("sortBy")}
+					>
+						<option value="name">Name</option>
+						<option value="price">Price</option>
+					</select>
+				</div>
+				<div className="">
+					<label className="mr-sm-2" htmlFor="inlineFormCustomSelect">
+						Order
+					</label>
+					<select
+						className="custom-select mr-sm-2"
+						id="inlineFormCustomSelect"
+						value={ascDesc}
+						onChange={handleChanege("ascDesc")}
+					>
+						<option value="asc">Ascending</option>
+						<option value="desc">Descending</option>
+					</select>
+				</div>
+				<div className="">
+					<label className="mr-sm-2" htmlFor="inlineFormCustomSelect">
+						Limit
+					</label>
+					<select
+						className="custom-select mr-sm-2"
+						id="inlineFormCustomSelect"
+						value={limit}
+						onChange={handleChanege("limit")}
+					>
+						<option value="8">8</option>
+						<option value="12">12</option>
+						<option value="16">16</option>
+						<option value="20">20</option>
+					</select>
+				</div>
+			</div>
+		);
+	};
+
+	const productDisplay = () => {
+		return (
+			<div className="container-fluid d-flex flex-wrap justify-content-center justify-content-md-start">
+				{products.map((product, index) => {
+					return (
+						<div key={index} className="m-2">
+							<Card
+								product={product}
+								products={products}
+								setReload={setReload}
+								reload={reload}
+							/>
+						</div>
+					);
+				})}
+			</div>
+		);
+	};
+
 	return (
 		<Base title="Home Page" description="Welcome to the Tshirt Store">
 			{createCart()}
 			<h1 className="text-white mx-auto mb-5">All T-Shirts</h1>
 			<div className="container-fluid d-flex p-3 flex-column flex-md-row justify-content-md-center">
-				<div
-					className="p-3 mt-2 mx-auto align-items-center justify-content-between bg-light text-dark rounded"
-					style={{ width: "18rem", height: "18rem" }}
-				>
-					<div>
-						<h4>Filter/Sort</h4>
-						<label className="mr-sm-2" htmlFor="inlineFormCustomSelect">
-							Sort By
-						</label>
-						<select
-							className="custom-select mr-sm-2"
-							id="inlineFormCustomSelect"
-							value={sortBy}
-							onChange={handleChanege("sortBy")}
-						>
-							<option value="name">Name</option>
-							<option value="price">Price</option>
-						</select>
-					</div>
-					<div className="">
-						<label className="mr-sm-2" htmlFor="inlineFormCustomSelect">
-							Order
-						</label>
-						<select
-							className="custom-select mr-sm-2"
-							id="inlineFormCustomSelect"
-							value={ascDesc}
-							onChange={handleChanege("ascDesc")}
-						>
-							<option value="asc">Ascending</option>
-							<option value="desc">Descending</option>
-						</select>
-					</div>
-					<div className="">
-						<label className="mr-sm-2" htmlFor="inlineFormCustomSelect">
-							Limit
-						</label>
-						<select
-							className="custom-select mr-sm-2"
-							id="inlineFormCustomSelect"
-							value={limit}
-							onChange={handleChanege("limit")}
-						>
-							<option value="8">8</option>
-							<option value="12">12</option>
-							<option value="16">16</option>
-							<option value="20">20</option>
-						</select>
-					</div>
-				</div>
-				<div className="container-fluid d-flex flex-wrap justify-content-center justify-content-md-start">
-					{products.map((product, index) => {
-						return (
-							<div key={index} className="m-2">
-								<Card
-									product={product}
-									products={products}
-									setReload={setReload}
-									reload={reload}
-								/>
-							</div>
-						);
-					})}
-				</div>
+				{filterSection()}
+				{productDisplay()}
 			</div>
 			{getQuantityFromCart(products)}
 		</Base>
