@@ -87,15 +87,14 @@ exports.getAllProduct = (req, res) => {
     let skip = req.query.skip ? parseInt(req.query.skip) : 0;
 
     //check for user input for "sortBy" & "ascDesc" which will be treated as string by default
-    let sortBy = req.query.sortBy ? req.query.sortBy : "_id";
-    let ascDesc = req.query.ascDesc ? req.query.ascDesc : "desc";
-
+    let sortBy = req.query.sortBy ? req.query.sortBy : "name";
+    let ascDesc = req.query.ascDesc ? req.query.ascDesc : "asc";
     Product.find()
     .select("-photo")
     .populate("category")
     .sort([[sortBy, ascDesc]])
-    // .limit(limit)
-    // .skip(skip)
+    .limit(limit)
+    .skip(skip)
     .exec((err, allProducts) => {
         if(err){
             return res.status(400).json({
