@@ -9,6 +9,14 @@ const Home = () => {
 	const [products, setProducts] = useState([]);
 	const [error, setError] = useState(false);
 	const [reload, setReload] = useState(false);
+	const [query, setQuery] = useState({
+		sortBy: "name",
+		ascDesc: "asc",
+		limit: "8",
+	});
+
+	//destructuring
+	const { sortBy, ascDesc, limit } = query;
 
 	const loadAllProducts = () => {
 		return getProducts()
@@ -26,6 +34,11 @@ const Home = () => {
 		loadAllProducts();
 	}, []);
 
+	//Handle Change
+	const handleChanege = (fieldName) => (e) => {
+		setQuery({ ...query, [fieldName]: e.target.value });
+	};
+
 	return (
 		<Base title="Home Page" description="Welcome to the Tshirt Store">
 			{createCart()}
@@ -37,44 +50,44 @@ const Home = () => {
 				>
 					<div>
 						<h4>Filter/Sort</h4>
-						<label className="mr-sm-2" for="inlineFormCustomSelect">
+						<label className="mr-sm-2" htmlFor="inlineFormCustomSelect">
 							Sort By
 						</label>
 						<select
 							className="custom-select mr-sm-2"
 							id="inlineFormCustomSelect"
+							value={sortBy}
+							onChange={handleChanege("sortBy")}
 						>
-							<option value="asc" selected>
-								Name
-							</option>
-							<option value="desc">Price</option>
+							<option value="name">Name</option>
+							<option value="price">Price</option>
 						</select>
 					</div>
 					<div className="">
-						<label className="mr-sm-2" for="inlineFormCustomSelect">
+						<label className="mr-sm-2" htmlFor="inlineFormCustomSelect">
 							Order
 						</label>
 						<select
 							className="custom-select mr-sm-2"
 							id="inlineFormCustomSelect"
+							value={ascDesc}
+							onChange={handleChanege("ascDesc")}
 						>
-							<option value="asc" selected>
-								Ascenting
-							</option>
+							<option value="asc">Ascending</option>
 							<option value="desc">Descending</option>
 						</select>
 					</div>
 					<div className="">
-						<label className="mr-sm-2" for="inlineFormCustomSelect">
+						<label className="mr-sm-2" htmlFor="inlineFormCustomSelect">
 							Limit
 						</label>
 						<select
 							className="custom-select mr-sm-2"
 							id="inlineFormCustomSelect"
+							value={limit}
+							onChange={handleChanege("limit")}
 						>
-							<option value="8" selected>
-								8
-							</option>
+							<option value="8">8</option>
 							<option value="12">12</option>
 							<option value="16">16</option>
 							<option value="20">20</option>
