@@ -149,7 +149,7 @@ const Card = ({
 	};
 
 	return (
-		<div className="card text-secondary mx-auto" style={{ width: "15rem" }}>
+		<div className="card text-secondary mx-auto" style={{ width: "18rem" }}>
 			<ImageHelper product={product} />
 			<div className="card-body">
 				<h5 className="card-title">{cardTitle}</h5>

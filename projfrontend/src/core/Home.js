@@ -30,7 +30,7 @@ const Home = () => {
 		<Base title="Home Page" description="Welcome to the Tshirt Store">
 			{createCart()}
 			<h1 className="text-white mx-auto mb-5">All T-Shirts</h1>
-			<div className="container p-1 d-flex flex-wrap justify-content-start">
+			<div className="container p-1 d-flex flex-wrap justify-content-center justify-content-md-start">
 				{products.map((product, index) => {
 					return (
 						<div key={index} className="m-2">
