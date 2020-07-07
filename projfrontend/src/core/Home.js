@@ -4,6 +4,7 @@ import Base from "../core/Base";
 import Card from "./Card";
 import { getProducts } from "./helper/coreapicalls";
 import { createCart, getQuantityFromCart } from "./helper/cartHelper";
+import queryString from "query-string";
 
 const Home = () => {
 	const [products, setProducts] = useState([]);
@@ -39,11 +40,25 @@ const Home = () => {
 		setQuery({ ...query, [fieldName]: e.target.value });
 	};
 
+	//Filter
+	const filter = () => {
+		const queryStringified = queryString.stringify(query);
+		return getProducts(queryStringified)
+			.then((data) => {
+				if (data.error) {
+					setError(data.error);
+				} else {
+					setProducts(data);
+				}
+			})
+			.catch((err) => console.log(err));
+	}
+
 	const filterSection = () => {
 		return (
 			<div
 				className="p-3 mt-2 mx-auto align-items-center justify-content-between bg-light text-dark rounded"
-				style={{ width: "18rem", height: "18rem" }}
+				style={{ width: "18rem", height: "20rem" }}
 			>
 				<div>
 					<h4>Filter/Sort</h4>
@@ -84,11 +99,14 @@ const Home = () => {
 						value={limit}
 						onChange={handleChanege("limit")}
 					>
+						<option value="3">3</option>
+						<option value="5">5</option>
 						<option value="8">8</option>
 						<option value="12">12</option>
 						<option value="16">16</option>
 						<option value="20">20</option>
 					</select>
+					<button className="btn btn-block btn-info my-2 rounded" onClick={filter}>Filter</button>
 				</div>
 			</div>
 		);
