@@ -1,28 +1,27 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import Base from "../core/Base";
 import { Link } from "react-router-dom";
 import { isAuthenticated, signout } from "../auth/helper";
 import { updatePassword } from "./helper/userapicalls";
 
 const PasswordReset = ({ history }) => {
-    //React Hooks
-    const [ passwordObject, setPasswordObject] = useState({
-        newPass1: "",
-        newPass2: "",
-        oldPass: ""
-    })
-    const [ status, setStatus ] = useState({
-        loading: false,
+	//React Hooks
+	const [passwordObject, setPasswordObject] = useState({
+		newPass1: "",
+		newPass2: "",
+		oldPass: "",
+	});
+	const [status, setStatus] = useState({
+		loading: false,
 		error: "",
-		success: false
-    })
+		success: false,
+	});
 
 	//Destructuring
 	const { user, token } = isAuthenticated();
-    const { newPass1, newPass2, oldPass } = passwordObject;
+	const { newPass1, newPass2, oldPass } = passwordObject;
 	const { loading, error, success } = status;
-	
-	
+
 	//Loading Message
 	const loadingMessage = () => {
 		if (loading) {
@@ -58,139 +57,163 @@ const PasswordReset = ({ history }) => {
 		}
 	};
 
-    const handleChange = (name) => (event) => {
+	const handleChange = (name) => (event) => {
 		//Resetting errors
-		setStatus({ ...status, error: "", success: false })
-        setPasswordObject({...passwordObject , [name]: event.target.value});
-    }
+		setStatus({ ...status, error: "", success: false });
+		setPasswordObject({ ...passwordObject, [name]: event.target.value });
+	};
 
-    const validation = () => {
-        if ((newPass1 === newPass2) && newPass1.length >= 6) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-	
+	const validation = () => {
+		if (newPass1 === newPass2 && newPass1.length >= 6) {
+			return true;
+		} else {
+			return false;
+		}
+	};
+
 	const formSubmit = (event) => {
 		event.preventDefault();
 
-		setStatus({ ...status, loading: true })
+		setStatus({ ...status, loading: true });
 
 		//Setting up data for the backendc
 		let newPassword = newPass1,
-		password = oldPass;
-		
+			password = oldPass;
+
 		let formdata = {
 			newPassword,
-			password
-		}
+			password,
+		};
 
-		updatePassword( user._id, token, formdata )
-			.then(data => {
+		updatePassword(user._id, token, formdata)
+			.then((data) => {
 				if (data.error) {
 					setStatus({ ...status, loading: false, error: data.error });
 					//Reset States
 					setPasswordObject({
 						newPass1: "",
 						newPass2: "",
-						oldPass: ""
-					})
+						oldPass: "",
+					});
 				} else {
-					setStatus({ ...status, loading: false, success: "Password for user " + data.name + " has been updated successfully" })
+					setStatus({
+						...status,
+						loading: false,
+						success:
+							"Password for user " +
+							data.name +
+							" has been updated successfully",
+					});
 					//Reset States
 					setPasswordObject({
 						newPass1: "",
 						newPass2: "",
-						oldPass: ""
-					})
+						oldPass: "",
+					});
 					signout(() => {
-						setStatus({ ...status, loading: "Signed-out: Redirecting to homepage..." });
+						setStatus({
+							...status,
+							loading: "Signed-out: Redirecting to homepage...",
+						});
 						setTimeout(() => {
-							history.push("/")
+							history.push("/");
 						}, 3000);
-					})
+					});
 				}
 			})
-			.catch(err => {
-				setStatus({ ...status, loading: false, error: `Error communicationg with the backend, ${err}` })
+			.catch((err) => {
+				setStatus({
+					...status,
+					loading: false,
+					error: `Error communicationg with the backend, ${err}`,
+				});
 				//Reset States
 				setPasswordObject({
 					newPass1: "",
 					newPass2: "",
-					oldPass: ""
-				})
-			})
-	}
+					oldPass: "",
+				});
+			});
+	};
 
-    const resetPasswordForm = () => {
-        return(
-            <form>
-            <h6 className={validation() ? "text-success" : "text-warning"}>Password must be atlease 6 digits in length</h6>
-            <h6 className={validation() ? "text-success" : "text-warning"}>New Password fields should match</h6>
-            <div className="input-group mb-3">
-				<div className="input-group-prepend">
-					<label className="input-group-text">New Password</label>
+	const resetPasswordForm = () => {
+		return (
+			<form>
+				<h6 className={validation() ? "text-success" : "text-warning"}>
+					Password must be atlease 6 digits in length
+				</h6>
+				<h6 className={validation() ? "text-success" : "text-warning"}>
+					New Password fields should match
+				</h6>
+				<div className="input-group mb-3">
+					<div className="input-group-prepend">
+						<label className="input-group-text">New Password</label>
+					</div>
+					<input
+						type="password"
+						className={`form-control ${
+							validation() ? `border-success` : `border-warning`
+						}`}
+						placeholder="New Password"
+						value={newPass1}
+						onChange={handleChange("newPass1")}
+					/>
 				</div>
-				<input
-					type="password"
-					className={`form-control ${validation() ? `border-success` : `border-warning`}`}
-					placeholder="New Password"
-					value={newPass1}
-					onChange={handleChange("newPass1")}
-				/>
-			</div>
-            <div className="input-group mb-3">
-				<div className="input-group-prepend">
-					<label className="input-group-text">Retype New Password</label>
+				<div className="input-group mb-3">
+					<div className="input-group-prepend">
+						<label className="input-group-text">Retype New Password</label>
+					</div>
+					<input
+						type="password"
+						className={`form-control ${
+							validation() ? `border-success` : `border-warning`
+						}`}
+						placeholder="Retype New Password"
+						value={newPass2}
+						onChange={handleChange("newPass2")}
+					/>
 				</div>
-				<input
-					type="password"
-					className={`form-control ${validation() ? `border-success` : `border-warning`}`}
-					placeholder="Retype New Password"
-					value={newPass2}
-					onChange={handleChange("newPass2")}
-				/>
-			</div>
-            <h6 className="text-info">Enter your current password to authorize this update</h6>
-			<div className="input-group mb-3">
-				<div className="input-group-prepend">
-					<label className="input-group-text">Password</label>
+				<h6 className="text-info">
+					Enter your current password to authorize this update
+				</h6>
+				<div className="input-group mb-3">
+					<div className="input-group-prepend">
+						<label className="input-group-text">Password</label>
+					</div>
+					<input
+						type="password"
+						className="form-control"
+						placeholder="Password"
+						value={oldPass}
+						onChange={handleChange("oldPass")}
+						disabled={newPass1 !== newPass2 || !newPass1 || !newPass2}
+					/>
 				</div>
-				<input
-					type="password"
-					className="form-control"
-					placeholder="Password"
-					value={oldPass}
-					onChange={handleChange("oldPass")}
-					disabled={(newPass1 !== newPass2) || !newPass1 || !newPass2}
-				/>
-			</div>
-			<button
-				className="btn btn-info rounded"
-				disabled={(newPass1 !== newPass2) || !newPass1 || !newPass2 || !oldPass}
-				onClick={formSubmit}
-			>
-				Update Password
-			</button>
-		</form>
-        );
-    }
+				<button
+					className="btn btn-info rounded"
+					disabled={newPass1 !== newPass2 || !newPass1 || !newPass2 || !oldPass}
+					onClick={formSubmit}
+				>
+					Update Password
+				</button>
+			</form>
+		);
+	};
 
 	return (
 		<Base
 			title="Password Reset Page"
 			description="Manage your password here"
-            className="container bg-white p-4 rounded"
+			className="container bg-white p-4 rounded"
 		>
-            <Link className="btn btn-info rounded mb-4" to="/user/dashboard">
-                User Dashboard
-            </Link>
-            {resetPasswordForm()}
+			<Link className="btn btn-info rounded mb-4" to="/user/dashboard">
+				User Dashboard
+			</Link>
+			{resetPasswordForm()}
 			{loadingMessage()}
 			{errorMessage()}
 			{successMessage()}
-        </Base>
+		</Base>
 	);
 };
 

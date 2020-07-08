@@ -9,7 +9,7 @@ const ManageUserInfo = () => {
 	const [userProfile, setUserProfile] = useState({
 		name: "loading...",
 		lastname: "loading...",
-		password: ""
+		password: "",
 	});
 	const [status, setStatus] = useState({
 		loading: false,
@@ -30,7 +30,11 @@ const ManageUserInfo = () => {
 					setStatus({ ...status, loading: false, error: data.error });
 					setDisableControls(true);
 				} else {
-					setUserProfile({ ...userProfile, name: data.name, lastname: data.lastname });
+					setUserProfile({
+						...userProfile,
+						name: data.name,
+						lastname: data.lastname,
+					});
 					setStatus({ ...status, loading: false });
 				}
 			})
@@ -102,14 +106,14 @@ const ManageUserInfo = () => {
 				if (data.error) {
 					setStatus({ ...status, error: data.error, loading: false });
 					//Reset state password
-					setUserProfile({ ...userProfile, password: "" })
+					setUserProfile({ ...userProfile, password: "" });
 				} else {
 					setStatus({
 						...status,
 						success: data.name + " " + data.lastname,
 						loading: false,
 					});
-					setUserProfile({ ...userProfile, password: "" })
+					setUserProfile({ ...userProfile, password: "" });
 				}
 			})
 			.catch((err) => {
@@ -119,7 +123,7 @@ const ManageUserInfo = () => {
 					loading: false,
 				});
 				//Reset state password
-				setUserProfile({ ...userProfile, password: "" })
+				setUserProfile({ ...userProfile, password: "" });
 			});
 	};
 

@@ -15,16 +15,16 @@ const ManageUserOrders = () => {
 		ascDesc: "desc",
 		limit: 8,
 		skip: 0,
-	})
+	});
 
 	//Desturcturing
 	const { user, token } = isAuthenticated();
 	const { loading, error } = status;
-	
+
 	//Query Data
 	let queryData = {
-		"query": query
-	}
+		query: query,
+	};
 	const preload = () => {
 		setStatus({ ...status, loading: true });
 		getUserOrders(user._id, token, queryData)
