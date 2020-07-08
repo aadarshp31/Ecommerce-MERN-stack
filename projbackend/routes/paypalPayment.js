@@ -6,10 +6,12 @@ const { getUserById } = require("../controllers/user");
 
 router.param("userId", getUserById);
 
-router.get("/payment/gettoken/:userId", isSignedIn, isAuthenticated, getToken)
-router.post("/payment/paypal/:userId", isSignedIn, isAuthenticated, processPayment)
-
-
-
+router.get("/payment/gettoken/:userId", isSignedIn, isAuthenticated, getToken);
+router.post(
+	"/payment/paypal/:userId",
+	isSignedIn,
+	isAuthenticated,
+	processPayment
+);
 
 module.exports = router;
