@@ -14,8 +14,8 @@ const Card = ({
 	addToCartButton = false,
 	removeFromCartButton = false,
 	setReload = (f) => f,
-    reload = undefined,
-    products,
+	reload = undefined,
+	products,
 }) => {
 	const cardTitle = product ? product.name : "A Photo from Pexels";
 	const cardDescription = product ? product.description : "Product Description";
@@ -90,11 +90,11 @@ const Card = ({
 			if (item._id === product._id) {
 				item.quantity++;
 				updateCart(cart);
-                setReload(!reload);
-                //*Updates quantity in homepage cards
-                if(products) {
-                    getQuantityFromCart(products);
-                }
+				setReload(!reload);
+				//*Updates quantity in homepage cards
+				if (products) {
+					getQuantityFromCart(products);
+				}
 			}
 		});
 	};
@@ -106,11 +106,11 @@ const Card = ({
 			if (item._id === product._id) {
 				if (item.quantity > 1) {
 					item.quantity--;
-                    updateCart(cart);
-                    //*Updates quantity in homepage cards
-                    if(products) {
-                        getQuantityFromCart(products);
-                    }
+					updateCart(cart);
+					//*Updates quantity in homepage cards
+					if (products) {
+						getQuantityFromCart(products);
+					}
 				} else {
 					removeFromCart();
 				}
@@ -122,7 +122,9 @@ const Card = ({
 	const showQuantityButton = () => {
 		return product.quantity ? (
 			<div className="mb-2">
-				<p className="m-1" style={{ display: "inline" }}>Qty:</p>
+				<p className="m-1" style={{ display: "inline" }}>
+					Qty:
+				</p>
 				{product.quantity > 0 ? (
 					<button
 						onClick={decQuantity}
@@ -134,7 +136,9 @@ const Card = ({
 				) : (
 					""
 				)}
-				<p style={{ display: "inline" }}><span className="badge badge-secondary">{product.quantity}</span></p>
+				<p style={{ display: "inline" }}>
+					<span className="badge badge-secondary">{product.quantity}</span>
+				</p>
 				<button
 					onClick={incQuantity}
 					className="btn btn-light mx-2 px-2 rounded"
@@ -155,7 +159,7 @@ const Card = ({
 				<h5 className="card-title">{cardTitle}</h5>
 				<p className="badge badge-dark px-3 py-2">₹ {cardPrice}</p>
 				<p className="card-text">{cardDescription}</p>
-                {showQuantityButton()}
+				{showQuantityButton()}
 				{showaddToCartButton(addToCartButton)}
 				{showremoveFromCartButton(removeFromCartButton)}
 				{performRedirect(redirect)}

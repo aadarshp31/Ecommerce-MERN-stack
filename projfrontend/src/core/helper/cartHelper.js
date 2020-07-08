@@ -33,15 +33,15 @@ export const loadCart = () => {
 };
 
 export const getQuantityFromCart = (products) => {
-    let cart = loadCart();
-    cart.map(item => {
-        products.map(product => {
-            if (item._id === product._id) {
-                product.quantity = item.quantity;
-            }
-        })
-    })
-}
+	let cart = loadCart();
+	cart.map((item) => {
+		products.map((product) => {
+			if (item._id === product._id) {
+				product.quantity = item.quantity;
+			}
+		});
+	});
+};
 
 //Update
 export const updateCart = (updatedCart) => {

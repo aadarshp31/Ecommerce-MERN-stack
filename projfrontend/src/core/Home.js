@@ -52,7 +52,7 @@ const Home = () => {
 				}
 			})
 			.catch((err) => console.log(err));
-	}
+	};
 
 	const filterSection = () => {
 		return (
@@ -106,7 +106,12 @@ const Home = () => {
 						<option value="16">16</option>
 						<option value="20">20</option>
 					</select>
-					<button className="btn btn-block btn-info my-2 rounded" onClick={filter}>Filter</button>
+					<button
+						className="btn btn-block btn-info my-2 rounded"
+						onClick={filter}
+					>
+						Filter
+					</button>
 				</div>
 			</div>
 		);

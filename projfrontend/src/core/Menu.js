@@ -1,4 +1,4 @@
-import React, {Fragment} from "react";
+import React, { Fragment } from "react";
 import { Link, withRouter } from "react-router-dom";
 import { signout, isAuthenticated } from "../auth/helper/index";
 
@@ -11,8 +11,8 @@ const currentTab = (history, path) => {
 	}
 };
 
-const Menu = ({history}) => (
-	<div style={{position: "fixed", width: "100vw", zIndex: "5", top: "0"}}>
+const Menu = ({ history }) => (
+	<div style={{ position: "fixed", width: "100vw", zIndex: "5", top: "0" }}>
 		<ul className="nav nav-expand bg-info p-2 font-weight-bold">
 			<li className="nav-item">
 				<Link style={currentTab(history, "/")} className="nav-link" to="/">
@@ -28,55 +28,55 @@ const Menu = ({history}) => (
 					Cart
 				</Link>
 			</li>
-			
+
 			{/* Displays/Returns Dashboard nav button when user is authenticated, otherwise hides it from navbar */}
 			{isAuthenticated() && (
 				<li className="nav-item">
-				<Link
-					style={currentTab(history, "/user/dashboard")}
-					className="nav-link"
-					to="/user/dashboard"
-				>
-					Dashboard
-				</Link>
-			</li>
+					<Link
+						style={currentTab(history, "/user/dashboard")}
+						className="nav-link"
+						to="/user/dashboard"
+					>
+						Dashboard
+					</Link>
+				</li>
 			)}
 
 			{/* Displays/Returns Admin Dashboard nav button when user is admin, otherwise hides it from navbar */}
 			{/* Admin Dashboard is not accessible to the non-admin users */}
 			{isAuthenticated() && isAuthenticated().user.role === 1 && (
 				<li className="nav-item">
-				<Link
-					style={currentTab(history, "/admin/dashboard")}
-					className="nav-link"
-					to="/admin/dashboard"
-				>
-					Admin Dashboard
-				</Link>
-			</li>
+					<Link
+						style={currentTab(history, "/admin/dashboard")}
+						className="nav-link"
+						to="/admin/dashboard"
+					>
+						Admin Dashboard
+					</Link>
+				</li>
 			)}
-			
+
 			{/* Displays/Returns Signin nav button when user is not authenticated, otherwise hides it from navbar */}
 			{!isAuthenticated() && (
 				<Fragment>
-				<li className="nav-item">
-				<Link
-					style={currentTab(history, "/signup")}
-					className="nav-link"
-					to="/signup"
-				>
-					Signup
-				</Link>
-				</li>
-				<li className="nav-item">
-					<Link
-						style={currentTab(history, "/signin")}
-						className="nav-link"
-						to="/signin"
-					>
-						Signin
-					</Link>
-				</li>
+					<li className="nav-item">
+						<Link
+							style={currentTab(history, "/signup")}
+							className="nav-link"
+							to="/signup"
+						>
+							Signup
+						</Link>
+					</li>
+					<li className="nav-item">
+						<Link
+							style={currentTab(history, "/signin")}
+							className="nav-link"
+							to="/signin"
+						>
+							Signin
+						</Link>
+					</li>
 				</Fragment>
 			)}
 			{/* Displays/Returns Signout nav button when user is authenticated, otherwise hides it from navbar */}

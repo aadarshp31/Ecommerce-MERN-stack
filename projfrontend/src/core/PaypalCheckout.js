@@ -101,8 +101,8 @@ const PaypalCheckout = ({
 						products: products,
 						transaction_id: response.transaction.id,
 						amount: response.transaction.amount,
-                    };
-					
+					};
+
 					//Create order for the user
 					createOrder(user._id, token, orderData);
 

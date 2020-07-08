@@ -43,7 +43,11 @@ const Cart = () => {
 					reload={reload}
 				/>
 				<br />
-				<PaypalCheckout products={products} setReload={setReload} reload={reload} />
+				<PaypalCheckout
+					products={products}
+					setReload={setReload}
+					reload={reload}
+				/>
 			</div>
 		);
 	};
