@@ -95,13 +95,15 @@ const ManageOrders = () => {
 										aria-controls={"colapse" + index}
 									>
 										<span>
-											Date: {date.getDate().toString()} /{" "}
-											{(date.getMonth() + 1).toString()} /{" "}
+											{date.getDate().toString()}/
+											{(date.getMonth() + 1).toString()}/
 											{date.getFullYear().toString()}
 										</span>
-										<span>Products: {order.products.length} </span>
-										<span>Status: {order.status}</span>
-										<span>Amount: {order.amount}</span>
+										<span className="d-none d-md-block">
+											Products: {order.products.length}{" "}
+										</span>
+										<span className="d-none d-md-block">{order.status}</span>
+										<span className="mr-auto">Amt: ${order.amount}</span>
 										<i className="fas fa-angle-up card-icon"></i>
 									</button>
 								</h2>
@@ -113,59 +115,69 @@ const ManageOrders = () => {
 								data-parent="#accordionExample"
 							>
 								<div className="card-body">
-									<h6 className="badge badge-info p-3">
-										Order Amount: {order.amount}
+									<h6>
+										Order Amount:{" "}
+										<span className="text-info">${order.amount}</span>
 									</h6>
 									<h6>
-										Status: <span className="text-info">{order.status}</span>
+										Order Status:{" "}
+										<span className="text-info">{order.status}</span>
 									</h6>
 									<br />
 									<h5>Products Purchased</h5>
-									<table className="table table-striped">
-										<thead>
-											<tr className="bg-info text-white">
-												<th scope="col" className="text-center">
-													#
-												</th>
-												<th scope="col" className="text-center">
-													Name
-												</th>
-												<th scope="col" className="text-center">
-													Price
-												</th>
-												<th scope="col" className="text-center">
-													Quantity
-												</th>
-												<th scope="col" className="text-center">
-													Total Price
-												</th>
-											</tr>
-										</thead>
-										<tbody>
-											{order.products.map((product, productIndex) => {
-												return (
-													<tr key={productIndex} className="text-center">
-														<th scope="row">{productIndex + 1}</th>
-														<td>{product.name}</td>
-														<td>{product.price}</td>
-														<td>{product.quantity || 1}</td>
-														<td>{product.price * (product.quantity || 1)}</td>
-													</tr>
-												);
-											})}
-											<tr className="text-center table-info">
-												<td>
-													<strong>Grand Total</strong>
-												</td>
-												<td></td>
-												<td></td>
-												<td></td>
-												<td>
-													<strong>{order.amount}</strong>
-												</td>
-											</tr>
-										</tbody>
-									</table>
+									<div className="table-responsive">
+										<table
+											className="table table-hover"
+											style={{ minWidth: "500px" }}
+										>
+											<caption>List of Products in the Order</caption>
+											<thead>
+												<tr className="bg-info text-white">
+													<th scope="col" className="text-center">
+														#
+													</th>
+													<th scope="col" className="text-center">
+														Name
+													</th>
+													<th scope="col" className="text-center">
+														Price
+													</th>
+													<th scope="col" className="text-center">
+														Quantity
+													</th>
+													<th scope="col" className="text-center">
+														Total Price
+													</th>
+												</tr>
+											</thead>
+											<tbody>
+												{order.products.map((product, productIndex) => {
+													return (
+														<tr key={productIndex} className="text-center">
+															<th scope="row">{productIndex + 1}</th>
+															<td>{product.name}</td>
+															<td>${product.price}</td>
+															<td>{product.quantity || 1}</td>
+															<td>
+																${product.price * (product.quantity || 1)}
+															</td>
+														</tr>
+													);
+												})}
+												<tr className="text-center table-info">
+													<td>
+														<strong>Grand Total</strong>
+													</td>
+													<td></td>
+													<td></td>
+													<td></td>
+													<td>
+														<strong>${order.amount}</strong>
+													</td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
 									<br />
 									<h6>
 										Transaction ID:{" "}
@@ -193,7 +205,7 @@ const ManageOrders = () => {
 			<Link className="btn btn-info rounded" to={`/admin/dashboard`}>
 				<span className="">Admin Home</span>
 			</Link>
-			<h2 className="mb-4 text-center">All Orders</h2>
+			<h2 className="my-4 text-center">All Orders</h2>
 			<div className="row">
 				<div className="col-12">
 					<h4 className="text-left my-3">

@@ -21,15 +21,14 @@ body {
   text-decoration: none;
 }
 .btn-link span {
-  width: 20%;
+  width: 7rem;
 }
 
 /* Font awesome Icon Default styling */
 .fa-angle-up{
   transform: rotate(180deg);
   font-size: 2rem;
-  color: #5bc0de; /* Bootstrap info color*/
-  margin-left: auto;
+  color: lightgrey; /* Bootstrap info color*/
   transition: transform 200ms ease-in;
 }
 
