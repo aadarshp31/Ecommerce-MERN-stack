@@ -45,7 +45,7 @@ const UserDashboard = () => {
 
 	const userRightSide = () => {
 		return (
-			<div className="card mb-4">
+			<div className="card">
 				<h4 className="card-header bg-info text-white">User Information</h4>
 				<ul className="list-group text-secondary">
 					<li className="list-group-item">
@@ -73,9 +73,9 @@ const UserDashboard = () => {
 			description="Welcome to User Dashboard Page"
 			className="container bg-white p-4 rounded"
 		>
-			<div className="row">
-				<div className="col-3">{userLeftSide()}</div>
-				<div className="col-9">{userRightSide()}</div>
+			<div className="row flex-column-reverse flex-md-row justify-content-start">
+				<div className="col-md-4 my-1">{userLeftSide()}</div>
+				<div className="col-md-8 my-1">{userRightSide()}</div>
 			</div>
 		</Base>
 	);

@@ -51,7 +51,7 @@ const AdminDashboard = () => {
 
 	const adminRightSide = () => {
 		return (
-			<div className="card mb-4">
+			<div className="card">
 				<h4 className="card-header bg-info text-white">Admin Information</h4>
 				<ul className="list-group">
 					<li className="list-group-item">
@@ -74,9 +74,9 @@ const AdminDashboard = () => {
 			description="Manage all of your products here"
 			className="container bg-white p-4 rounded"
 		>
-			<div className="row">
-				<div className="col-3">{adminLeftSide()}</div>
-				<div className="col-9">{adminRightSide()}</div>
+			<div className="row flex-column-reverse flex-md-row justify-content-start">
+				<div className="col-md-4 my-1">{adminLeftSide()}</div>
+				<div className="col-md-8 my-1">{adminRightSide()}</div>
 			</div>
 		</Base>
 	);
