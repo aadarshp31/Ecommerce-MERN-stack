@@ -129,12 +129,11 @@ const ManageUserInfo = () => {
 
 	const userInfoForm = () => (
 		<form>
-			<div className="input-group mb-3">
-				<div className="input-group-prepend">
-					<label className="input-group-text">First Name</label>
-				</div>
+			<div className="form-group mb-3">
+				<label htmlFor="firstName">First Name</label>
 				<input
 					type="text"
+					id="firstName"
 					className="form-control"
 					placeholder="First Name"
 					value={name}
@@ -143,12 +142,11 @@ const ManageUserInfo = () => {
 					disabled={disableControls}
 				/>
 			</div>
-			<div className="input-group mb-3">
-				<div className="input-group-prepend">
-					<label className="input-group-text">Last Name</label>
-				</div>
+			<div className="form-group mb-3">
+				<label htmlFor="lastName">Last Name</label>
 				<input
 					type="text"
+					id="lastName"
 					className="form-control"
 					placeholder="Last Name"
 					value={lastname}
@@ -156,13 +154,12 @@ const ManageUserInfo = () => {
 					disabled={disableControls}
 				/>
 			</div>
-			<h6 className="text-info">Enter password to authorize this update</h6>
-			<div className="input-group mb-3">
-				<div className="input-group-prepend">
-					<label className="input-group-text">Password</label>
-				</div>
+			<p className="text-muted">Enter password to authorize this update</p>
+			<div className="form-group mb-3">
+				<label htmlFor="password">Password</label>
 				<input
 					type="password"
+					id="password"
 					className="form-control"
 					placeholder="Password"
 					value={password}
@@ -192,7 +189,7 @@ const ManageUserInfo = () => {
 				</Link>
 			}
 			<div className="row p-2">
-				<div className="container-fluid mx-auto" style={{ width: "70%" }}>
+				<div className="container-fluid mx-auto">
 					{userInfoForm()}
 					{loadingMessage()}
 					{successMessage()}
