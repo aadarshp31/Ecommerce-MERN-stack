@@ -116,6 +116,9 @@ const ManageOrders = () => {
 							>
 								<div className="card-body">
 									<h6>
+										User: <span className="text-info">{order.user.name}</span>
+									</h6>
+									<h6>
 										Order Amount:{" "}
 										<span className="text-info">${order.amount}</span>
 									</h6>
@@ -182,6 +185,10 @@ const ManageOrders = () => {
 									<h6>
 										Transaction ID:{" "}
 										<span className="text-info">{order.transaction_id}</span>
+									</h6>
+									<h6>
+										Order ID:{" "}
+										<span className="text-info">{order._id}</span>
 									</h6>
 									<h6>
 										Order Date:{" "}
