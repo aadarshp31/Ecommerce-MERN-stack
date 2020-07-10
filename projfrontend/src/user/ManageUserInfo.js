@@ -154,7 +154,6 @@ const ManageUserInfo = () => {
 					disabled={disableControls}
 				/>
 			</div>
-			<p className="text-muted">Enter password to authorize this update</p>
 			<div className="form-group mb-3">
 				<label htmlFor="password">Password</label>
 				<input
@@ -166,6 +165,7 @@ const ManageUserInfo = () => {
 					onChange={handleChange("password")}
 					disabled={disableControls}
 				/>
+				<small className="text-muted">Enter password to authorize this update</small>
 			</div>
 			<button
 				className="btn btn-info rounded"
