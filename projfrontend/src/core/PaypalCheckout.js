@@ -120,7 +120,7 @@ const PaypalCheckout = ({
 
 	return (
 		<div>
-			<h4>Paypal Checkout</h4>
+			<h5>Paypal Checkout</h5>
 			{showPaypalCheckout()}
 		</div>
 	);

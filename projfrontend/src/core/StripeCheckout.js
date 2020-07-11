@@ -89,12 +89,12 @@ const StripeCheckout = ({
 
 	return (
 		<div>
-			<h4 className="text-white">
+			<h5>
 				Total Amount:{" "}
 				<span className="badge badge-info text-white">{getFinalAmount()}</span>
-			</h4>
+			</h5>
 			<br />
-			<h4 className="text-white">Stripe Checkout</h4>
+			<h5>Stripe Checkout</h5>
 			{showStripeButton()}
 		</div>
 	);
