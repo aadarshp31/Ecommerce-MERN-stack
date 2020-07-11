@@ -157,7 +157,7 @@ const Card = ({
 			<ImageHelper product={product} />
 			<div className="card-body">
 				<h5 className="card-title">{cardTitle}</h5>
-				<p className="badge badge-dark px-3 py-2">₹ {cardPrice}</p>
+				<p className="badge badge-dark px-3 py-2">${cardPrice}</p>
 				<p className="card-text">{cardDescription}</p>
 				{showQuantityButton()}
 				{showaddToCartButton(addToCartButton)}
