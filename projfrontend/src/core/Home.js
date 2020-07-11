@@ -122,7 +122,7 @@ const Home = () => {
 			<div className="container-fluid d-flex flex-wrap justify-content-center justify-content-md-start">
 				{products.map((product, index) => {
 					return (
-						<div key={index} className="m-2">
+						<div key={index}>
 							<Card
 								product={product}
 								products={products}
