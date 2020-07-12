@@ -214,7 +214,7 @@ const ManageUserOrders = () => {
 					<h4 className="text-left my-3">
 						Total Orders: <span className="text-info">{orders.length}</span>
 					</h4>
-					{showOrders()}
+					{orders.length > 0 ? showOrders() : ""}
 					{loadingMessage()}
 					{errorMessage()}
 				</div>
