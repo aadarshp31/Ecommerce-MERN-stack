@@ -57,14 +57,14 @@ const Cart = () => {
 	return (
 		<Base title="Shopping Cart" description="Manage products in your cart here">
 			<div className="container-fluid d-flex flex-column-reverse flex-md-row">
-				<div style={{maxWidth: "70rem"}}>
+				<div style={{maxWidth: "70rem", minWidth: "40%"}}>
 					{products.length > 0 ? (
 						loadAllProducts()
 					) : (
 						<h6 className="text-warning">The Cart is Empty!</h6>
 					)}
 				</div>
-				<div className="bg-light text-dark mx-auto p-3 my-5 rounded" style={{minWidth: "18rem", maxWidth: "30rem", maxHeight: "43rem"}}>{loadCheckout()}</div>
+				<div className="bg-light text-dark mx-auto p-3 my-5 rounded" style={{minWidth: "18rem", maxWidth: "30rem", maxHeight: "44rem"}}>{loadCheckout()}</div>
 			</div>
 		</Base>
 	);
