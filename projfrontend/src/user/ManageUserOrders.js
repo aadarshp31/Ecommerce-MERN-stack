@@ -84,7 +84,7 @@ const ManageUserOrders = () => {
 									<button
 										className={`btn btn-link btn-block text-left ${
 											!(index === 0) ? "collapsed" : ""
-										}`}
+											}`}
 										type="button"
 										data-toggle="collapse"
 										data-target={"#colapse" + index}

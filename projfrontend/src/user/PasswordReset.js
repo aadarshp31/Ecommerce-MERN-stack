@@ -153,7 +153,7 @@ const PasswordReset = ({ history }) => {
 						type="password"
 						className={`form-control ${
 							validation() ? `border-success` : `border-warning`
-						}`}
+							}`}
 						placeholder="New Password"
 						value={newPass1}
 						onChange={handleChange("newPass1")}
@@ -167,7 +167,7 @@ const PasswordReset = ({ history }) => {
 						type="password"
 						className={`form-control ${
 							validation() ? `border-success` : `border-warning`
-						}`}
+							}`}
 						placeholder="Retype New Password"
 						value={newPass2}
 						onChange={handleChange("newPass2")}
