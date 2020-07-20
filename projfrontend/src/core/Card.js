@@ -29,7 +29,7 @@ const Card = ({
 		//For empty Cart
 		if (cart.length === 0) {
 			product.quantity = 1;
-			addItemToCart(product, () => {});
+			addItemToCart(product, () => { });
 			//For non-empty Cart
 		} else {
 			let checkDuplicate = cart.filter((item) => item._id === product._id);
@@ -43,13 +43,13 @@ const Card = ({
 				//For non-duplicate Product
 			} else {
 				product.quantity = 1;
-				addItemToCart(product, () => {});
+				addItemToCart(product, () => { });
 			}
 		}
 		setReload(!reload);
 	};
 	const removeFromCart = () => {
-		removeItemFromCart(product._id, () => {});
+		removeItemFromCart(product._id, () => { });
 		product.quantity = "";
 		setReload(!reload);
 	};
@@ -134,8 +134,8 @@ const Card = ({
 						<i className="fa fa-minus" aria-hidden="true"></i>
 					</button>
 				) : (
-					""
-				)}
+						""
+					)}
 				<p style={{ display: "inline" }}>
 					<span className="badge badge-secondary">{product.quantity}</span>
 				</p>
@@ -148,8 +148,8 @@ const Card = ({
 				</button>
 			</div>
 		) : (
-			""
-		);
+				""
+			);
 	};
 
 	return (
