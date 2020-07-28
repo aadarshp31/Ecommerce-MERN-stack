@@ -4,6 +4,7 @@ import { isAuthenticated } from "../auth/helper";
 import { getAllOrders } from "../core/helper/orderHelper";
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
+import queryString from "query-string";
 
 const ManageOrders = () => {
 	//States
@@ -23,13 +24,10 @@ const ManageOrders = () => {
 	const { user, token } = isAuthenticated();
 	const { loading, error } = status;
 
-	//Query Data
-	let queryData = {
-		query: query,
-	};
 	const preload = () => {
+		const queryStringified = queryString.stringify(query);
 		setStatus({ ...status, loading: true });
-		getAllOrders(user._id, token, queryData)
+		getAllOrders(user._id, token, queryStringified)
 			.then((data) => {
 				if (data.error) {
 					setStatus({ ...status, loading: false, error: data.error });

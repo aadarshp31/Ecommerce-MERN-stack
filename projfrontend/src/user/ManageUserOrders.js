@@ -3,6 +3,8 @@ import Base from "../core/Base";
 import { Link } from "react-router-dom";
 import { isAuthenticated } from "../auth/helper";
 import { getUserOrders } from "../core/helper/orderHelper";
+import queryString from "query-string";
+
 const ManageUserOrders = () => {
 	//React Hooks
 	const [orders, setOrders] = useState([]);
@@ -21,13 +23,10 @@ const ManageUserOrders = () => {
 	const { user, token } = isAuthenticated();
 	const { loading, error } = status;
 
-	//Query Data
-	let queryData = {
-		query: query,
-	};
 	const preload = () => {
+		const queryStringified = queryString.stringify(query);
 		setStatus({ ...status, loading: true });
-		getUserOrders(user._id, token, queryData)
+		getUserOrders(user._id, token, queryStringified)
 			.then((data) => {
 				if (data.error) {
 					setStatus({ ...status, loading: false, error: data.error });
