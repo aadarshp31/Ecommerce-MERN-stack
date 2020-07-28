@@ -13,7 +13,8 @@ const Home = () => {
 	const [query, setQuery] = useState({
 		sortBy: "name",
 		ascDesc: "asc",
-		limit: "8",
+		limit: 8,
+		skip: 0
 	});
 
 	//destructuring
@@ -34,6 +35,8 @@ const Home = () => {
 	useEffect(() => {
 		loadAllProducts();
 	}, []);
+
+	/* Filter Section START */
 
 	//Handle Change
 	const handleChanege = (fieldName) => (e) => {
@@ -116,6 +119,8 @@ const Home = () => {
 			</div>
 		);
 	};
+
+	/* Filter Section END */
 
 	const productDisplay = () => {
 		return (
