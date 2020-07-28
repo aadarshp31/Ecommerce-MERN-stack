@@ -30,7 +30,7 @@ router.post(
 );
 
 //Get / Read order route
-router.post(
+router.get(
 	"/order/all/:userId",
 	isSignedIn,
 	isAuthenticated,
@@ -39,7 +39,7 @@ router.post(
 );
 
 //Get all orders for a particular user
-router.post("/orders/:userId", isSignedIn, isAuthenticated, getOrdersForUser);
+router.get("/orders/:userId", isSignedIn, isAuthenticated, getOrdersForUser);
 
 //Get order status
 router.get(
