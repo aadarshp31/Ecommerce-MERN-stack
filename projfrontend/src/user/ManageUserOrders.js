@@ -22,11 +22,11 @@ const ManageUserOrders = () => {
 	//Desturcturing
 	const { user, token } = isAuthenticated();
 	const { loading, error } = status;
+	const { sortBy, ascDesc, limit } = query;
 
 	const preload = () => {
-		const queryStringified = queryString.stringify(query);
 		setStatus({ ...status, loading: true });
-		getUserOrders(user._id, token, queryStringified)
+		getUserOrders(user._id, token)
 			.then((data) => {
 				if (data.error) {
 					setStatus({ ...status, loading: false, error: data.error });
@@ -70,6 +70,99 @@ const ManageUserOrders = () => {
 			);
 		}
 	};
+
+		/* Filter Section START */
+
+	//Handle Change
+	const handleChange = (fieldName) => (e) => {
+		setQuery({ ...query, [fieldName]: e.target.value });
+	};
+
+	//Filter
+	const filter = () => {
+		setStatus({ ...status, loading: true});
+		const queryStringified = queryString.stringify(query);
+		return getUserOrders(user._id, token, queryStringified)
+			.then((data) => {
+				if (data.error) {
+					setStatus({ ...status, loading: false, error: data.error });
+				} else {
+					setOrders(data);
+					setStatus({ ...status, loading: false });
+				}
+			})
+			.catch((err) => {
+				console.log(err);
+				setStatus({ ...status, loading: false, error: err });
+			});
+	};
+
+	const filterSection = () => {
+		return (
+			<div
+				className="p-3 my-2 mx-auto bg-light text-dark rounded"
+			>
+				<div className="d-flex justify-content-around flex-column flex-md-row">
+					<div>
+						<label className="mr-sm-2" htmlFor="inlineFormCustomSelect">
+							Sort By
+						</label>
+						<select
+							className="custom-select mr-sm-2"
+							id="inlineFormCustomSelect"
+							value={sortBy}
+							onChange={handleChange("sortBy")}
+						>
+							<option value="createdAt">Order Date</option>
+							<option value="amount">Amount</option>
+						</select>
+					</div>
+					<div className="my-2 my-md-0">
+						<label className="mr-sm-2" htmlFor="inlineFormCustomSelect">
+							Order
+					</label>
+						<select
+							className="custom-select mr-sm-2"
+							id="inlineFormCustomSelect"
+							value={ascDesc}
+							onChange={handleChange("ascDesc")}
+						>
+							<option value="asc">Ascending</option>
+							<option value="desc">Descending</option>
+						</select>
+					</div>
+					<div className="my-2 my-md-0">
+						<label className="mr-sm-2" htmlFor="inlineFormCustomSelect">
+							Limit
+						</label>
+						<select
+							className="custom-select mr-sm-2"
+							id="inlineFormCustomSelect"
+							value={limit}
+							onChange={handleChange("limit")}
+						>
+							<option value="3">3</option>
+							<option value="5">5</option>
+							<option value="8">8</option>
+							<option value="12">12</option>
+							<option value="16">16</option>
+							<option value="20">20</option>
+						</select>
+					</div>
+					<button
+						className="btn btn-info rounded mt-4 mt-md-auto"
+						style={{ minWidth: "150px" }}
+						onClick={filter}
+					>
+						Filter
+					</button>
+				</div>
+			</div>
+		);
+	};
+
+	/* Filter Section END */
+
 
 	const showOrders = () => {
 		return (
@@ -208,6 +301,7 @@ const ManageUserOrders = () => {
 				</Link>
 			}
 			<h2 className="my-4 text-center">Your Orders</h2>
+			{filterSection()}
 			<div className="row">
 				<div className="col-12">
 					<h4 className="text-left my-3">
