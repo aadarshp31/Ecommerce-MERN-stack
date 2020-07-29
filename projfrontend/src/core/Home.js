@@ -39,7 +39,7 @@ const Home = () => {
 	/* Filter Section START */
 
 	//Handle Change
-	const handleChanege = (fieldName) => (e) => {
+	const handleChange = (fieldName) => (e) => {
 		setQuery({ ...query, [fieldName]: e.target.value });
 	};
 
@@ -72,7 +72,7 @@ const Home = () => {
 						className="custom-select mr-sm-2"
 						id="inlineFormCustomSelect"
 						value={sortBy}
-						onChange={handleChanege("sortBy")}
+						onChange={handleChange("sortBy")}
 					>
 						<option value="name">Name</option>
 						<option value="price">Price</option>
@@ -86,7 +86,7 @@ const Home = () => {
 						className="custom-select mr-sm-2"
 						id="inlineFormCustomSelect"
 						value={ascDesc}
-						onChange={handleChanege("ascDesc")}
+						onChange={handleChange("ascDesc")}
 					>
 						<option value="asc">Ascending</option>
 						<option value="desc">Descending</option>
@@ -100,7 +100,7 @@ const Home = () => {
 						className="custom-select mr-sm-2"
 						id="inlineFormCustomSelect"
 						value={limit}
-						onChange={handleChanege("limit")}
+						onChange={handleChange("limit")}
 					>
 						<option value="3">3</option>
 						<option value="5">5</option>
