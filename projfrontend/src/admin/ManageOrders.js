@@ -56,8 +56,8 @@ const ManageOrders = () => {
 		if (error) {
 			return (
 				<div>
-					<div class="alert alert-danger alert-dismissible fade show" role="alert">
-						<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+					<div className="alert alert-danger alert-dismissible fade show" role="alert">
+						<button type="button" className="close" data-dismiss="alert" aria-label="Close">
 							<span aria-hidden="true">&times;</span>
 						</button>
 						<h5>Loading Orders Failed!</h5>
