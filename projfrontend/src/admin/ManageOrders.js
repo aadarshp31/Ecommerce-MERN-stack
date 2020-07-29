@@ -5,6 +5,8 @@ import { getAllOrders } from "../core/helper/orderHelper";
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import queryString from "query-string";
+import Loading from "../core/Loading";
+import ErrorToast from "../core/ErrorToast";
 
 const ManageOrders = () => {
 	//States
@@ -49,29 +51,22 @@ const ManageOrders = () => {
 		preload();
 	}, []);
 
-	//Loading Message
-	const loadingMessage = () => {
-		if (loading) {
-			return (
-				<div className="alert alert-info m-2 text-info">
-					<h4 className="text-info">Loading...</h4>
-				</div>
-			);
-		}
-	};
-
 	//Signup error message popup
 	const errorMessage = () => {
 		if (error) {
 			return (
-				<div className="alert alert-danger m-2 text-danger">
-					<h4>Loading Orders Failed!</h4>
-					<p>{error}</p>
+				<div>
+					<div class="alert alert-danger alert-dismissible fade show" role="alert">
+						<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+						<h5>Loading Orders Failed!</h5>
+						<p>{error}</p>
+					</div>
 				</div>
-			);
+			)
 		}
-	};
-
+	}
 	/* Filter Section START */
 
 	//Handle Change
@@ -81,7 +76,7 @@ const ManageOrders = () => {
 
 	//Filter
 	const filter = () => {
-		setStatus({ ...status, loading: true});
+		setStatus({ ...status, loading: true });
 		const queryStringified = queryString.stringify(query);
 		return getAllOrders(user._id, token, queryStringified)
 			.then((data) => {
@@ -177,7 +172,7 @@ const ManageOrders = () => {
 									<button
 										className={`btn btn-link btn-block text-left ${
 											!(index === 0) ? "collapsed" : ""
-										}`}
+											}`}
 										type="button"
 										data-toggle="collapse"
 										data-target={"#colapse" + index}
@@ -310,7 +305,8 @@ const ManageOrders = () => {
 						Total Orders: <span className="text-info">{orders.length}</span>
 					</h4>
 					{showOrders()}
-					{loadingMessage()}
+					<Loading loading={loading} />
+					<ErrorToast error={error} />
 					{errorMessage()}
 				</div>
 			</div>
