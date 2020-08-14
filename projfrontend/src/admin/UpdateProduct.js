@@ -16,7 +16,6 @@ const UpdateProduct = ({ match, history }) => {
 		name: "",
 		description: "",
 		price: "",
-		categories: [],
 		category: "",
 		stock: "",
 		photo: "",
@@ -29,13 +28,14 @@ const UpdateProduct = ({ match, history }) => {
 
 	//States for Signup component
 	const [values, setValues] = useState(initialValues);
+	const [categories, setCategories] = useState([])
 
 	//Destructuring the states of the Signup component
 	const {
 		name,
 		description,
+		category,
 		price,
-		categories,
 		stock,
 		loading,
 		error,
@@ -50,7 +50,7 @@ const UpdateProduct = ({ match, history }) => {
 				if (data.error) {
 					setValues({ ...values, error: data.error });
 				} else {
-					setValues({ categories: data, formData: new FormData() });
+					setCategories(data);
 				}
 			})
 			.catch((err) => console.log(err));
@@ -212,6 +212,7 @@ const UpdateProduct = ({ match, history }) => {
 						style={{ textTransform: "capitalize" }}
 						required
 						onChange={handleChange("category")}
+						value={category}
 					>
 						<option>Select</option>
 						{categories &&
