@@ -3,6 +3,8 @@ import Base from "../core/Base";
 import { Link } from "react-router-dom";
 import { isAuthenticated, signout } from "../auth/helper";
 import { updatePassword } from "./helper/userapicalls";
+import Loading from "../core/Loading";
+import ErrorToast from "../core/ErrorToast";
 
 const PasswordReset = ({ history }) => {
 	//React Hooks
@@ -21,17 +23,6 @@ const PasswordReset = ({ history }) => {
 	const { user, token } = isAuthenticated();
 	const { newPass1, newPass2, oldPass } = passwordObject;
 	const { loading, error, success } = status;
-
-	//Loading Message
-	const loadingMessage = () => {
-		if (loading) {
-			return (
-				<div className="alert alert-info m-2 text-info">
-					<h4 className="text-info">Loading...</h4>
-				</div>
-			);
-		}
-	};
 
 	//Success Message
 	const successMessage = () => {
@@ -209,8 +200,9 @@ const PasswordReset = ({ history }) => {
 			<Link className="btn btn-info rounded mb-4" to="/user/dashboard">
 				User Dashboard
 			</Link>
+			<Loading loading={loading} />
+			<ErrorToast error={error} />
 			{resetPasswordForm()}
-			{loadingMessage()}
 			{errorMessage()}
 			{successMessage()}
 		</Base>

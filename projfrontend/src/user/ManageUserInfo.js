@@ -3,6 +3,8 @@ import Base from "../core/Base";
 import { Link } from "react-router-dom";
 import { getUser, updateUser } from "./helper/userapicalls";
 import { isAuthenticated } from "../auth/helper";
+import Loading from "../core/Loading";
+import ErrorToast from "../core/ErrorToast";
 
 const ManageUserInfo = () => {
 	//React Hooks
@@ -61,17 +63,6 @@ const ManageUserInfo = () => {
 	const handleChange = (inputValue) => (event) => {
 		setStatus({ ...status, error: false, success: false });
 		setUserProfile({ ...userProfile, [inputValue]: event.target.value });
-	};
-
-	//Loading Message
-	const loadingMessage = () => {
-		if (loading) {
-			return (
-				<div className="alert alert-info m-2 text-info">
-					<h4 className="text-info">Loading...</h4>
-				</div>
-			);
-		}
 	};
 
 	//Success Message
@@ -188,10 +179,11 @@ const ManageUserInfo = () => {
 					<span>User Dashboard</span>
 				</Link>
 			}
+			<Loading loading={loading} />
+			<ErrorToast error={error} />
 			<div className="row p-2">
 				<div className="container-fluid mx-auto">
 					{userInfoForm()}
-					{loadingMessage()}
 					{successMessage()}
 					{errorMessage()}
 				</div>
