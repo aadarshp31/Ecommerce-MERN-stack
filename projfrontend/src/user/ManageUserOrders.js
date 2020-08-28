@@ -5,6 +5,7 @@ import { isAuthenticated } from "../auth/helper";
 import { getUserOrders } from "../core/helper/orderHelper";
 import queryString from "query-string";
 import Loading from "../core/Loading";
+import ErrorToast from "../core/ErrorToast";
 
 const ManageUserOrders = () => {
 	//React Hooks
@@ -293,6 +294,7 @@ const ManageUserOrders = () => {
 			<h2 className="my-4 text-center">Your Orders</h2>
 			{filterSection()}
 			<Loading loading={loading} />
+			<ErrorToast error={error} />
 			<div className="row">
 				<div className="col-12">
 					<h4 className="text-left my-3">
