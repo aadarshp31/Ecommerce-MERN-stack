@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { isAuthenticated } from "../auth/helper";
 import { getUserOrders } from "../core/helper/orderHelper";
 import queryString from "query-string";
+import Loading from "../core/Loading";
 
 const ManageUserOrders = () => {
 	//React Hooks
@@ -47,17 +48,6 @@ const ManageUserOrders = () => {
 	useEffect(() => {
 		preload();
 	}, []);
-
-	//Loading Message
-	const loadingMessage = () => {
-		if (loading) {
-			return (
-				<div className="alert alert-info m-2 text-info">
-					<h4 className="text-info">Loading...</h4>
-				</div>
-			);
-		}
-	};
 
 	//Signup error message popup
 	const errorMessage = () => {
@@ -302,13 +292,13 @@ const ManageUserOrders = () => {
 			}
 			<h2 className="my-4 text-center">Your Orders</h2>
 			{filterSection()}
+			<Loading loading={loading} />
 			<div className="row">
 				<div className="col-12">
 					<h4 className="text-left my-3">
 						Total Orders: <span className="text-info">{orders.length}</span>
 					</h4>
 					{orders.length > 0 ? showOrders() : ""}
-					{loadingMessage()}
 					{errorMessage()}
 				</div>
 			</div>
