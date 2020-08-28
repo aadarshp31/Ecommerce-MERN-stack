@@ -5,10 +5,13 @@ import Card from "./Card";
 import { getProducts } from "./helper/coreapicalls";
 import { createCart, getQuantityFromCart } from "./helper/cartHelper";
 import queryString from "query-string";
+import Loading from "./Loading";
+import ErrorToast from "./ErrorToast";
 
 const Home = () => {
 	const [products, setProducts] = useState([]);
 	const [error, setError] = useState(false);
+	const [loading, setLoading] = useState(false);
 	const [reload, setReload] = useState(false);
 	const [query, setQuery] = useState({
 		sortBy: "name",
@@ -21,15 +24,21 @@ const Home = () => {
 	const { sortBy, ascDesc, limit } = query;
 
 	const loadAllProducts = () => {
+		setLoading(true);
 		return getProducts()
 			.then((data) => {
+				setLoading(false);
 				if (data.error) {
 					setError(data.error);
 				} else {
 					setProducts(data);
 				}
 			})
-			.catch((err) => console.log(err));
+			.catch((err) => {
+				console.log(err);
+				setError(err);
+				setLoading(false);
+			});
 	};
 
 	useEffect(() => {
@@ -46,15 +55,20 @@ const Home = () => {
 	//Filter
 	const filter = () => {
 		const queryStringified = queryString.stringify(query);
+		setLoading(true);
 		return getProducts(queryStringified)
 			.then((data) => {
+				setLoading(false);
 				if (data.error) {
 					setError(data.error);
 				} else {
 					setProducts(data);
 				}
 			})
-			.catch((err) => console.log(err));
+			.catch((err) => {
+				console.log(err);
+				setLoading(false);	
+			});
 	};
 
 	const filterSection = () => {
@@ -145,6 +159,8 @@ const Home = () => {
 		<Base title="Home Page" description="Welcome to the Tshirt Store">
 			{createCart()}
 			<h1 className="text-white mx-auto mb-5">All T-Shirts</h1>
+			<Loading loading={loading} />
+			<ErrorToast error={error} />
 			<div className="container-fluid d-flex p-3 flex-column flex-md-row justify-content-md-center">
 				{filterSection()}
 				{productDisplay()}
