@@ -2,7 +2,7 @@ import React from "react";
 
 const Loading = ({loading = false}) => {
     return (
-        <div className="text-center">
+        <div className="text-center mx-auto">
                 <div className={`spinner-border text-info my-3 ${(loading === true) ? "" : " d-none"}`} role="status">
                     <span className="sr-only">Loading...</span>
                 </div>
