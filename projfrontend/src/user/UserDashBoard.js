@@ -28,16 +28,16 @@ const UserDashboard = () => {
 							Change Password
 						</Link>
 					</li>
-					<li className="list-group-item">
+					{/* <li className="list-group-item">
 						<Link to="/user/email-update" className="nav-link text-secondary">
 							Change Email
 						</Link>
-					</li>
-					<li className="list-group-item">
+					</li> */}
+					{/* <li className="list-group-item">
 						<Link to="/user/orders" className="nav-link text-secondary">
 							Manage Orders
 						</Link>
-					</li>
+					</li> */}
 				</ul>
 			</div>
 		);
