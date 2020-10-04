@@ -86,7 +86,8 @@ exports.signin = (req, res) => {
 //Protected Routes
 exports.isSignedIn = expressJwt({
 	secret: process.env.SECRET,
-	userProperty: "auth"
+	userProperty: "auth",
+	algorithms: ['HS256']
 })
 
 //Custom middlewares
