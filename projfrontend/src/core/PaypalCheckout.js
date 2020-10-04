@@ -58,26 +58,26 @@ const PaypalCheckout = ({
 		return info.clientToken !== null &&
 			isAuthenticated() &&
 			products.length > 0 ? (
-			<div>
-				<DropIn
-					options={{ authorization: info.clientToken }}
-					onInstance={(instance) => (info.instance = instance)}
-				/>
-				<button onClick={onPurchase} className="btn btn-info rounded">
-					Pay with Paypal
+				<div>
+					<DropIn
+						options={{ authorization: info.clientToken }}
+						onInstance={(instance) => (info.instance = instance)}
+					/>
+					<button onClick={onPurchase} className="btn btn-info rounded">
+						Pay with Paypal
 				</button>
-			</div>
-		) : (
-			<div>
-				{!isAuthenticated() ? (
-					<Link to="/signin">
-						<button className="btn btn-warning rounded">Signin</button>
-					</Link>
-				) : (
-					<h5 className="text-warning">Add an item to cart to continue</h5>
-				)}
-			</div>
-		);
+				</div>
+			) : (
+				<div>
+					{!isAuthenticated() ? (
+						<Link to="/signin">
+							<button className="btn btn-warning rounded">Signin</button>
+						</Link>
+					) : (
+							<h5 className="text-warning">Add an item to cart to continue</h5>
+						)}
+				</div>
+			);
 	};
 
 	const onPurchase = () => {
@@ -101,8 +101,8 @@ const PaypalCheckout = ({
 						products: products,
 						transaction_id: response.transaction.id,
 						amount: response.transaction.amount,
-                    };
-					
+					};
+
 					//Create order for the user
 					createOrder(user._id, token, orderData);
 
@@ -120,7 +120,7 @@ const PaypalCheckout = ({
 
 	return (
 		<div>
-			<h4>Paypal Checkout</h4>
+			<h5>Paypal Checkout</h5>
 			{showPaypalCheckout()}
 		</div>
 	);

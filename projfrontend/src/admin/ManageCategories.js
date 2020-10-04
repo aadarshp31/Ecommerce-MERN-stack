@@ -3,22 +3,32 @@ import Base from "../core/Base";
 import { Link } from "react-router-dom";
 import { isAuthenticated } from "../auth/helper";
 import { getAllCategories, deleteCategory } from "./helper/adminapicall";
+import Loading from "../core/Loading";
+import ErrorToast from "../core/ErrorToast";
 
 const ManageProduct = () => {
 	const [categories, setCategories] = useState([]);
 	const [loading, setLoading] = useState(false);
+	const [error, setError] = useState(false);
 	const { user, token } = isAuthenticated();
 
 	const preload = () => {
 		setLoading(true);
-		getAllCategories().then((data) => {
+		getAllCategories()
+		.then((data) => {
+			setLoading(false);
 			if (data.error) {
+				setError(data.error);
 				console.log(data.error);
 			} else {
 				setCategories(data);
-				setLoading(false);
 			}
-		});
+		})
+		.catch(err => {
+			console.log(err);
+			setError(err);
+			setLoading(false);
+		})
 	};
 
 	useEffect(() => {
@@ -29,25 +39,19 @@ const ManageProduct = () => {
 		setLoading(true);
 		deleteCategory(user._id, categoryId, token)
 			.then((data) => {
+				setLoading(false);
 				if (data.error) {
+				setError(data.error);
 					console.log(data.error);
 				} else {
 					preload();
-					setLoading(false);
 				}
 			})
-			.catch((err) => console.log(err));
-	};
-
-	//Loading Message
-	const loadingMessage = () => {
-		if (loading) {
-			return (
-				<div className="m-2 text-info">
-					<h4 className="text-info">Loading...</h4>
-				</div>
-			);
-		}
+			.catch((err) => {
+				console.log(err)
+				setError(err);
+				setLoading(false);
+			});
 	};
 
 	return (
@@ -60,6 +64,8 @@ const ManageProduct = () => {
 				<span className="">Admin Home</span>
 			</Link>
 			<h2 className="mb-4 text-center">All Categories</h2>
+			<Loading loading={loading} />
+			<ErrorToast error={error} />
 			<div className="row">
 				<div className="col-12">
 					<h4 className="text-left text-warning my-3">
@@ -100,7 +106,6 @@ const ManageProduct = () => {
 							</div>
 						);
 					})}
-					{loadingMessage()}
 				</div>
 			</div>
 		</Base>

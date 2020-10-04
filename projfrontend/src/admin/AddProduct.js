@@ -3,6 +3,9 @@ import { Link } from "react-router-dom";
 import Base from "../core/Base";
 import { createProduct, getAllCategories } from "./helper/adminapicall";
 import { isAuthenticated } from "../auth/helper";
+import Loading from "../core/Loading";
+import ErrorToast from "../core/ErrorToast";
+
 const AddProduct = (history) => {
 	//Getting Token and User data from the client's browser localStorage
 	const { token, user } = isAuthenticated();
@@ -42,7 +45,9 @@ const AddProduct = (history) => {
 
 	//Method to preload the category list after rendering of the Create Product Page
 	const preload = () => {
+		setValues({ ...values, loading: true });
 		getAllCategories().then((data) => {
+			setValues({ ...values, loading: false });
 			if (data.error) {
 				setValues({ ...values, error: data.error });
 			} else {
@@ -89,7 +94,10 @@ const AddProduct = (history) => {
 					});
 				}
 			})
-			.catch((err) => console.log(err));
+			.catch((err) => {
+				setValues({ ...values, loading: false, error: err });
+				console.log(err)
+			});
 	};
 
 	//Success Message
@@ -102,17 +110,6 @@ const AddProduct = (history) => {
 				<h4>{`${createdProduct}: Product Added successfully`}</h4>
 			</div>
 		);
-	};
-
-	//Loading Message
-	const loadingMessage = () => {
-		if (loading) {
-			return (
-				<div className="alert alert-info m-2 text-info">
-					<h4 className="text-info">Loading...</h4>
-				</div>
-			);
-		}
 	};
 
 	const redirectingMessage = () => {
@@ -241,7 +238,7 @@ const AddProduct = (history) => {
 						onChange={handleChange("photo")}
 					/>
 				</div>
-				<button className="btn btn-info" onClick={formSubmit}>
+				<button className="btn btn-info rounded" onClick={formSubmit}>
 					Create Product
 				</button>
 			</form>
@@ -257,8 +254,10 @@ const AddProduct = (history) => {
 			<div className="row rounded">
 				<div className="col-md-2">{goBackButton()}</div>
 				<div className="col-md-8 my-3">
+				<h2 className="mb-4 text-center">Add New Product</h2>
+					<ErrorToast error={error} />
+					<Loading loading={loading} />
 					{addProductForm()}
-					{loadingMessage()}
 					{successMessage()}
 					{errorMessage()}
 					{redirectingMessage()}

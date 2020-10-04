@@ -1,0 +1,13 @@
+FROM node:12.18.3-alpine3.9 AS DEPLOY-NODE
+
+WORKDIR /var/ecommerceApp/backend
+
+COPY ./package*.json ./
+
+RUN npm install
+
+COPY . .
+
+ENTRYPOINT [ "npm", "run" ]
+
+CMD [ "start" ]

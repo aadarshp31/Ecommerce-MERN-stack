@@ -3,6 +3,8 @@ import Base from "../core/Base";
 import { Link } from "react-router-dom";
 import { isAuthenticated } from "../auth/helper/index";
 import { getCategory, updateCategory } from "./helper/adminapicall";
+import Loading from "../core/Loading";
+import ErrorToast from "../core/ErrorToast";
 
 const UpdateCategory = ({ match, history }) => {
 	const [name, setName] = useState("");
@@ -78,24 +80,6 @@ const UpdateCategory = ({ match, history }) => {
 		}
 	};
 
-	//Error message popup
-	const errorMessage = () => {
-		if (error) {
-			return (
-				<div className="text-danger">
-					<h4>Collection Updation Failed!</h4>
-					<p>{error}</p>
-				</div>
-			);
-		}
-	};
-
-	const loadingMessage = () => {
-		if (loading) {
-			return <h4 className="text-info">Loading...</h4>;
-		}
-	};
-
 	const redirectingMessage = () => {
 		if (didRedirect) {
 			return (
@@ -145,13 +129,13 @@ const UpdateCategory = ({ match, history }) => {
 			description="Update a product category for TShirts"
 			className="container bg-white rounded p-4"
 		>
+			<Loading loading={loading} />
+			<ErrorToast error={error} />
 			<div className="row rounded">
 				<div className="col-md-2">{goBackButton()}</div>
 				<div className="col-md-8 my-3">
 					{addCategoryForm()}
 					{successMessage()}
-					{errorMessage()}
-					{loadingMessage()}
 					{redirectingMessage()}
 					{performRedirect()}
 				</div>

@@ -3,13 +3,15 @@ import Base from "../core/Base";
 import { Link } from "react-router-dom";
 import { getUser, updateUser } from "./helper/userapicalls";
 import { isAuthenticated } from "../auth/helper";
+import Loading from "../core/Loading";
+import ErrorToast from "../core/ErrorToast";
 
 const ManageUserInfo = () => {
 	//React Hooks
 	const [userProfile, setUserProfile] = useState({
 		name: "loading...",
 		lastname: "loading...",
-		password: ""
+		password: "",
 	});
 	const [status, setStatus] = useState({
 		loading: false,
@@ -30,7 +32,11 @@ const ManageUserInfo = () => {
 					setStatus({ ...status, loading: false, error: data.error });
 					setDisableControls(true);
 				} else {
-					setUserProfile({ ...userProfile, name: data.name, lastname: data.lastname });
+					setUserProfile({
+						...userProfile,
+						name: data.name,
+						lastname: data.lastname,
+					});
 					setStatus({ ...status, loading: false });
 				}
 			})
@@ -57,17 +63,6 @@ const ManageUserInfo = () => {
 	const handleChange = (inputValue) => (event) => {
 		setStatus({ ...status, error: false, success: false });
 		setUserProfile({ ...userProfile, [inputValue]: event.target.value });
-	};
-
-	//Loading Message
-	const loadingMessage = () => {
-		if (loading) {
-			return (
-				<div className="alert alert-info m-2 text-info">
-					<h4 className="text-info">Loading...</h4>
-				</div>
-			);
-		}
 	};
 
 	//Success Message
@@ -102,14 +97,14 @@ const ManageUserInfo = () => {
 				if (data.error) {
 					setStatus({ ...status, error: data.error, loading: false });
 					//Reset state password
-					setUserProfile({ ...userProfile, password: "" })
+					setUserProfile({ ...userProfile, password: "" });
 				} else {
 					setStatus({
 						...status,
 						success: data.name + " " + data.lastname,
 						loading: false,
 					});
-					setUserProfile({ ...userProfile, password: "" })
+					setUserProfile({ ...userProfile, password: "" });
 				}
 			})
 			.catch((err) => {
@@ -119,18 +114,17 @@ const ManageUserInfo = () => {
 					loading: false,
 				});
 				//Reset state password
-				setUserProfile({ ...userProfile, password: "" })
+				setUserProfile({ ...userProfile, password: "" });
 			});
 	};
 
 	const userInfoForm = () => (
 		<form>
-			<div className="input-group mb-3">
-				<div className="input-group-prepend">
-					<label className="input-group-text">First Name</label>
-				</div>
+			<div className="form-group mb-3">
+				<label htmlFor="firstName">First Name</label>
 				<input
 					type="text"
+					id="firstName"
 					className="form-control"
 					placeholder="First Name"
 					value={name}
@@ -139,12 +133,11 @@ const ManageUserInfo = () => {
 					disabled={disableControls}
 				/>
 			</div>
-			<div className="input-group mb-3">
-				<div className="input-group-prepend">
-					<label className="input-group-text">Last Name</label>
-				</div>
+			<div className="form-group mb-3">
+				<label htmlFor="lastName">Last Name</label>
 				<input
 					type="text"
+					id="lastName"
 					className="form-control"
 					placeholder="Last Name"
 					value={lastname}
@@ -152,19 +145,18 @@ const ManageUserInfo = () => {
 					disabled={disableControls}
 				/>
 			</div>
-			<h6 className="text-info">Enter password to authorize this update</h6>
-			<div className="input-group mb-3">
-				<div className="input-group-prepend">
-					<label className="input-group-text">Password</label>
-				</div>
+			<div className="form-group mb-3">
+				<label htmlFor="password">Password</label>
 				<input
 					type="password"
+					id="password"
 					className="form-control"
 					placeholder="Password"
 					value={password}
 					onChange={handleChange("password")}
 					disabled={disableControls}
 				/>
+				<small className="text-muted">Enter password to authorize this update</small>
 			</div>
 			<button
 				className="btn btn-info rounded"
@@ -187,10 +179,11 @@ const ManageUserInfo = () => {
 					<span>User Dashboard</span>
 				</Link>
 			}
+			<Loading loading={loading} />
+			<ErrorToast error={error} />
 			<div className="row p-2">
-				<div className="container-fluid mx-auto" style={{ width: "70%" }}>
+				<div className="container-fluid mx-auto">
 					{userInfoForm()}
-					{loadingMessage()}
 					{successMessage()}
 					{errorMessage()}
 				</div>

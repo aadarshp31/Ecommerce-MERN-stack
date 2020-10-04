@@ -1,0 +1,13 @@
+version: "3"
+services: 
+  projfrontend:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    volumes: 
+      - .:/var/ecommerceApp/frontend
+    ports:
+      - "3000:3000"
+    stdin_open: true
+    tty: true
+      

@@ -75,26 +75,26 @@ const StripeCheckout = ({
 				<button className="btn btn-info rounded">Pay with Stripe</button>
 			</StripeCheckoutButton>
 		) : (
-			<div>
-				{!isAuthenticated() ? (
-					<Link to="/signin">
-						<button className="btn btn-warning rounded">Signin</button>
-					</Link>
-				) : (
-					<h5 className="text-warning">Add an item to cart to continue</h5>
-				)}
-			</div>
-		);
+				<div>
+					{!isAuthenticated() ? (
+						<Link to="/signin">
+							<button className="btn btn-warning rounded">Signin</button>
+						</Link>
+					) : (
+							<h5 className="text-warning">Add an item to cart to continue</h5>
+						)}
+				</div>
+			);
 	};
 
 	return (
 		<div>
-			<h4 className="text-white">
+			<h5>
 				Total Amount:{" "}
-				<span className="badge badge-info text-white">{getFinalAmount()}</span>
-			</h4>
+				<span className="badge badge-info text-white">${getFinalAmount()}</span>
+			</h5>
 			<br />
-			<h4 className="text-white">Stripe Checkout</h4>
+			<h5>Stripe Checkout</h5>
 			{showStripeButton()}
 		</div>
 	);

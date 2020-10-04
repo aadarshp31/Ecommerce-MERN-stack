@@ -17,48 +17,54 @@ const Cart = () => {
 
 	const loadAllProducts = () => {
 		return (
-			<div>
-				<h2>This section is for all products</h2>
-				{products.map((product, index) => {
-					return (
-						<Card
-							key={index}
-							product={product}
-							setReload={setReload}
-							reload={reload}
-						/>
-					);
-				})}
+			<div className="my-5">
+				<h4>Products in your Cart</h4>
+				<div className="d-flex flex-wrap justify-content-center justify-content-md-start">
+					{products.map((product, index) => {
+						return (
+							<Card
+								key={index}
+								product={product}
+								setReload={setReload}
+								reload={reload}
+							/>
+						);
+					})}
+				</div>
 			</div>
 		);
 	};
 	const loadCheckout = () => {
 		return (
-			<div>
-				<h2 className="text-white">Checkout Section</h2>
-				<hr className="bg-white" />
+			<div className="mx-auto">
+				<h4>Checkout Section</h4>
+				<hr />
 				<StripeCheckout
 					products={products}
 					setReload={setReload}
 					reload={reload}
 				/>
 				<br />
-				<PaypalCheckout products={products} setReload={setReload} reload={reload} />
+				<PaypalCheckout
+					products={products}
+					setReload={setReload}
+					reload={reload}
+				/>
 			</div>
 		);
 	};
 
 	return (
 		<Base title="Shopping Cart" description="Manage products in your cart here">
-			<div className="row">
-				<div className="col-6">
+			<div className="container-fluid d-flex flex-column-reverse flex-md-row">
+				<div style={{ maxWidth: "70rem", minWidth: "40%" }}>
 					{products.length > 0 ? (
 						loadAllProducts()
 					) : (
-						<h2 className="text-warning">The Cart is Empty!</h2>
-					)}
+							<h6 className="text-warning">The Cart is Empty!</h6>
+						)}
 				</div>
-				<div className="col-6">{loadCheckout()}</div>
+				<div className="bg-light text-dark mx-auto p-3 my-5 rounded" style={{ minWidth: "18rem", maxWidth: "30rem", maxHeight: "44rem" }}>{loadCheckout()}</div>
 			</div>
 		</Base>
 	);

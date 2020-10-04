@@ -7,6 +7,9 @@ import {
 	getAllCategories,
 } from "./helper/adminapicall";
 import { isAuthenticated } from "../auth/helper";
+import Loading from "../core/Loading";
+import ErrorToast from "../core/ErrorToast";
+
 const UpdateProduct = ({ match, history }) => {
 	//Getting Token and User data from the client's browser localStorage
 	const { token, user } = isAuthenticated();
@@ -16,7 +19,6 @@ const UpdateProduct = ({ match, history }) => {
 		name: "",
 		description: "",
 		price: "",
-		categories: [],
 		category: "",
 		stock: "",
 		photo: "",
@@ -29,13 +31,14 @@ const UpdateProduct = ({ match, history }) => {
 
 	//States for Signup component
 	const [values, setValues] = useState(initialValues);
+	const [categories, setCategories] = useState([])
 
 	//Destructuring the states of the Signup component
 	const {
 		name,
 		description,
+		category,
 		price,
-		categories,
 		stock,
 		loading,
 		error,
@@ -45,24 +48,30 @@ const UpdateProduct = ({ match, history }) => {
 	} = values;
 
 	const preloadCategories = () => {
+		setValues({ ...values, error: false, loading: true });
 		getAllCategories()
 			.then((data) => {
+				setValues({ ...values, loading: false });
 				if (data.error) {
 					setValues({ ...values, error: data.error });
 				} else {
-					setValues({ categories: data, formData: new FormData() });
+					setCategories(data);
 				}
 			})
-			.catch((err) => console.log(err));
+			.catch((err) => {
+				setValues({ ...values, error: err, loading: false });
+				console.log(err);
+			});
 	};
 
 	//Method to preload the category list after rendering of the Create Product Page
 	const preload = (productId) => {
+		setValues({ ...values, error: false, loading: true });
+		preloadCategories();
 		getProduct(productId).then((data) => {
 			if (data.error) {
-				setValues({ ...values, error: data.error });
+				setValues({ ...values, error: data.error, loading: false });
 			} else {
-				preloadCategories();
 				setValues({
 					...values,
 					name: data.name,
@@ -71,6 +80,7 @@ const UpdateProduct = ({ match, history }) => {
 					price: data.price,
 					stock: data.stock,
 					formData: new FormData(),
+					loading: false,
 				});
 			}
 		});
@@ -114,7 +124,10 @@ const UpdateProduct = ({ match, history }) => {
 					});
 				}
 			})
-			.catch((err) => console.log(err));
+			.catch((err) => {
+				setValues({ ...values, error: err, loading: false });
+				console.log(err);
+			});
 	};
 
 	//Success Message
@@ -127,17 +140,6 @@ const UpdateProduct = ({ match, history }) => {
 				<h4>{`${createdProduct}: Product Updated successfully`}</h4>
 			</div>
 		);
-	};
-
-	//Loading Message
-	const loadingMessage = () => {
-		if (loading) {
-			return (
-				<div className="alert alert-info m-2 text-info">
-					<h4 className="text-info">Loading...</h4>
-				</div>
-			);
-		}
 	};
 
 	const redirectingMessage = () => {
@@ -172,7 +174,7 @@ const UpdateProduct = ({ match, history }) => {
 		);
 	};
 
-	const addProductForm = () => {
+	const updateProductForm = () => {
 		return (
 			<form>
 				<div className="input-group mb-3">
@@ -212,6 +214,7 @@ const UpdateProduct = ({ match, history }) => {
 						style={{ textTransform: "capitalize" }}
 						required
 						onChange={handleChange("category")}
+						value={category}
 					>
 						<option>Select</option>
 						{categories &&
@@ -266,7 +269,7 @@ const UpdateProduct = ({ match, history }) => {
 						onChange={handleChange("photo")}
 					/>
 				</div>
-				<button className="btn btn-info" onClick={formSubmit}>
+				<button className="btn btn-info rounded" onClick={formSubmit}>
 					Update Product
 				</button>
 			</form>
@@ -282,8 +285,10 @@ const UpdateProduct = ({ match, history }) => {
 			<div className="row rounded">
 				<div className="col-md-2">{goBackButton()}</div>
 				<div className="col-md-8 my-3">
-					{addProductForm()}
-					{loadingMessage()}
+					<h2 className="mb-4 text-center">Update Product</h2>
+					<Loading loading={loading} />
+					<ErrorToast error={error} />
+					{updateProductForm()}
 					{successMessage()}
 					{errorMessage()}
 					{redirectingMessage()}

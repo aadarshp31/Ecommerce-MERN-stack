@@ -41,11 +41,13 @@ const Signin = () => {
 					});
 				}
 			})
-			.catch(err => console.log("Error: Signin request to the server failed!\n", err));
-			//This catch runs whenever there is an error at the backend which is not handled
+			.catch((err) =>
+				console.log("Error: Signin request to the server failed!\n", err)
+			);
+		//This catch runs whenever there is an error at the backend which is not handled
 	};
 
-	const performRedirect = () => {		
+	const performRedirect = () => {
 		//Redirect the "Admin User" to "Admin Dashboard" & "Normal User" to " User Dashboard"
 		if (didRedirect) {
 			if (user && user.role === 1) {

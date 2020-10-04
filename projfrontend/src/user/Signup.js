@@ -21,7 +21,12 @@ const Signup = () => {
 
 	//Sets data in the states according to the input fields
 	const handleChange = (inputValue) => (event) => {
-		setValues({ ...values, error: false, success: false, [inputValue]: event.target.value });
+		setValues({
+			...values,
+			error: false,
+			success: false,
+			[inputValue]: event.target.value,
+		});
 	};
 
 	//Submits the signup form and gets the response data from the backend
@@ -36,8 +41,10 @@ const Signup = () => {
 					setValues({ ...initialValues, success: true });
 				}
 			})
-			.catch(err => console.log("Error: Signup request to the server failed!\n", err));
-			//This catch runs whenever there is an error at the backend which is not handled
+			.catch((err) =>
+				console.log("Error: Signup request to the server failed!\n", err)
+			);
+		//This catch runs whenever there is an error at the backend which is not handled
 	};
 
 	//Signup success message popup

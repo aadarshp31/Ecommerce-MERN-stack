@@ -3,20 +3,24 @@ import Base from "../core/Base";
 import { Link } from "react-router-dom";
 import { isAuthenticated } from "../auth/helper";
 import { getAllProducts, deleteProduct } from "./helper/adminapicall";
+import Loading from "../core/Loading";
+import ErrorToast from "../core/ErrorToast";
 
 const ManageProduct = () => {
 	const [products, setProducts] = useState([]);
 	const [loading, setLoading] = useState(false);
+	const [error, setError] = useState(false);
 	const { user, token } = isAuthenticated();
 
 	const preload = () => {
 		setLoading(true);
 		getAllProducts().then((data) => {
+			setLoading(false);
 			if (data.error) {
+				setError(data.error);
 				console.log(data.error);
 			} else {
 				setProducts(data);
-				setLoading(false);
 			}
 		});
 	};
@@ -28,26 +32,20 @@ const ManageProduct = () => {
 	const deleteThisProduct = (productId) => {
 		setLoading(true);
 		deleteProduct(user._id, productId, token)
-			.then((data) => {
+		.then((data) => {
+				setLoading(false);
 				if (data.error) {
 					console.log(data.error);
+					setError(data.error);
 				} else {
 					preload();
-					setLoading(false);
 				}
 			})
-			.catch((err) => console.log(err));
-	};
-
-	//Loading Message
-	const loadingMessage = () => {
-		if (loading) {
-			return (
-				<div className="m-2 text-info">
-					<h4 className="text-info">Loading...</h4>
-				</div>
-			);
-		}
+			.catch((err) => {
+				setLoading(false);
+				setError(err);
+				console.log(err)
+			});
 	};
 
 	const showProducts = () => {
@@ -95,13 +93,14 @@ const ManageProduct = () => {
 				<span className="">Admin Home</span>
 			</Link>
 			<h2 className="mb-4 text-center">All Products</h2>
+			<Loading loading={loading} />
+			<ErrorToast error={error} />
 			<div className="row">
 				<div className="col-12">
 					<h4 className="text-left text-warning my-3">
 						Total Products: {products.length}
 					</h4>
 					{showProducts()}
-					{loadingMessage()}
 				</div>
 			</div>
 		</Base>
