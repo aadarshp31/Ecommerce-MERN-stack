@@ -11,22 +11,22 @@
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.19.0",
-    "braintree": "^2.23.0",
+    "braintree": "^2.24.0",
     "cookie-parser": "^1.4.4",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "express-jwt": "^6.0.0",
-    "express-validator": "^6.4.0",
+    "express-validator": "^6.6.1",
     "formidable": "^1.2.2",
     "i": "^0.3.6",
     "jsonwebtoken": "^8.5.1",
-    "lodash": "^4.17.19",
-    "mongoose": "^5.7.7",
+    "lodash": "^4.17.20",
+    "mongoose": "^5.10.7",
     "morgan": "^1.9.1",
     "nodemon": "^1.19.4",
-    "npm": "^6.13.0",
-    "stripe": "^8.60.0",
+    "npm": "^6.14.8",
+    "stripe": "^8.107.0",
     "uuid": "^3.3.3"
   }
 }
