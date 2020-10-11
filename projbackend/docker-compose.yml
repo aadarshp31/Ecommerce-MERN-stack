@@ -4,6 +4,8 @@ services:
     build: 
       context: .
       dockerfile: Dockerfile.db
+    ports: 
+      - "27017:27017"
 
   mynode:
     build: 
