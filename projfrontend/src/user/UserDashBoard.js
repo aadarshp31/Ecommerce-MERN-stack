@@ -51,7 +51,7 @@ const UserDashboard = () => {
 					<li className="list-group-item">
 						<span className="badge badge-success mr-2">Name:</span>
 						<span style={{ textTransform: "capitalize" }}>
-							{name + " " + lastname}
+							{name + " " + lastname !== undefined ? lastname : ""}
 						</span>
 					</li>
 					<li className="list-group-item">
