@@ -6,6 +6,8 @@ services:
       dockerfile: Dockerfile.db
     ports: 
       - "27017:27017"
+    volumes: 
+      - ~/../../var/ecommerceApp/data/db:/data/db
 
   mynode:
     build: 
