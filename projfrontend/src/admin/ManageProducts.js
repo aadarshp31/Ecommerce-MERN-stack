@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Base from "../core/Base";
 import { Link } from "react-router-dom";
 import { isAuthenticated } from "../auth/helper";
-import { getAllProducts, deleteProduct } from "./helper/adminapicall";
+import { getAllProducts, deleteProduct, getAllCategories } from "./helper/adminapicall";
 import Loading from "../core/Loading";
 import ErrorToast from "../core/ErrorToast";
 import queryString from "query-string";
@@ -12,15 +12,17 @@ const ManageProduct = () => {
 	const [loading, setLoading] = useState(false);
 	const [error, setError] = useState(false);
 	const { user, token } = isAuthenticated();
+	const [categories, setCategories] = useState([]);
 	const [query, setQuery] = useState({
 		sortBy: "price",
 		ascDesc: "asc",
 		limit: 8,
 		skip: 0,
+		category: ""
 	});
 
 	// Destructuring
-	const { sortBy, ascDesc, limit } = query;
+	const { sortBy, ascDesc, limit, category } = query;
 
 	const preload = () => {
 		setLoading(true);
@@ -32,6 +34,15 @@ const ManageProduct = () => {
 				console.log(data.error);
 			} else {
 				setProducts(data);
+			}
+		});
+		getAllCategories().then((data) => {
+			setLoading(false);
+			if (data.error) {
+				setError(data.error);
+				console.log(data.error);
+			} else {
+				setCategories(data);
 			}
 		});
 	};
@@ -132,10 +143,26 @@ const ManageProduct = () => {
 							onChange={handleChange("sortBy")}
 						>
 							<option value="name">Name</option>
-							<option value="updatedAt">Last Update</option>
 							<option value="price">Price</option>
 							<option value="stock">Qty in Stock</option>
 							<option value="sold">Qty Sold</option>
+							<option value="updatedAt">Last Update</option>
+						</select>
+					</div>
+					<div>
+						<label className="mr-sm-2" htmlFor="inlineFormCustomSelect">
+							Category
+						</label>
+						<select
+							className="custom-select mr-sm-2"
+							id="inlineFormCustomSelect"
+							value={category}
+							onChange={handleChange("category")}
+						>
+						<option value="">Select</option>
+						{categories.map((item, index) => (
+							<option key={index} value={item._id} style={{textTransform: "capitalize"}}>{item.name}</option>
+						))}
 						</select>
 					</div>
 					<div className="my-2 my-md-0">
