@@ -1,7 +1,9 @@
 const Product = require("../models/product");
 const formidable = require("formidable");
 const _ = require("lodash");
-const fs = require("fs");
+const path = require('path');
+const {v4: uuid} = require("uuid")
+const {createReadStream, createWriteStream, readFileSync, existsSync} = require("fs");
 
 //Create a product
 exports.createProduct = (req, res) => {
@@ -38,7 +40,26 @@ exports.createProduct = (req, res) => {
 			}
 
 			//Providing file path and extension details in photo object
-			product.photo.data = fs.readFileSync(file.photo.path);
+			photoExtension = "." + file.photo.type.split("/")[1];
+			photoLocation = path.join(__dirname, "../assets/images/products/", uuid()) + photoExtension;
+			const readStream = createReadStream(file.photo.path)
+			const writeStream = createWriteStream(photoLocation)
+			writeStream.on("error", error => {
+				res.status(500).json({
+					message: "Internal Server Error: Error occured while saving the file on our server" 
+				})
+				(process.env.ENVIRONMENT === "DEVELOPMENT") && console.log("Error: ", error);
+			})
+			readStream.on("error", error => {
+				res.status(500).json({
+					message: "Internal Server Error: Error occured while reading the uploaded image file" 
+				})
+				(process.env.ENVIRONMENT === "DEVELOPMENT") && console.log("Error: ", error);
+			})
+			readStream.on('data', chunk => {
+				writeStream.write(chunk)
+			})
+			product.photo.data = photoLocation;
 			product.photo.contentType = file.photo.type;
 		}
 
@@ -115,8 +136,21 @@ exports.getAllProduct = (req, res) => {
 //Middleware for getting photo
 exports.getPhoto = (req, res, next) => {
 	if (req.product.photo.data) {
-		res.set("content-type", req.product.photo.contentType);
-		res.send(req.product.photo.data);
+		if(!existsSync(req.product.photo.data)){
+			res.status(404).json({
+				message: "Not found: The photo for this product is not found on our server"
+			})
+			return
+		}
+		res.set({"Content-Type": req.product.photo.contentType});
+		try {
+			const photo = readFileSync(req.product.photo.data);
+			res.send(photo)
+		} catch (error) {
+			res.status(500).json({
+				message: "Internal Server Error: Error occurred while reading the file!"
+			})
+		}
 	}
 	next();
 };
