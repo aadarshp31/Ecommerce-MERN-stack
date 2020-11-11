@@ -24,7 +24,8 @@ const ManageProduct = () => {
 
 	const preload = () => {
 		setLoading(true);
-		getAllProducts().then((data) => {
+		const queryStringified = queryString.stringify(query);
+		getAllProducts(queryStringified).then((data) => {
 			setLoading(false);
 			if (data.error) {
 				setError(data.error);
@@ -61,34 +62,27 @@ const ManageProduct = () => {
 	const showProducts = () => {
 		return products.map((product, index) => {
 			return (
-				<div key={index}>
-					<div className="row text-center text-muted">
-						<div className="col-8 pl-5">
-							<h4 className="text-left" style={{ textTransform: "capitalize" }}>
-								{product.name}
-							</h4>
-						</div>
-						<div className="col-2">
-							<Link
-								className="btn btn-success rounded"
-								to={`/admin/product/update/${product._id}`}
-							>
-								<span className="">Update</span>
-							</Link>
-						</div>
-						<div className="col-2">
-							<button
-								onClick={() => {
-									deleteThisProduct(product._id);
-								}}
-								className="btn btn-danger rounded"
-							>
-								Delete
-							</button>
-						</div>
-					</div>
-					<hr />
-				</div>
+				<tr key={index}>
+					<th scope="row">{index + 1}</th>
+					<td>{product.name}</td>
+					<td>{product.category.name}</td>
+					<td>₹ {product.price}</td>
+					<td>{product.stock}</td>
+					<td>{product.sold}</td>
+					<td className="d-flex justify-content-around">
+					<Link className="btn btn-success rounded"	to={`/admin/product/update/${product._id}`}>
+						<span className="">Update</span>
+					</Link>
+					<button
+						onClick={() => {
+							deleteThisProduct(product._id);
+						}}
+						className="btn btn-danger rounded"
+					>
+						Delete
+					</button>
+				</td>
+			</tr>
 			);
 		});
 	};
@@ -208,8 +202,25 @@ const ManageProduct = () => {
 					<h4 className="text-left text-warning my-3">
 						Total Products: {products.length}
 					</h4>
-					{showProducts()}
-				</div>
+					<div className="table-responsive-lg">
+						<table className="table table-hover text-center" style={{ minWidth: "600px" }}>
+							<thead className="bg-info text-light">
+								<tr>
+									<th scope="col">#</th>
+									<th scope="col">Name</th>
+									<th scope="col">Category</th>
+									<th scope="col">Price</th>
+									<th scope="col">Stock</th>
+									<th scope="col">Sold</th>
+									<th scope="col">Update/Delete</th>
+								</tr>
+							</thead>
+							<tbody>
+							{showProducts()}
+							</tbody>
+						</table>
+					</div>
+					</div>
 			</div>
 		</Base>
 	);
