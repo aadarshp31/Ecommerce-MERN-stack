@@ -80,8 +80,8 @@ export const createProduct = (userId, token, product) => {
 };
 
 //Get all the products
-export const getAllProducts = () => {
-	return fetch(`${API}/products`, {
+export const getAllProducts = (query) => {
+	return fetch(`${API}/products${query ? '?' + query : ''}`, {
 		method: "GET",
 	})
 		.then((response) => response.json())
