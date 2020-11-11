@@ -3,7 +3,7 @@ const formidable = require("formidable");
 const _ = require("lodash");
 const path = require('path');
 const {v4: uuid} = require("uuid")
-const {createReadStream, createWriteStream, readFileSync, existsSync} = require("fs");
+const {createReadStream, createWriteStream, readFileSync, existsSync, unlinkSync} = require("fs");
 
 //Create a product
 exports.createProduct = (req, res) => {
@@ -196,7 +196,36 @@ exports.updateProduct = (req, res) => {
 			}
 
 			//Providing file path and extension details in photo object
-			product.photo.data = fs.readFileSync(file.photo.path);
+			photoExtension = "." + file.photo.type.split("/")[1];
+			photoLocation = path.join(__dirname, "../assets/images/products/", uuid()) + photoExtension;
+			const readStream = createReadStream(file.photo.path)
+			const writeStream = createWriteStream(photoLocation)
+			writeStream.on("error", error => {
+				res.status(500).json({
+					message: "Internal Server Error: Error occured while saving the file on our server" 
+				})
+				(process.env.ENVIRONMENT === "DEVELOPMENT") && console.log("Error: ", error);
+			})
+			readStream.on("error", error => {
+				res.status(500).json({
+					message: "Internal Server Error: Error occured while reading the uploaded image file" 
+				})
+				(process.env.ENVIRONMENT === "DEVELOPMENT") && console.log("Error: ", error);
+			})
+			readStream.on('data', chunk => {
+				writeStream.write(chunk)
+			})
+
+			//Deleting the old image for the product if it exists
+			if(existsSync(req.product.photo.data)){
+				try {
+					unlinkSync(req.product.photo.data)
+				} catch (error) {
+					(process.env.ENVIRONMENT === "DEVELOPMENT") && console.error("Error: ", error);
+				}
+			}
+			//Providing the updated link and the content-type of the product image
+			product.photo.data = photoLocation;
 			product.photo.contentType = file.photo.type;
 		}
 
