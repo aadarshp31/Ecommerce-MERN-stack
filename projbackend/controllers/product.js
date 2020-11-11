@@ -158,6 +158,16 @@ exports.getPhoto = (req, res, next) => {
 //Delete controller
 exports.deleteProduct = (req, res) => {
 	let product = req.product;
+
+	//Deleting the old image for the product if it exists
+	if(existsSync(req.product.photo.data)){
+		try {
+			unlinkSync(req.product.photo.data)
+		} catch (error) {
+			(process.env.ENVIRONMENT === "DEVELOPMENT") && console.error("Error: ", error);
+		}
+	}
+
 	product.remove((err, deletedProduct) => {
 		if (err) {
 			return res.status(400).json({
