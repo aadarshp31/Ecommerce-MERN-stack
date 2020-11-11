@@ -111,7 +111,10 @@ exports.getAllProduct = (req, res) => {
 	//check for user input for "sortBy" & "ascDesc" which will be treated as string by default
 	let sortBy = req.query.sortBy ? req.query.sortBy : "name";
 	let ascDesc = req.query.ascDesc ? req.query.ascDesc : "asc";
-	Product.find()
+
+	let filter = req.query.category ? {category: req.query.category} : {}
+	 
+	Product.find(filter)
 		.select("-photo")
 		.populate("category")
 		.sort([[sortBy, ascDesc]])
