@@ -188,7 +188,7 @@ const ManageOrders = () => {
 											Products: {order.products.length}{" "}
 										</span>
 										<span className="d-none d-md-block">{order.status}</span>
-										<span className="mr-auto">Amt: ${order.amount}</span>
+										<span className="mr-auto">Amt: ₹{order.amount}</span>
 										<i className="fas fa-angle-up card-icon"></i>
 									</button>
 								</h2>
@@ -205,7 +205,7 @@ const ManageOrders = () => {
 									</h6>
 									<h6>
 										Order Amount:{" "}
-										<span className="text-info">${order.amount}</span>
+										<span className="text-info">₹{order.amount}</span>
 									</h6>
 									<h6>
 										Order Status:{" "}
@@ -244,10 +244,10 @@ const ManageOrders = () => {
 														<tr key={productIndex} className="text-center">
 															<th scope="row">{productIndex + 1}</th>
 															<td>{product.name}</td>
-															<td>${product.price}</td>
+															<td>₹{product.price}</td>
 															<td>{product.quantity || 1}</td>
 															<td>
-																${product.price * (product.quantity || 1)}
+																₹{product.price * (product.quantity || 1)}
 															</td>
 														</tr>
 													);
@@ -260,7 +260,7 @@ const ManageOrders = () => {
 													<td></td>
 													<td></td>
 													<td>
-														<strong>${order.amount}</strong>
+														<strong>₹{order.amount}</strong>
 													</td>
 												</tr>
 											</tbody>
@@ -277,7 +277,7 @@ const ManageOrders = () => {
 									</h6>
 									<h6>
 										Order Date:{" "}
-										<span className="text-info">{date.toString()}</span>
+										<span className="text-info">{date.toString().split("GMT")[0]}</span>
 									</h6>
 								</div>
 							</div>
