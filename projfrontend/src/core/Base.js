@@ -10,21 +10,21 @@ const Base = ({
 	return (
 		<div>
 			<Menu />
-			<div className="container-fluid mt-5">
-				<div className="jumbotron bg-dark text-white text-center">
-					<h2 className="display-4">{title}</h2>
+			<div style={{marginTop: "50px"}}>
+				<div className="jumbotron bg-dark text-white text-center gradient">
+					<h4>{title}</h4>
 					<p className="lead">{description}</p>
 				</div>
 				<div className={className}>{children}</div>
 			</div>
 			<footer className="footer bg-dark mt-auto py-3">
-				<div className="container-fluid bg-info text-center text-white py-3">
-					<h4>If you've got any questions, feel free to reach out!</h4>
-					<button className="btn btn-danger btn-lg rounded">Contact Us</button>
+				<div className="container-fluid text-center text-white py-3 gradient">
+					<h6>If you've got any questions, feel free to reach out!</h6>
+					<button className="btn btn-danger btn-sm rounded">Contact Us</button>
 				</div>
 				<div className="container">
 					<span className="text-muted">
-						An amazing <span className="text-white">MERN</span> Stack Project
+						An Ecommerce website based on <span className="text-white">MERN</span> Stack
 					</span>
 				</div>
 			</footer>
