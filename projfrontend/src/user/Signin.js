@@ -88,7 +88,7 @@ const Signin = () => {
 	//Signin form component
 	const signInForm = () => {
 		return (
-			<div className="row">
+			<div className="row d-flex align-items-center" style={{height:"50vh"}}>
 				<div className="col-md-6 offset-sm-3 text-left">
 					<form>
 						<div className="form-group">
@@ -97,7 +97,8 @@ const Signin = () => {
 								type="email"
 								className="form-control"
 								onChange={handleChange("email")}
-								value={email}
+								value={email.toLowerCase()}
+								required={true}
 							/>
 						</div>
 						<div className="form-group">
@@ -107,9 +108,10 @@ const Signin = () => {
 								className="form-control"
 								onChange={handleChange("password")}
 								value={password}
+								required={true}
 							/>
 						</div>
-						<button className="btn btn-success btn-block" onClick={formSubmit}>
+						<button className="btn btn-info btn-block" onSubmit={formSubmit}>
 							Sign in
 						</button>
 					</form>
