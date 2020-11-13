@@ -49,7 +49,7 @@ const UpdateCategory = ({ match, history }) => {
 
 	useEffect(() => {
 		preload(match.params.categoryId);
-	}, []);
+	}, [match.params.categoryId]);
 
 	//Submits the UpdateCatgory form and gets the response from the backend
 	const formSubmit = (event) => {
