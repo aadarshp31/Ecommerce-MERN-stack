@@ -84,7 +84,7 @@ const StripeCheckout = ({
 		<div>
 			<h5>
 				Total Amount:{" "}
-				<span className="badge badge-info text-white">${getFinalAmount()}</span>
+				<span className="badge badge-info text-white">₹{getFinalAmount()}</span>
 			</h5>
 			<br />
 			<h5>Stripe Checkout</h5>
