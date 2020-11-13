@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import DropIn from "braintree-web-drop-in-react";
-import { loadCart, clearCart } from "./helper/cartHelper";
+import { clearCart } from "./helper/cartHelper";
 import { isAuthenticated } from "../auth/helper";
 import { Link } from "react-router-dom";
 import { getToken, processPayment } from "./helper/paypalPaymentHelper";
@@ -27,7 +27,7 @@ const PaypalCheckout = ({
 	//Total Amount
 	const getFinalAmount = () => {
 		let amount = 0;
-		products.map((p) => {
+		products.forEach((p) => {
 			amount += p.price * p.quantity;
 		});
 		return amount;
@@ -84,7 +84,7 @@ const PaypalCheckout = ({
 		setInfo({ loading: true });
 		let nonce;
 		//Getting Nonce from the Braintree servers
-		let getNonce = info.instance.requestPaymentMethod().then((data) => {
+			info.instance.requestPaymentMethod().then((data) => {
 			nonce = data.nonce;
 			const paymentData = {
 				paymentMethodNonce: nonce,
