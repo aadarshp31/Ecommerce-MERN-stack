@@ -30,25 +30,38 @@ const Signin = () => {
 	//Submits the sign in form and gets the response token along with user data from the backend
 	const formSubmit = (event) => {
 		event.preventDefault();
-		setValues({ ...values, loading: true });
-		signin({ email, password })
-			.then((data) => {
-				if (data.error) {
-					setValues({ ...values, error: data.error, loading: false });
-				} else {
-					authenticate(data, () => {
-						setValues({ ...initialValues, didRedirect: true });
-					});
-				}
-			})
-			.catch((err) =>
-				console.log("Error: Signin request to the server failed!\n", err)
-			);
+		
+		
+		if(email.match(/[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/g) === null){
+			setValues({...values, error: "Invalid Email id"});
+			document.getElementById("email").focus()
+
+		} else if(password.length < 6){
+			setValues({...values, error: "Password is required and must be atleast 6 charactes in length"});
+			document.getElementById("password").focus()
+
+		} else {
+			setValues({ ...values, loading: true });
+			signin({ email, password })
+				.then((data) => {
+					if (data.error) {
+						setValues({ ...values, error: data.error, loading: false });
+					} else {
+						authenticate(data, () => {
+							setValues({ ...initialValues, didRedirect: true });
+						});
+					}
+				})
+				.catch((err) => {
+					setValues({ ...values, error:"Signin request to the server failed!", loading: false });
+					console.error(err);
+				});
 		//This catch runs whenever there is an error at the backend which is not handled
+		}
 	};
 
 	const performRedirect = () => {
-		//Redirect the "Admin User" to "Admin Dashboard" & "Normal User" to " User Dashboard"
+		//Redirect the "Admin User" to "Admin Dashboard" & "Normal User" to "User Dashboard"
 		if (didRedirect) {
 			if (user && user.role === 1) {
 				return <Redirect to="/admin/dashboard" />;
@@ -94,24 +107,24 @@ const Signin = () => {
 						<div className="form-group">
 							<label className="text-light">Email</label>
 							<input
+								id="email"
 								type="email"
 								className="form-control"
 								onChange={handleChange("email")}
-								value={email.toLowerCase()}
-								required={true}
+								value={email.toLowerCase().trim()}
 							/>
 						</div>
 						<div className="form-group">
 							<label className="text-light">Password</label>
 							<input
+								id="password"
 								type="password"
 								className="form-control"
 								onChange={handleChange("password")}
-								value={password}
-								required={true}
+								value={password.trim()}
 							/>
 						</div>
-						<button className="btn btn-info btn-block" onSubmit={formSubmit}>
+						<button className="btn btn-info btn-block" onClick={formSubmit}>
 							Sign in
 						</button>
 					</form>
@@ -122,7 +135,7 @@ const Signin = () => {
 
 	return (
 		<div>
-			<Base title="Signin Page" description="A page for the user to Sign in!">
+			<Base title="Signin Page" description="Login to your ecommerce account">
 				{loadingMessage()}
 				{errorMessage()}
 				{signInForm()}
