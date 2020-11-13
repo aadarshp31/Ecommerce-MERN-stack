@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { isAuthenticated } from "../auth/helper";
 import { Link } from "react-router-dom";
 import StripeCheckoutButton from "react-stripe-checkout";
@@ -11,18 +11,11 @@ const StripeCheckout = ({
 	setReload = (f) => f,
 	reload = undefined,
 }) => {
-	const initialValues = {
-		loading: false,
-		success: false,
-		error: "",
-		address: "",
-	};
-	const [data, setData] = useState(initialValues);
 	const { user, token: authToken } = isAuthenticated();
 
 	const getFinalAmount = () => {
 		let amount = 0;
-		products.map((p) => {
+		products.forEach(p => {
 			amount += p.price * p.quantity;
 		});
 		return amount;
