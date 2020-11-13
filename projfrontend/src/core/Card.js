@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import ImageHelper from "./helper/ImageHelper";
 import {
 	addItemToCart,
@@ -6,7 +6,6 @@ import {
 	updateCart,
 	loadCart,
 } from "./helper/cartHelper";
-import { Redirect } from "react-router-dom";
 import { getQuantityFromCart } from "./helper/cartHelper";
 
 const Card = ({
@@ -21,7 +20,6 @@ const Card = ({
 	const cardDescription = product ? product.description : "Product Description";
 	const cardPrice = product ? product.price : "DEFAULT";
 
-	const [redirect, setRedirect] = useState(false);
 
 	const addToCart = () => {
 		let cart = loadCart();
@@ -35,7 +33,7 @@ const Card = ({
 			let checkDuplicate = cart.filter((item) => item._id === product._id);
 			//For duplicate Product
 			if (checkDuplicate.length) {
-				cart.map((item) => {
+				cart.forEach((item) => {
 					if (item._id === product._id) {
 						incQuantity();
 					}
@@ -52,12 +50,6 @@ const Card = ({
 		removeItemFromCart(product._id, () => { });
 		product.quantity = "";
 		setReload(!reload);
-	};
-
-	const performRedirect = (redirect) => {
-		if (redirect) {
-			return <Redirect to="/cart" />;
-		}
 	};
 
 	const showaddToCartButton = (addToCartButton) => {
@@ -86,7 +78,7 @@ const Card = ({
 	//Handle product Quantity
 	const incQuantity = () => {
 		let cart = loadCart();
-		cart.map((item) => {
+		cart.forEach((item) => {
 			if (item._id === product._id) {
 				item.quantity++;
 				updateCart(cart);
@@ -102,7 +94,7 @@ const Card = ({
 	//Handle product Quantity
 	const decQuantity = () => {
 		let cart = loadCart();
-		cart.map((item) => {
+		cart.forEach((item) => {
 			if (item._id === product._id) {
 				if (item.quantity > 1) {
 					item.quantity--;
@@ -162,7 +154,6 @@ const Card = ({
 				{showQuantityButton()}
 				{showaddToCartButton(addToCartButton)}
 				{showremoveFromCartButton(removeFromCartButton)}
-				{performRedirect(redirect)}
 			</div>
 		</div>
 	);
