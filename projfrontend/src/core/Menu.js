@@ -12,7 +12,7 @@ const currentTab = (history, path) => {
 };
 
 const Menu = ({ history }) => (
-	<nav class="navbar navbar-expand-lg navbar-dark bg-info fixed-top font-weight-bold gradient">
+	<nav className="navbar navbar-expand-lg navbar-dark bg-info fixed-top font-weight-bold gradient">
 			<Link className="navbar-brand text-light" to="/">Ecommerce</Link>
 				<button className="navbar-toggler text-white border-white" type="button" data-toggle="collapse" data-target="#navbarToggler">
 					<span className="navbar-toggler-icon"></span>
