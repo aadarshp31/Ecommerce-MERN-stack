@@ -34,8 +34,8 @@ export const loadCart = () => {
 
 export const getQuantityFromCart = (products) => {
 	let cart = loadCart();
-	cart.map((item) => {
-		products.map((product) => {
+	cart.forEach((item) => {
+		products.forEach((product) => {
 			if (item._id === product._id) {
 				product.quantity = item.quantity;
 			}
