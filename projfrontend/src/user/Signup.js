@@ -7,8 +7,10 @@ const Signup = () => {
 	//Initial States for the Signup component
 	const initialValues = {
 		name: "",
+		lastname: "",
 		email: "",
 		password: "",
+		confirmPassword: "",
 		error: "",
 		success: false,
 	};
@@ -17,7 +19,7 @@ const Signup = () => {
 	const [values, setValues] = useState(initialValues);
 
 	//Destructuring the states of the Signup component
-	const { name, email, password, error, success } = values;
+	const { name, lastname, email, password, confirmPassword, error, success } = values;
 
 	//Sets data in the states according to the input fields
 	const handleChange = (inputValue) => (event) => {
@@ -32,8 +34,26 @@ const Signup = () => {
 	//Submits the signup form and gets the response data from the backend
 	const formSubmit = (event) => {
 		event.preventDefault();
+	
+		if(name.length < 1){
+			setValues({...values, error: "Name must me atleast 2 characters in length"});
+			document.getElementById("name").focus()
+
+		} else if(email.match(/[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/g) === null){
+			setValues({...values, error: "Invalid Email id"});
+			document.getElementById("email").focus()
+
+		} else if(password.match(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{6,}$/g) === null){
+			setValues({...values, error: "Password must be 6 characters long, contain atleast one uppercase, one lowercase letter and a number"});
+			document.getElementById("password").focus()
+
+		} else if(password !== confirmPassword){
+			setValues({...values, error: "Passwords should match"});
+			document.getElementById("confirmPassword").focus()
+
+		} else {
 		setValues({ ...values, error: false });
-		signup({ name, email, password })
+		signup({ name, lastname, email, password })
 			.then((data) => {
 				if (data.error) {
 					setValues({ ...values, error: data.error, success: false });
@@ -44,7 +64,8 @@ const Signup = () => {
 			.catch((err) =>
 				console.log("Error: Signup request to the server failed!\n", err)
 			);
-		//This catch runs whenever there is an error at the backend which is not handled
+		//This catch runs whenever there is an error at the backend which is not handle
+		}
 	};
 
 	//Signup success message popup
@@ -87,33 +108,62 @@ const Signup = () => {
 				<div className="col-md-6 offset-sm-3 text-left">
 					<form>
 						<div className="form-group">
-							<label className="text-light">Name</label>
+							<label className="text-light">First Name</label>
 							<input
+								id="name"
 								type="text"
 								className="form-control"
 								onChange={handleChange("name")}
-								value={name}
+								value={name.trim()}
+							/>
+						</div>
+						<div className="form-group">
+							<label className="text-light">Last Name</label>
+							<input
+								type="text"
+								className="form-control"
+								onChange={handleChange("lastname")}
+								value={lastname.trim()}
 							/>
 						</div>
 						<div className="form-group">
 							<label className="text-light">Email</label>
 							<input
+								id="email"
 								type="email"
 								className="form-control"
 								onChange={handleChange("email")}
-								value={email}
+								value={email.toLowerCase().trim()}
 							/>
 						</div>
 						<div className="form-group">
 							<label className="text-light">Password</label>
 							<input
+								id="password"
 								type="password"
 								className="form-control"
 								onChange={handleChange("password")}
-								value={password}
+								value={password.trim()}
 							/>
+							<small id="passwordHelpBlock" className="form-text text-light">
+								Password must be 6 characters long, contain atleast one uppercase, one lowercase letter and a number
+							</small>
 						</div>
-						<button className="btn btn-success btn-block" onClick={formSubmit}>
+						<div className="form-group">
+							<label className="text-light">Confirm Password</label>
+							<input
+								id="confirmPassword"
+								type="password"
+								className="form-control"
+								onChange={handleChange("confirmPassword")}
+								value={confirmPassword.trim()}
+							/>
+							<small id="passwordHelpBlock" className="form-text text-light">
+								Must match the password
+							</small>
+						</div>
+						<button className="btn btn-info btn-block" onClick={formSubmit}
+						>
 							Submit
 						</button>
 					</form>
@@ -124,7 +174,7 @@ const Signup = () => {
 
 	return (
 		<div>
-			<Base title="Signup Page" description="A page for the user to Sign up!">
+			<Base title="Signup Page" description="Create your ecommerce account">
 				{successMessage()}
 				{errorMessage()}
 				{signUpForm()}
