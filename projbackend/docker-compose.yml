@@ -7,7 +7,7 @@ services:
     ports: 
       - "27017:27017"
     volumes: 
-      - ~/../../var/ecommerceApp/data/db:/data/db
+      - /var/ecommerceApp/data/db:/data/db
 
   mynode:
     build: 
@@ -17,3 +17,6 @@ services:
       - "8000:8000"
     depends_on: 
       - "mymongo"
+    volumes: 
+      - /var/ecommerceApp/backend/node_modules
+      - /var/ecommerceApp/projbackend:/var/ecommerceApp/backend
