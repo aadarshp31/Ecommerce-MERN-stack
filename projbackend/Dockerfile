@@ -13,7 +13,7 @@ EXPOSE 27017
 
 ENTRYPOINT [ "mongod" ]
 
-FROM node:12.18.3-alpine3.9 AS NODE-DEPLOY
+FROM node:14.15.4-alpine3.10 AS NODE-DEPLOY
 
 WORKDIR /var/ecommerceApp/backend
 
