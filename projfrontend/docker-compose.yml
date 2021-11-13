@@ -7,7 +7,7 @@ services:
     volumes: 
       - .:/var/ecommerceApp/frontend
     ports:
-      - "3000:3000"
+      - "3000:${process.env.PORT:-3000}"
     stdin_open: true
     tty: true
       
