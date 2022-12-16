@@ -139,7 +139,8 @@ exports.getAllProduct = (req, res) => {
 //Middleware for getting photo
 exports.getPhoto = (req, res, next) => {
 	if (req.product.photo.data) {
-		if(!existsSync(req.product.photo.data)){
+		const PHOTO_LOCATION = path.join(process.cwd(), req.product.photo.data);
+		if(!existsSync(PHOTO_LOCATION)){
 			res.status(404).json({
 				message: "Not found: The photo for this product is not found on our server"
 			})
@@ -147,7 +148,7 @@ exports.getPhoto = (req, res, next) => {
 		}
 		res.set({"Content-Type": req.product.photo.contentType});
 		try {
-			const photo = readFileSync(req.product.photo.data);
+			const photo = readFileSync(PHOTO_LOCATION);
 			res.send(photo)
 		} catch (error) {
 			res.status(500).json({
