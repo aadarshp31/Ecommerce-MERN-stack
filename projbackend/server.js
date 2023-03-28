@@ -33,6 +33,7 @@ if(process.env.ENVIRONMENT === "production"){
     app.get("/*", (req,res) => console.log(req.socket.remoteAddress + " => " + req.originalUrl));
 }
 
+const PORT = process.env.PORT || 3000;
 
 //DB Connection
 mongoose.connect(process.env.DATABASE, {
@@ -41,7 +42,7 @@ mongoose.connect(process.env.DATABASE, {
 }).then(() => {
     console.log("!!--------DB CONNECTED!--------!!");    
     //Creating a server
-    app.listen(process.env.PORT || 8000, (req,res) => {
-        console.log(`>> App is running at ${process.env.PORT}`);    
+    app.listen(PORT, (req,res) => {
+        console.log(`>> App is running at ${PORT}`);    
     });
 });
