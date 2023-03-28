@@ -2,7 +2,7 @@
   "name": "projbackend",
   "version": "1.0.0",
   "description": "",
-  "main": "app.js",
+  "main": "./projbackend/app.js",
   "scripts": {
     "start": "node app.js",
     "dev": "nodemon app.js"
