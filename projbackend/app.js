@@ -30,7 +30,7 @@ app.use("/api", orderRoutes);
 app.use("/api", stripeRoutes);
 app.use("/api", paypalRoutes);
 if(process.env.ENVIRONMENT === "production"){
-    app.get("/*", (req,res) => console.log(req.connection.remoteAddress + " => " + req.originalUrl));
+    app.get("/*", (req,res) => console.log(req.socket.remoteAddress + " => " + req.originalUrl));
 }
 
 
@@ -42,6 +42,6 @@ mongoose.connect(process.env.DATABASE, {
     console.log("!!--------DB CONNECTED!--------!!");    
     //Creating a server
     app.listen(process.env.PORT || 8000, (req,res) => {
-        console.log(`>> App is running at ${port}`);    
+        console.log(`>> App is running at ${process.env.PORT}`);    
     });
 });
