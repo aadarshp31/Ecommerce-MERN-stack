@@ -9,8 +9,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - working-directory: projfrontend
-        run: cd projfrontend
+      - working-directory: /projfrontend
+        run: cd /projfrontend
       - run: npm run build
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
