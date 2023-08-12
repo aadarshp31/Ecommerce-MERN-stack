@@ -11,11 +11,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+      - working-directory: ./projfrontend
+        run: cd ./projfrontend
       - run: npm run build
-      - working-directory: /projfrontend
       - uses: FirebaseExtended/action-hosting-deploy@v0
-      with:
-        repoToken: '${{ secrets.GITHUB_TOKEN }}'
-        firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_ECOMMERCE_2020_CLIENT }}'
-        channelId: live
-        projectId: ecommerce-2020-client
+        with:
+          repoToken: '${{ secrets.GITHUB_TOKEN }}'
+          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_ECOMMERCE_2020_CLIENT }}'
+          channelId: live
+          projectId: ecommerce-2020-client
