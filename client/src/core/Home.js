@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "../styles.css";
-import Base from "../core/Base";
+import Base from "./Base";
 import Card from "./Card";
 import { getProducts } from "./helper/coreapicalls";
 import { createCart, getQuantityFromCart } from "./helper/cartHelper";
