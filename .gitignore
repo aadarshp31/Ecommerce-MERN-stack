@@ -1,6 +1,5 @@
 # Dependency Directories
-projbackend/node_modules
-testback/node_modules
+node_modules
 
 # dotenv environment variables file
 .env
