@@ -19,7 +19,6 @@ jobs:
 
       - name: Change directory to /projfrontend
         working-directory: ./projfrontend
-        run: cd ./projfrontend
 
       - name: Install dependencies
         run: npm install
