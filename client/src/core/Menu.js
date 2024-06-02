@@ -1,32 +1,35 @@
 import React, { Fragment } from "react";
-import { Link, withRouter } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { signout, isAuthenticated } from "../auth/helper/index";
 
-const currentTab = (history, path) => {
-	if (history.location.pathname === path) {
+const currentTab = (location, path) => {
+	if (location.pathname === path) {
 		return "text-muted";
-		// return { color: "#292b2c" };
 	} else {
 		return "text-light";
 	}
 };
 
-const Menu = ({ history }) => (
-	<nav className="navbar navbar-expand-lg navbar-dark bg-info fixed-top font-weight-bold gradient">
+const Menu = () => {
+	const navigate = useNavigate();
+	const location = useLocation();
+
+	return (
+		<nav className="navbar navbar-expand-lg navbar-dark bg-info fixed-top font-weight-bold gradient">
 			<Link className="navbar-brand text-light" to="/">Ecommerce</Link>
-				<button className="navbar-toggler text-white border-white" type="button" data-toggle="collapse" data-target="#navbarToggler">
-					<span className="navbar-toggler-icon"></span>
-				</button>
+			<button className="navbar-toggler text-white border-white" type="button" data-toggle="collapse" data-target="#navbarToggler">
+				<span className="navbar-toggler-icon"></span>
+			</button>
 			<div className="collapse navbar-collapse" id="navbarToggler">
 				<ul className="navbar-nav ml-auto mt-2 mt-lg-0 p-2 font-weight-bold">
 					<li className="nav-item">
-						<Link className={`nav-link ${currentTab(history, "/")}`} to="/">
+						<Link className={`nav-link ${currentTab(location, "/")}`} to="/">
 							Home
 						</Link>
 					</li>
 					<li className="nav-item">
 						<Link
-							className={`nav-link ${currentTab(history, "/cart")}`}
+							className={`nav-link ${currentTab(location, "/cart")}`}
 							to="/cart"
 						>
 							Cart
@@ -37,7 +40,7 @@ const Menu = ({ history }) => (
 					{isAuthenticated() && (
 						<li className="nav-item">
 							<Link
-								className={`nav-link ${currentTab(history, "/user/dashboard")}`}
+								className={`nav-link ${currentTab(location, "/user/dashboard")}`}
 								to="/user/dashboard"
 							>
 								Dashboard
@@ -50,7 +53,7 @@ const Menu = ({ history }) => (
 					{isAuthenticated() && isAuthenticated().user.role === 1 && (
 						<li className="nav-item">
 							<Link
-								className={`nav-link ${currentTab(history, "/admin/dashboard")}`}
+								className={`nav-link ${currentTab(location, "/admin/dashboard")}`}
 								to="/admin/dashboard"
 							>
 								Admin Dashboard
@@ -63,7 +66,7 @@ const Menu = ({ history }) => (
 						<Fragment>
 							<li className="nav-item">
 								<Link
-									className={`nav-link ${currentTab(history, "/signup")}`}
+									className={`nav-link ${currentTab(location, "/signup")}`}
 									to="/signup"
 								>
 									Signup
@@ -71,7 +74,7 @@ const Menu = ({ history }) => (
 							</li>
 							<li className="nav-item">
 								<Link
-									className={`nav-link ${currentTab(history, "/signin")}`}
+									className={`nav-link ${currentTab(location, "/signin")}`}
 									to="/signin"
 								>
 									Signin
@@ -86,14 +89,14 @@ const Menu = ({ history }) => (
 							className="nav-item"
 							onClick={() => {
 								signout(() => {
-									history.push("/");
+									navigate("/");
 								});
 							}}
 						>
 							<Link
 								
 								className="nav-link text-light"
-								to=""
+								to="#"
 							>
 								Signout
 							</Link>
@@ -101,7 +104,8 @@ const Menu = ({ history }) => (
 					)}
 				</ul>
 			</div>
-	</nav>
-);
+		</nav>
+	);
+};
 
-export default withRouter(Menu);
+export default Menu;

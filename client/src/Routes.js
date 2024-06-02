@@ -1,5 +1,5 @@
 import React from "react";
-import {Route, Switch, BrowserRouter as Router} from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "./core/Home"
 import "./core/Menu"
 import Signup from "./user/Signup";
@@ -23,29 +23,29 @@ import PasswordReset from "./user/PasswordReset";
 
 
 
-const Routes = () => {
-    return(
+const MyRoutes = () => {
+    return (
         <Router>
-            <Switch>
-                <Route exact path="/" component={Home} />
-                <Route exact path="/signup" component={Signup} />
-                <Route exact path="/signin" component={Signin} />
-                <Route exact path="/cart" component={Cart} />
-                <PrivateRoute exact path="/user/dashboard" component={UserDashboard} />
-                <PrivateRoute exact path="/user/user-info" component={ManageUserInfo} />
-                <PrivateRoute exact path="/user/orders" component={ManageUserOrders} />
-                <PrivateRoute exact path="/user/password-reset" component={PasswordReset} />
-                <AdminRoute exact path="/admin/dashboard" component={AdminDashboard} />
-                <AdminRoute exact path="/admin/create/category" component={AddCategory} />
-                <AdminRoute exact path="/admin/categories" component={ManageCategories} />
-                <AdminRoute exact path="/category/:categoryId/:userId" component={UpdateCategory} />
-                <AdminRoute exact path="/admin/create/product" component={AddProduct} />
-                <AdminRoute exact path="/admin/products" component={ManageProduct} />
-                <AdminRoute exact path="/admin/product/update/:productId" component={UpdateProduct} />
-                <AdminRoute exact path="/admin/orders" component={ManageOrders} />
-            </Switch>
+            <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/signup" element={<Signup />} />
+                <Route path="/signin" element={<Signin />} />
+                <Route path="/cart" element={<Cart />} />
+                <Route path="/user/dashboard" element={<PrivateRoute element={UserDashboard} />} />
+                <Route path="/user/user-info" element={<PrivateRoute element={ManageUserInfo} />} />
+                <Route path="/user/orders" element={<PrivateRoute element={ManageUserOrders} />} />
+                <Route path="/user/password-reset" element={<PrivateRoute element={PasswordReset} />} />
+                <Route path="/admin/dashboard" element={<AdminRoute element={AdminDashboard} />} />
+                <Route path="/admin/create/category" element={<AdminRoute element={AddCategory} />} />
+                <Route path="/admin/categories" element={<AdminRoute element={ManageCategories} />} />
+                <Route path="/category/:categoryId/:userId" element={<AdminRoute element={UpdateCategory} />} />
+                <Route path="/admin/create/product" element={<AdminRoute element={AddProduct} />} />
+                <Route path="/admin/products" element={<AdminRoute element={ManageProduct} />} />
+                <Route path="/admin/product/update/:productId" element={<AdminRoute element={UpdateProduct} />} />
+                <Route path="/admin/orders" element={<AdminRoute element={ManageOrders} />} />
+            </Routes>
         </Router>
     );
 }
 
-export default Routes;
+export default MyRoutes;
