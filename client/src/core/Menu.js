@@ -1,6 +1,7 @@
 import React, { Fragment } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { signout, isAuthenticated } from "../auth/helper/index";
+import SearchBar from "./SearchBar";
 
 const currentTab = (location, path) => {
 	if (location.pathname === path) {
@@ -17,6 +18,7 @@ const Menu = () => {
 	return (
 		<nav className="navbar navbar-expand-lg navbar-dark bg-info fixed-top font-weight-bold gradient">
 			<Link className="navbar-brand text-light" to="/">Ecommerce</Link>
+			<SearchBar />
 			<button className="navbar-toggler text-white border-white" type="button" data-toggle="collapse" data-target="#navbarToggler">
 				<span className="navbar-toggler-icon"></span>
 			</button>
@@ -56,7 +58,7 @@ const Menu = () => {
 								className={`nav-link ${currentTab(location, "/admin/dashboard")}`}
 								to="/admin/dashboard"
 							>
-								Admin Dashboard
+								Admin
 							</Link>
 						</li>
 					)}
