@@ -9,6 +9,7 @@ const {
 	getPhoto,
 	deleteProduct,
 	updateProduct,
+	searchProducts,
 } = require("../controllers/product");
 const { getUserById } = require("../controllers/user");
 const { isSignedIn, isAuthenticated, isAdmin } = require("../controllers/auth");
@@ -28,6 +29,7 @@ router.post(
 );
 
 //Read routes
+router.get("/products/search", searchProducts);
 router.get("/products", getAllProduct);
 router.get("/product/:productId", getProduct);
 router.get("/product/photo/:productId", getPhoto);

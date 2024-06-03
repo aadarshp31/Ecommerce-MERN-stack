@@ -2,8 +2,9 @@ const Product = require("../models/product");
 const formidable = require("formidable");
 const _ = require("lodash");
 const path = require('path');
-const {v4: uuid} = require("uuid")
-const {createReadStream, createWriteStream, readFileSync, existsSync, unlinkSync} = require("fs");
+const { v4: uuid } = require("uuid")
+const { createReadStream, createWriteStream, readFileSync, existsSync, unlinkSync } = require("fs");
+const Category = require("../models/category");
 
 //Create a product
 exports.createProduct = (req, res) => {
@@ -46,15 +47,15 @@ exports.createProduct = (req, res) => {
 			const writeStream = createWriteStream(photoLocation)
 			writeStream.on("error", error => {
 				res.status(500).json({
-					message: "Internal Server Error: Error occured while saving the file on our server" 
+					message: "Internal Server Error: Error occured while saving the file on our server"
 				})
-				(process.env.ENVIRONMENT === "DEVELOPMENT") && console.log("Error: ", error);
+					(process.env.ENVIRONMENT === "DEVELOPMENT") && console.log("Error: ", error);
 			})
 			readStream.on("error", error => {
 				res.status(500).json({
-					message: "Internal Server Error: Error occured while reading the uploaded image file" 
+					message: "Internal Server Error: Error occured while reading the uploaded image file"
 				})
-				(process.env.ENVIRONMENT === "DEVELOPMENT") && console.log("Error: ", error);
+					(process.env.ENVIRONMENT === "DEVELOPMENT") && console.log("Error: ", error);
 			})
 			readStream.on('data', chunk => {
 				writeStream.write(chunk)
@@ -101,19 +102,51 @@ exports.getProduct = (req, res) => {
 	return res.json(req.product);
 };
 
+/**
+ * Search products using query string
+ * @returns filtered and sorted results based off of user's search query.
+ */
+exports.searchProducts = async (req, res) => {
+	try {
+		let { name, minPrice, maxPrice, limit, skip, sortBy, ascDesc } = req.query;
+
+		if (name === undefined && minPrice === undefined && maxPrice === undefined) {
+			return res.status(400).json({ message: "invalid search" });
+		}
+
+		const queryConfig = {};
+
+		if (name) queryConfig.name = { $regex: name.trim(), $options: "i" };
+		if (minPrice) queryConfig.price = { ...queryConfig.price, $gte: parseInt(minPrice) };
+		if (maxPrice) queryConfig.price = { ...queryConfig.price, $lte: parseInt(maxPrice) };
+		if (limit) limit = parseInt(limit);
+		if (skip) skip = parseInt(skip);
+		if (sortBy) sortBy = sortBy.trim();
+		const sortAscDesc = ascDesc ? ascDesc.trim() : 'asc';
+
+		const searchedProducts = await Product.find(queryConfig).populate('category').skip(skip).limit(limit).sort([[sortBy, sortAscDesc]]);
+
+		return res.send({
+			products: searchedProducts
+		});
+	} catch (error) {
+		return res.status(400).json({ message: "invalid search" });
+	}
+}
+
 //Get all product
 exports.getAllProduct = (req, res) => {
 	//ternary operator used here to check for user input for "limit" which will be treated as string by default
 	//Parsing the string value (limit) to integer number is done by parseInt(string)
-	let limit = req.query.limit ? parseInt(req.query.limit) : 8;
-	let skip = req.query.skip ? parseInt(req.query.skip) : 0;
+	const limit = req.query.limit ? parseInt(req.query.limit) : 8;
+	const skip = req.query.skip ? parseInt(req.query.skip) : 0;
 
 	//check for user input for "sortBy" & "ascDesc" which will be treated as string by default
 	let sortBy = req.query.sortBy ? req.query.sortBy : "name";
 	let ascDesc = req.query.ascDesc ? req.query.ascDesc : "asc";
 
-	let filter = req.query.category ? {category: req.query.category} : {}
-	 
+	let filter = req.query.category ? { category: req.query.category } : {}
+
 	Product.find(filter)
 		.select("-photo")
 		.populate("category")
@@ -140,13 +173,13 @@ exports.getAllProduct = (req, res) => {
 exports.getPhoto = (req, res, next) => {
 	if (req.product.photo.data) {
 		const PHOTO_LOCATION = path.join(process.cwd(), req.product.photo.data);
-		if(!existsSync(PHOTO_LOCATION)){
+		if (!existsSync(PHOTO_LOCATION)) {
 			res.status(404).json({
 				message: "Not found: The photo for this product is not found on our server"
 			})
 			return
 		}
-		res.set({"Content-Type": req.product.photo.contentType});
+		res.set({ "Content-Type": req.product.photo.contentType });
 		try {
 			const photo = readFileSync(PHOTO_LOCATION);
 			res.send(photo)
@@ -164,7 +197,7 @@ exports.deleteProduct = (req, res) => {
 	let product = req.product;
 
 	//Deleting the old image for the product if it exists
-	if(existsSync(req.product.photo.data)){
+	if (existsSync(req.product.photo.data)) {
 		try {
 			unlinkSync(req.product.photo.data)
 		} catch (error) {
@@ -216,22 +249,22 @@ exports.updateProduct = (req, res) => {
 			const writeStream = createWriteStream(photoLocation)
 			writeStream.on("error", error => {
 				res.status(500).json({
-					message: "Internal Server Error: Error occured while saving the file on our server" 
+					message: "Internal Server Error: Error occured while saving the file on our server"
 				})
-				(process.env.ENVIRONMENT === "DEVELOPMENT") && console.log("Error: ", error);
+					(process.env.ENVIRONMENT === "DEVELOPMENT") && console.log("Error: ", error);
 			})
 			readStream.on("error", error => {
 				res.status(500).json({
-					message: "Internal Server Error: Error occured while reading the uploaded image file" 
+					message: "Internal Server Error: Error occured while reading the uploaded image file"
 				})
-				(process.env.ENVIRONMENT === "DEVELOPMENT") && console.log("Error: ", error);
+					(process.env.ENVIRONMENT === "DEVELOPMENT") && console.log("Error: ", error);
 			})
 			readStream.on('data', chunk => {
 				writeStream.write(chunk)
 			})
 
 			//Deleting the old image for the product if it exists
-			if(existsSync(req.product.photo.data)){
+			if (existsSync(req.product.photo.data)) {
 				try {
 					unlinkSync(req.product.photo.data)
 				} catch (error) {
