@@ -15,13 +15,15 @@ const productRoutes = require("./routes/product")
 const orderRoutes = require("./routes/order")
 const stripeRoutes = require("./routes/stripePayment")
 const paypalRoutes = require("./routes/paypalPayment")
+const Seeder = require('./seeder')
 
 //DB Connection
 mongoose.connect(process.env.DATABASE, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
-}).then(() => {
-    console.log("!!--------DB CONNECTED!--------!!");    
+}).then(async () => {
+    console.log("!!--------DB CONNECTED!--------!!");
+    await Seeder();
 });
 
 //Middlewares
