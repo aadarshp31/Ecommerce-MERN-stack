@@ -7,7 +7,7 @@ const SearchBar = () => {
 
   const debounce = _.debounce(async (text) => {
     if (text.length < 3) return;
-    fetch(`${process.env.REACT_APP_BACKEND}/products/search?name=${text}`).then(res => res.json()).then((results) => {
+    fetch(`${process.env.REACT_APP_BACKEND}/products/search?name=${text}&limit=${7}`).then(res => res.json()).then((results) => {
       setSearchResults(results.products);
     })
   }, 400, { leading: true });
@@ -30,11 +30,11 @@ const SearchBar = () => {
   }
 
   return (
-    <div id='search-bar' className='w-50 position-relative'>
+    <div id='search-bar' className='w-100 position-relative'>
       <input className="p-2 border border-1 rounded-pill w-100" type="search" name="search" placeholder="Search products here..." value={searchText} onChange={handleChange}></input>
       <span id='search-results' className="card position-absolute w-100" style={{visibility: searchText.length > 0 && searchResults.length > 0 ? 'visible' : 'hidden'}}>
         <ul className="list-group list-group-flush">
-          {searchText.length > 0 && searchResults.length > 0 && searchResults.map((item, index) => <li key={index} className="list-group-item">{item.name}</li>)}
+          {searchText.length > 0 && searchResults.length > 0 && searchResults.map((item, index) => <li key={index} className="list-group-item">{item.title}</li>)}
         </ul>
       </span>
     </div>

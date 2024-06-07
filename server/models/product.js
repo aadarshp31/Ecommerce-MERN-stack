@@ -3,10 +3,10 @@ const { ObjectId } = mongoose.Schema;
 
 const productSchema = new mongoose.Schema(
 	{
-		name: {
+		title: {
 			type: String,
 			trim: true,
-			maxlength: 32,
+			maxlength: 128,
 			required: true,
 		},
 		description: {
@@ -14,6 +14,21 @@ const productSchema = new mongoose.Schema(
 			trim: true,
 			maxlength: 2000,
 			required: true,
+		},
+		brand: {
+			type: String
+		},
+		warrantyInformation: {
+			type: String,
+			default: "1 month warranty"
+		},
+		shippingInformation: {
+			type: String,
+			default: "Ships in 1 month"
+		},
+		availabilityStatus: {
+			type: String,
+			default: "Low Stock"
 		},
 		price: {
 			type: Number,
@@ -26,6 +41,18 @@ const productSchema = new mongoose.Schema(
 			ref: "Category",
 			required: true,
 		},
+		discountPercentage: {
+			type: Number,
+			default: 0,
+			required: true
+		},
+		rating: {
+			type: Number
+		},
+		tag: {
+			type: Array,
+			default: []
+		},
 		stock: {
 			type: Number,
 		},
@@ -37,6 +64,26 @@ const productSchema = new mongoose.Schema(
 			data: String,
 			contentType: String,
 		},
+		reviews: {
+			type: Array,
+			default: []
+		},
+		returnPolicy: {
+			type: String, 
+			default: "30 days return policy"
+		},
+		minimumOrderQuantity: {
+			type: Number,
+			default: 1
+		},
+		thumbnail: {
+			type: String,
+			required: true
+		},
+		images: {
+			type: Array,
+			required: true
+		}
 	},
 	{ timestamps: true }
 );

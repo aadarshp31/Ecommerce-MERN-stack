@@ -119,7 +119,7 @@ const UpdateProduct = ({ match, history }) => {
 					setValues({
 						...initialValues,
 						loading: false,
-						createdProduct: data.name,
+						createdProduct: data.title,
 						didRedirect: true,
 					});
 				}

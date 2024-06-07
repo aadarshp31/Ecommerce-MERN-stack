@@ -75,7 +75,7 @@ const ManageProduct = () => {
 			return (
 				<tr key={index}>
 					<th scope="row">{index + 1}</th>
-					<td>{product.name}</td>
+					<td>{product.title}</td>
 					<td>{product.category.name}</td>
 					<td>₹ {product.price}</td>
 					<td>{product.stock}</td>

@@ -235,7 +235,7 @@ const ManageUserOrders = () => {
 													return (
 														<tr key={productIndex} className="text-center">
 															<th scope="row">{productIndex + 1}</th>
-															<td>{product.name}</td>
+															<td>{product.title}</td>
 															<td>₹{product.price}</td>
 															<td>{product.quantity || 1}</td>
 															<td>

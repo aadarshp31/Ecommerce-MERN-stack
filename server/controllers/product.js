@@ -116,7 +116,9 @@ exports.searchProducts = async (req, res) => {
 
 		const queryConfig = {};
 
-		if (name) queryConfig.name = { $regex: name.trim(), $options: "i" };
+		if (name) queryConfig.title = { $regex: `\\b(^|\\s|[^\\W])${name.trim()}(\\s|[^\\W]|$)\\b`, $options: "i" };
+		if (name) queryConfig.description = { $regex: name.trim(), $options: "i" };
+		if (name) queryConfig.title = { $regex: name.trim(), $options: "i" };
 		if (minPrice) queryConfig.price = { ...queryConfig.price, $gte: parseInt(minPrice) };
 		if (maxPrice) queryConfig.price = { ...queryConfig.price, $lte: parseInt(maxPrice) };
 		if (limit) limit = parseInt(limit);
