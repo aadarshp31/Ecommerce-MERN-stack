@@ -16,9 +16,11 @@ const Card = ({
 	reload = undefined,
 	products,
 }) => {
-	const cardTitle = product ? product.name : "A Photo from Pexels";
+	const cardTitle = product ? product.title : "A Photo from Pexels";
 	const cardDescription = product ? product.description : "Product Description";
-	const cardPrice = product ? product.price : "DEFAULT";
+	const cardPrice = product.price;
+	// const cardRating = product ? `${product.rating.toFixed(1)}/5` : "--";
+	const cardRating = product ? product.rating.toFixed(1) : null;
 
 
 	const addToCart = () => {
@@ -46,6 +48,7 @@ const Card = ({
 		}
 		setReload(!reload);
 	};
+
 	const removeFromCart = () => {
 		removeItemFromCart(product._id, () => { });
 		product.quantity = "";
@@ -126,8 +129,8 @@ const Card = ({
 						<i className="fa fa-minus" aria-hidden="true"></i>
 					</button>
 				) : (
-						""
-					)}
+					""
+				)}
 				<p style={{ display: "inline" }}>
 					<span className="badge badge-secondary">{product.quantity}</span>
 				</p>
@@ -140,20 +143,30 @@ const Card = ({
 				</button>
 			</div>
 		) : (
-				""
-			);
+			""
+		);
 	};
+
+	function renderRatings(rating) {
+		// return rating ? ("<span className=\"fa fa-star\"></span>".repeat(parseInt(rating))) : "--";
+		if (!rating) return "--";
+		const result = [];
+		for (let i = 0; i < parseInt(rating); i++) {
+			result.push(<span className="fa fa-star" key={i}></span>);
+		}
+
+		return result;
+	}
 
 	return (
 		<div className="card text-secondary m-2" style={{ width: "18rem" }}>
 			<ImageHelper product={product} />
 			<div className="card-body">
-				<h5 className="card-title">{cardTitle}</h5>
-				<p className="badge badge-dark px-3 py-2">₹ {cardPrice}</p>
-				<p className="card-text">{cardDescription}</p>
-				{showQuantityButton()}
-				{showaddToCartButton(addToCartButton)}
-				{showremoveFromCartButton(removeFromCartButton)}
+				<h6 className="card-title text-truncate text-dark font-weight-bold">{cardTitle}</h6>
+				<p className="badge badge-light px-3 py-2">
+				{cardRating} {renderRatings(cardRating)}
+				</p>
+				<h6 className="card-text">₹ {cardPrice}</h6>
 			</div>
 		</div>
 	);
