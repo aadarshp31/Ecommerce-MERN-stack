@@ -17,13 +17,13 @@ const Menu = () => {
 
 	return (
 		<nav className="navbar navbar-expand-lg navbar-dark bg-info fixed-top font-weight-bold gradient">
-			<Link className="navbar-brand text-light" to="/">Ecommerce</Link>
+			<Link className="navbar-brand text-light mr-0 mr-md-3" to="/">Ecommerce</Link>
 			<SearchBar />
 			<button className="navbar-toggler text-white border-white" type="button" data-toggle="collapse" data-target="#navbarToggler">
 				<span className="navbar-toggler-icon"></span>
 			</button>
 			<div className="collapse navbar-collapse" id="navbarToggler">
-				<ul className="navbar-nav ml-auto mt-2 mt-lg-0 p-2 font-weight-bold">
+				<ul className="navbar-nav ml-auto mt-0 p-2 font-weight-bold">
 					<li className="nav-item">
 						<Link className={`nav-link ${currentTab(location, "/")}`} to="/">
 							Home
