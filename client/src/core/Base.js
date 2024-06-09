@@ -21,7 +21,7 @@ const Base = ({
 				<div className="container text-center">
 						<p>
 							Made with
-							<span class="heart" style={{ color: "red", fontSize: "1.2rem" }}>&hearts;</span>
+							<span className="heart" style={{ color: "red", fontSize: "1.2rem" }}>&hearts;</span>
 							by {" "}
 							<span><a href="https://www.linkedin.com/in/aadarshp31" target="_blank" className=" font-weight-bold text-light">Adarsh Pandey</a></span>
 						</p>
