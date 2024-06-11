@@ -239,7 +239,7 @@ const ManageUserOrders = () => {
 															<td>₹{product.price}</td>
 															<td>{product.quantity || 1}</td>
 															<td>
-																₹{product.price * (product.quantity || 1)}
+																₹ {product.price * (product.quantity || 1)}
 															</td>
 														</tr>
 													);

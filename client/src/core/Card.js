@@ -21,6 +21,7 @@ const Card = ({
 	const cardPrice = product.price;
 	// const cardRating = product ? `${product.rating.toFixed(1)}/5` : "--";
 	const cardRating = product ? product.rating.toFixed(1) : null;
+	const discountPercentage = product ? product.discountPercentage : null;
 
 
 	const addToCart = () => {
@@ -159,14 +160,15 @@ const Card = ({
 	}
 
 	return (
-		<div className="card text-secondary m-2" style={{ width: "18rem" }}>
+		<div className="card text-secondary m-2" style={{ width: "14rem", cursor: "pointer", position: "relative" }}>
+			{discountPercentage && discountPercentage > 5 && (<p className='badge-primary font-weight-bold' style={{position: "absolute", left: 0, top: 0, width: "6em", opacity: "80%", zIndex: 3}}>{discountPercentage}% off</p>)}
 			<ImageHelper product={product} />
 			<div className="card-body">
 				<h6 className="card-title text-truncate text-dark font-weight-bold">{cardTitle}</h6>
-				<p className="badge badge-light px-3 py-2">
+				<p className="badge badge-success px-2 py-2">
 				{cardRating} {renderRatings(cardRating)}
 				</p>
-				<h6 className="card-text">₹ {cardPrice}</h6>
+				<h6 className="card-text font-weight-bold" style={{fontSize: "1.8rem"}}><sup style={{fontSize: "1.1rem"}}>₹</sup>{cardPrice}</h6>
 			</div>
 		</div>
 	);

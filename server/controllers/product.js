@@ -4,7 +4,6 @@ const _ = require("lodash");
 const path = require('path');
 const { v4: uuid } = require("uuid")
 const { createReadStream, createWriteStream, readFileSync, existsSync, unlinkSync } = require("fs");
-const Category = require("../models/category");
 
 //Create a product
 exports.createProduct = (req, res) => {

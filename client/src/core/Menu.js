@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useCallback } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { signout, isAuthenticated } from "../auth/helper/index";
 import SearchBar from "./SearchBar";
