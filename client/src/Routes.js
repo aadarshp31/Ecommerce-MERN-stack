@@ -19,6 +19,7 @@ import ManageOrders from "./admin/ManageOrders";
 import ManageUserInfo from "./user/ManageUserInfo";
 import ManageUserOrders from "./user/ManageUserOrders";
 import PasswordReset from "./user/PasswordReset";
+import ProductsSearchPage from "./user/ProductsSearchPage";
 
 
 
@@ -40,6 +41,7 @@ const MyRoutes = () => {
                 <Route path="/admin/categories" element={<AdminRoute element={ManageCategories} />} />
                 <Route path="/category/:categoryId/:userId" element={<AdminRoute element={UpdateCategory} />} />
                 <Route path="/admin/create/product" element={<AdminRoute element={AddProduct} />} />
+                <Route path="/products/search" element={<ProductsSearchPage />} />
                 <Route path="/admin/products" element={<AdminRoute element={ManageProduct} />} />
                 <Route path="/admin/product/update/:productId" element={<AdminRoute element={UpdateProduct} />} />
                 <Route path="/admin/orders" element={<AdminRoute element={ManageOrders} />} />

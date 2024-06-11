@@ -8,9 +8,9 @@ const Base = ({
 	children,
 }) => {
 	return (
-		<div>
+		<div className="bg-light">
 			<Menu />
-			<div className="gradient" style={{ marginTop: "50px" }}>
+			<div className="min-vh-100" style={{ marginTop: "50px" }}>
 				<div className="jumbotron bg-light text-light text-center gradient">
 					<h4>{title}</h4>
 					<p className="lead">{description}</p>

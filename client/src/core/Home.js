@@ -60,7 +60,8 @@ const Home = () => {
 			{createCart()}
 			<Loading loading={loading} />
 			<ErrorToast error={error} />
-			<div className="container-fluid d-flex p-3 flex-column flex-md-row justify-content-md-center">
+			{/* <div className="container-fluid d-flex p-3 flex-column flex-md-row justify-content-md-center bg-danger"> */}
+			<div className="container-fluid">
 				{productDisplay()}
 			</div>
 			{getQuantityFromCart(products)}
