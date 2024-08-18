@@ -102,10 +102,11 @@ const Signin = () => {
 	const signInForm = () => {
 		return (
 			<div className="row d-flex align-items-center" style={{height:"50vh"}}>
-				<div className="col-md-6 offset-sm-3 text-left">
+				<div className="col-md-6 offset-sm-3 text-left p-5 rounded border border-grey">
+					<h3 class="mb-4">Signin</h3>
 					<form>
 						<div className="form-group">
-							<label className="text-light">Email</label>
+							<label className="text-dark">Email</label>
 							<input
 								id="email"
 								type="email"
@@ -115,7 +116,7 @@ const Signin = () => {
 							/>
 						</div>
 						<div className="form-group">
-							<label className="text-light">Password</label>
+							<label className="text-dark">Password</label>
 							<input
 								id="password"
 								type="password"

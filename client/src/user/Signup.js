@@ -105,10 +105,11 @@ const Signup = () => {
 	const signUpForm = () => {
 		return (
 			<div className="row">
-				<div className="col-md-6 offset-sm-3 text-left">
+				<div className="col-md-6 offset-sm-3 text-left p-5 rounded border border-grey">
+				<h3 class="mb-4">Signup</h3>
 					<form>
 						<div className="form-group">
-							<label className="text-light">First Name</label>
+							<label className="text-dark">First Name</label>
 							<input
 								id="name"
 								type="text"
@@ -118,7 +119,7 @@ const Signup = () => {
 							/>
 						</div>
 						<div className="form-group">
-							<label className="text-light">Last Name</label>
+							<label className="text-dark">Last Name</label>
 							<input
 								type="text"
 								className="form-control"
@@ -127,7 +128,7 @@ const Signup = () => {
 							/>
 						</div>
 						<div className="form-group">
-							<label className="text-light">Email</label>
+							<label className="text-dark">Email</label>
 							<input
 								id="email"
 								type="email"
@@ -137,7 +138,7 @@ const Signup = () => {
 							/>
 						</div>
 						<div className="form-group">
-							<label className="text-light">Password</label>
+							<label className="text-dark">Password</label>
 							<input
 								id="password"
 								type="password"
@@ -145,12 +146,12 @@ const Signup = () => {
 								onChange={handleChange("password")}
 								value={password.trim()}
 							/>
-							<small id="passwordHelpBlock" className="form-text text-light">
+							<small id="passwordHelpBlock" className="form-text text-dark">
 								Password must be 6 characters long, contain atleast one uppercase, one lowercase letter and a number
 							</small>
 						</div>
 						<div className="form-group">
-							<label className="text-light">Confirm Password</label>
+							<label className="text-dark">Confirm Password</label>
 							<input
 								id="confirmPassword"
 								type="password"
@@ -158,7 +159,7 @@ const Signup = () => {
 								onChange={handleChange("confirmPassword")}
 								value={confirmPassword.trim()}
 							/>
-							<small id="passwordHelpBlock" className="form-text text-light">
+							<small id="passwordHelpBlock" className="form-text text-dark">
 								Must match the password
 							</small>
 						</div>
